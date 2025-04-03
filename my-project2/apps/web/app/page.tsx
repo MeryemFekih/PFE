@@ -1,5 +1,5 @@
 import Image, { type ImageProps } from "next/image";
-import SignInPage from "@/components/sign_in";
+import SignUp from "./auth/signUp/signUpPage";
 
 type Props = Omit<ImageProps, "src"> & {
   srcLight: string;
@@ -19,6 +19,6 @@ const ThemeImage = (props: Props) => {
 
 export default function Home() {
   return (
-    <SignInPage />
+    <SignUp />
   );
 }

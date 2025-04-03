@@ -1,0 +1,28 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model users {
+  id             Int       @id @default(autoincrement()) 
+  firstName      String    @db.VarChar(50)
+  lastName       String    @db.VarChar(50)
+  email          String    @unique @db.VarChar(320)
+  password       String    @unique @db.VarChar(60)
+  phone          String?   @db.VarChar(20)
+  birthdate      DateTime  @db.Date
+  gender         String    @db.VarChar(50)
+  university     String?   @db.VarChar(100)
+  userType       String?   @db.VarChar(50)
+  formation      String?   @db.VarChar(255)
+  graduationYear DateTime? @db.Date
+  degree         String?   @db.VarChar(255)
+  occupation     String?   @db.VarChar(100)
+  subject        String?   @db.VarChar(100)
+  rank           Int?
+  interests_     String[]  @map("interests ") @db.VarChar(50)
+}
