@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-return */
 import { Body, Controller, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from '../user/dto/create-user.dto';
@@ -8,6 +7,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
   @Post('signup')
   registerUser(@Body() createUserDto: CreateUserDto) {
+    console.log('Received signup data:', createUserDto);
     return this.authService.registerUser(createUserDto);
   }
 }

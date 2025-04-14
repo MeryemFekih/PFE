@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
+ 
 import {
   IsDate,
   IsEmail,
@@ -37,7 +37,7 @@ export class CreateUserDto {
   @IsDate()
   @IsNotEmpty()
   @Type(() => Date)
-  birthdate?: Date;
+  birthdate: Date;
 
   @IsEnum(['male', 'female'])
   @IsNotEmpty()

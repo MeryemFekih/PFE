@@ -4,8 +4,7 @@ import { Button } from "./button";
 import { useFormStatus } from "react-dom";
 
 interface NextButtonProps extends PropsWithChildren {
-    onClick?: React.MouseEventHandler<HTMLButtonElement>;
-  
+    onClick?: (e: React.MouseEvent<HTMLButtonElement>) => Promise<void> | void;
 }
 
 const NextButton = ({ onClick, children }: NextButtonProps) => {
@@ -13,12 +12,12 @@ const NextButton = ({ onClick, children }: NextButtonProps) => {
 
   return (
     <Button
-      type="button"
+      type="button" // Changed from "button" to "submit"
       aria-disabled={pending}
-      onClick={ onClick}
+      onClick={onClick}
       className={`bg-customBlue hover:bg-opacity-80`}
     >
-       {pending ? "Submitting..." : children}
+      {pending ? "Submitting..." : children}
     </Button>
   );
 };

@@ -54,9 +54,9 @@ export const SignupFormSchema = z.object({
     .min(8, { message: "Phone number must be at least 8 digits long." })
     .trim(),
     
+    
   birthdate: z
     .string()
-    .min(1, { message: "Birthdate is required. " })
     .trim()
     .date(),
     
@@ -76,43 +76,47 @@ export const SignupFormSchema = z.object({
   formation: z
     .string()
     .min(1, { message: "Formation must have at least one character." })
-    .optional(),
+    .optional()
+    .nullable(),
     
   graduationYear: z
     .string()
     .min(1, { message: "Graduation year must have at least one character." })
-    .optional(),
+    .date()
+    .optional()
+    .nullable(),
     
 
   degree: z
     .string()
     .min(1, { message: "Degree must have at least one character." })
     .optional()
-    ,
+    .nullable(),
 
   occupation: z
     .string()
     .min(1, { message: "Occupation must have at least one character." })
-    .optional(),
+    .optional()
+    .nullable(),
     
 
   subject: z
     .string()
     .min(1, { message: "Subject must have at least one character." })
     .optional()
-    ,
+    .nullable(),
 
   rank: z
-    .string()
+    .number()
     .min(1, { message: "Rank must have at least one character." })
     .optional()
-    ,
+    .nullable(),
 
   interests: z
     .array(z.string())
-    .min(1, { message: "At least one interest must be selected." })
+    .min(0, { message: "At least one interest must be selected." })
     .optional()
-    ,
+    .nullable(),
 });
 
 export enum Role {
