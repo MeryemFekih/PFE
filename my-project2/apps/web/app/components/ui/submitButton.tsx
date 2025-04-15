@@ -1,19 +1,28 @@
-  "use client";
-  import { Button } from "./button";
-  import { useFormStatus } from "react-dom";
+"use client";
+import { Button } from "./button";
+import { useFormStatus } from "react-dom";
+import { cn } from "@/lib/utils"; // Assuming you're using clsx or tailwind-merge
 
-  const SubmitButton = ({ children }: { children: React.ReactNode }) => {
-    const { pending } = useFormStatus();
-    
-    return (
-      <Button 
-        type="submit" 
-        disabled={pending}
-        className="bg-customBlue hover:bg-opacity-80"
-      >
-        {pending ? "Submitting..." : children}
-      </Button>
-    );
-  };
+interface SubmitButtonProps extends React.ComponentPropsWithoutRef<typeof Button> {
+  children: React.ReactNode;
+}
 
-  export default SubmitButton;
+const SubmitButton = ({ children, className, ...props }: SubmitButtonProps) => {
+  const { pending } = useFormStatus();
+  
+  return (
+    <Button 
+      type="submit" 
+      disabled={pending}
+      className={cn(
+        "bg-customBlue hover:bg-opacity-80",
+        className
+      )}
+      {...props}
+    >
+      {pending ? "Submitting..." : children}
+    </Button>
+  );
+};
+
+export default SubmitButton;

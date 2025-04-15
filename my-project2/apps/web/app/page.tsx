@@ -1,5 +1,5 @@
 import Image, { type ImageProps } from "next/image";
-import SignUp from "./auth/signUp/signUpPage";
+import SignUp from "./auth/signup/signUpPage";
 
 type Props = Omit<ImageProps, "src"> & {
   srcLight: string;
