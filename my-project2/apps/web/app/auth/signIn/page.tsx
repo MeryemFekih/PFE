@@ -2,10 +2,8 @@
 
 import { useActionState, useState } from 'react';
 import { signIn } from '@/lib/auth';
-import { Button } from '@/app/components/ui/button';
 import { Input } from '@/app/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/app/components/ui/card';
-import Image from 'next/image';
 import SubmitButton from '@/app/components/ui/submitButton';
 
 const SignInPage = () => {
@@ -16,9 +14,9 @@ const SignInPage = () => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-4">
       <form action={action}>
-        <Card className="w-full max-w-4xl shadow-2xl rounded-2xl overflow-hidden border-0"> {/* Even wider with max-w-4xl */}
-          <div className="flex flex-col md:flex-row"> {/* Stack on mobile, row on desktop */}
-            {/* Brand/Illustration Section - Now with subtle pattern */}
+        <Card className="w-full max-w-4xl shadow-2xl rounded-2xl overflow-hidden border-0">
+          <div className="flex flex-col md:flex-row">
+            {/* Brand/Illustration Section */}
             <div className="hidden md:flex w-full md:w-2/5 bg-customBlue/5 items-center justify-center p-8 
                           bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48Y2lyY2xlIGN4PSIzMCIgY3k9IjMwIiByPSI1IiBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMCwgMTIzLCAyNTUsIDAuMDgpIiBzdHJva2Utd2lkdGg9IjIiLz48L3N2Zz4=')]">
               <div className="text-center space-y-4">
@@ -58,6 +56,7 @@ const SignInPage = () => {
                       id="email"
                       type="email"
                       placeholder="your.email@example.com"
+                      name='email'
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       required
@@ -80,6 +79,7 @@ const SignInPage = () => {
                     <Input
                       id="password"
                       type="password"
+                      name='password'
                       placeholder="Enter your password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
@@ -124,35 +124,9 @@ const SignInPage = () => {
                   </SubmitButton>
                 </div>
                 
-                <div className="relative my-8">
-                  <div className="absolute inset-0 flex items-center">
-                    <div className="w-full border-t border-gray-200"></div>
-                  </div>
-                  <div className="relative flex justify-center">
-                    <span className="px-4 bg-white text-gray-500 text-md font-medium">
-                      Or continue with
-                    </span>
-                  </div>
-                </div>
-                
-                <div className="grid grid-cols-2 gap-5">
-                  <Button variant="outline" className="w-full flex items-center justify-center gap-3 py-3.5 
-                                                    border-gray-300 hover:bg-gray-50 text-md h-12 rounded-xl 
-                                                    transition-all hover:border-customBlue/30">
-                    <Image src="/icons8-google.svg" alt="Google" width={24} height={24} />
-                    <span>Google</span>
-                  </Button>
-                  <Button variant="outline" className="w-full flex items-center justify-center gap-3 py-3.5 
-                                                    border-gray-300 hover:bg-gray-50 text-md h-12 rounded-xl 
-                                                    transition-all hover:border-customBlue/30">
-                    <Image src="/icons8-linkedin.svg" alt="LinkedIn" width={24} height={24} />
-                    <span>LinkedIn</span>
-                  </Button>
-                </div>
-                
                 <div className="mt-8 text-center text-lg text-gray-600">
                   New to our platform?{' '}
-                  <a href="/auth/signUp" className="font-semibold text-customBlue hover:underline hover:text-customBlue/80 transition-colors">
+                  <a href="/auth/signup" className="font-semibold text-customBlue hover:underline hover:text-customBlue/80 transition-colors">
                     Create an account
                   </a>
                 </div>

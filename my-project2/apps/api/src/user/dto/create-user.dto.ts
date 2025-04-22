@@ -8,7 +8,7 @@ import {
   IsOptional,
   IsPhoneNumber,
   IsString,
-  IsInt,
+  
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
@@ -72,9 +72,9 @@ export class CreateUserDto {
   @IsOptional()
   subject?: string;
 
-  @IsInt()
+  @IsString()
   @IsOptional()
-  rank?: number;
+  rank?: string;
 
   @IsString({ each: true })
   @IsOptional()

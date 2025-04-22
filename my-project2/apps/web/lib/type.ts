@@ -107,9 +107,8 @@ export const SignupFormSchema = z.object({
     .nullable(),
 
   rank: z
-    .number()
-    .min(1, { message: "Rank must have at least one character." })
-    .optional()
+    .enum(["assistant", "associate", "full","lecturer"], { message: "Select a valid rank." })
+    .refine(val => val.length > 0, { message: "Rank is required." })
     .nullable(),
 
   interests: z
@@ -131,6 +130,8 @@ export const LoginFormSchema = z.object({
 
 export enum Role {
   ADMIN = "ADMIN",
-  EDITOR = "EDITOR",
-  USER = "USER",
+  ALUMNI = "ALUMNI",
+  PROFESSOR = "PROFESSOR",
+  STUDENT = "STUDENT",
+  USER ="USER"
 }

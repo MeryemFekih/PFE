@@ -1,24 +1,11 @@
-import Image, { type ImageProps } from "next/image";
-import SignUp from "./auth/signup/signUpPage";
+import { getSession } from "@/lib/session";
 
-type Props = Omit<ImageProps, "src"> & {
-  srcLight: string;
-  srcDark: string;
-};
-
-const ThemeImage = (props: Props) => {
-  const { srcLight, srcDark, ...rest } = props;
-
+export default async function Home() {
+  const session = await getSession();
+  console.log("session", session);
   return (
-    <>
-      <Image {...rest} src={srcLight} className="imgLight" />
-      <Image {...rest} src={srcDark} className="imgDark" />
-    </>
-  );
-};
-
-export default function Home() {
-  return (
-    <SignUp />
+    <div>
+      <h1>Hello World</h1>
+    </div>
   );
 }

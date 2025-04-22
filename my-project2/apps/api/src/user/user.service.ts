@@ -1,34 +1,47 @@
 import { Injectable } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
-import { hash } from 'argon2';
-import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { hash } from 'argon2';
 
 @Injectable()
 export class UserService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(
-    createUserDto: CreateUserDto,
-  ): Promise<Prisma.UserGetPayload<{}>> {
-    const { password, birthdate, graduationYear, interests, ...userData } = createUserDto;
+  async create(createUserDto: CreateUserDto) {
+    const { password, ...user } = createUserDto;
     const hashedPassword = await hash(password);
-
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    return this.prisma.user.create({
+    return await this.prisma.user.create({
       data: {
-        ...userData,
         password: hashedPassword,
-        birthdate: new Date(birthdate),
-        graduationYear: graduationYear ? new Date(graduationYear) : null,
-        interests: interests || [], // Field name must match schema
+        ...user,
       },
     });
   }
 
   async findByEmail(email: string) {
-    return this.prisma.user.findUnique({
-      where: { email },
+    return await this.prisma.user.findUnique({
+      where: {
+        email,
+      },
+    });
+  }
+
+  async findOne(userId: number) {
+    return await this.prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+  }
+
+  async updateHashedRefreshToken(userId: number, hashedRT: string | null) {
+    return await this.prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        hashedRefreshToken: hashedRT,
+      },
     });
   }
 }
