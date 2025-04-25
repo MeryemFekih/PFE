@@ -35,6 +35,13 @@ const AppBar = () => {
                 <LayoutDashboard className="h-4 w-4 mr-2" />
                 Dashboard
               </Link>
+              <Link
+                href="/admin/dashboard"
+                className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium flex items-center"
+              >
+                <LayoutDashboard className="h-4 w-4 mr-2" />
+                Admin
+              </Link>
               
             </nav>
 

@@ -1,13 +1,21 @@
-import { getSession } from '@/lib/session'
+import { getSession } from '@/lib/session';
 import { Role } from '@/lib/type';
 import { redirect } from 'next/navigation';
 
-import React from 'react'
-
 const Dashboard = async () => {
-  const session = await getSession  ();
-  if (!session || !session.user) redirect("/auth/signIn"); 
-  if (session.user.role != Role.ALUMNI) redirect("/auth/signIn");
+  const session = await getSession();
+  
+  if (!session || !session.user) redirect("/auth/signIn");
+  
+  if (![
+    Role.ALUMNI,
+    Role.ADMIN,
+    Role.PROFESSOR,
+    Role.STUDENT
+  ].includes(session.user.role)) {
+    redirect("/auth/signIn");
+  }
+
   console.log({session});
   return (
     <div>Dashboard</div>
