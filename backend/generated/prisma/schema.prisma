@@ -1,0 +1,88 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model user {
+  id                 Int       @id @default(autoincrement())
+  firstName          String    @db.VarChar(100)
+  lastName           String    @db.VarChar(100)
+  email              String    @unique @db.VarChar(320)
+  password           String    @db.VarChar(100)
+  hashedRefreshToken String?
+  phone              String?   @db.VarChar(25)
+  birthdate          DateTime  @db.Date
+  gender             String    @db.VarChar(20)
+  university         String?   @db.VarChar(150)
+  userType           String?   @db.VarChar(20)
+  formation          String?   @db.VarChar(100)
+  graduationYear     DateTime? @db.Date
+  degree             String?   @db.VarChar(100)
+  occupation         String?   @db.VarChar(100)
+  subject            String?   @db.VarChar(100)
+  rank               String?   @db.VarChar(100)
+  interests          String[]  @db.VarChar(100)
+  role               Role      @default(USER)
+  tasks              Task[]
+  events             Event[]
+}
+
+enum Role {
+  ADMIN
+  ALUMNI
+  STUDENT
+  USER
+}
+
+model Task {
+  id          String     @id @default(uuid())
+  title       String
+  description String?
+  dueDate     DateTime
+  reminderAt  DateTime?
+  priority    Priority
+  status      TaskStatus @default(PENDING)
+  userId      Int // Changed from String to Int
+  user        user       @relation(fields: [userId], references: [id])
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model Event {
+  id          String        @id @default(uuid())
+  title       String
+  description String?
+  startTime   DateTime
+  endTime     DateTime
+  category    EventCategory
+  reminderAt  DateTime?
+  userId      Int // Changed from String to Int
+  user        user          @relation(fields: [userId], references: [id])
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum TaskStatus {
+  PENDING
+  COMPLETED
+  CANCELED
+}
+
+enum EventCategory {
+  SCHOOL
+  FORMATION
+  MEETING
+  PERSONAL
+  OTHER
+}
