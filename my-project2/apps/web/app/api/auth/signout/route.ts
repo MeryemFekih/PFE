@@ -1,6 +1,7 @@
 import { authFetch } from "@/lib/authFetch";
 import { BACKEND_URL } from "@/lib/constants";
 import { deleteSession } from "@/lib/session";
+import { revalidatePath } from "next/cache";
 import { redirect, RedirectType } from "next/navigation";
 
 import { NextRequest } from "next/server";
@@ -9,9 +10,11 @@ export async function GET(req: NextRequest) {
   const respone = await authFetch(`${BACKEND_URL}/auth/signout`, {
     method: "POST",
   });
-  //if (respone) {
-  //}
-  await deleteSession();
+  if (respone.ok) {
+    await deleteSession();
+    revalidatePath('/') // Revalidate the root path
+    redirect('/') //
+  }
   
 
   redirect("/", RedirectType.push);

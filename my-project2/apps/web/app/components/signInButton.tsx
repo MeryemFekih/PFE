@@ -1,5 +1,4 @@
 'use server'
-
 import { getSession } from "@/lib/session";
 import Link from "next/link";
 import { LogIn, UserPlus, User, LogOut} from "lucide-react";
@@ -19,7 +18,7 @@ const SignInButton = async () => {
             </Link>
           </Button>
           <Button asChild>
-            <Link href="/auth/signup" className="flex items-center gap-2">
+            <Link href="/auth/signUp" className="flex items-center gap-2">
               <UserPlus className="h-4 w-4" />
               Sign Up
             </Link>

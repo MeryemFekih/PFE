@@ -133,5 +133,5 @@ export enum Role {
   ALUMNI = "ALUMNI",
   PROFESSOR = "PROFESSOR",
   STUDENT = "STUDENT",
-  USER ="USER"
+  PENDING ="PENDING"
 }

@@ -1,180 +1,311 @@
-// app/solo/page.tsx
-'use client'; // Required for interactive elements
+/* eslint-disable @next/next/no-img-element */
+'use client';
 
 import { useState, useEffect, useRef } from 'react';
 import Head from 'next/head';
 
+// Background images - using your exact paths
+import cozyCafe from './backgrounds/Cafe/cozyCafe.jpg';
+import cozyCafe2 from './backgrounds/Cafe/cozyCafe2.jpg';
+import animePic1 from './backgrounds/anime/animePic1.jpg';
+import animePic2 from './backgrounds/anime/animePic2.jpg';
+
+// Audio files - using your exact paths
+import jazz1 from './audio/Jazz1.mp3';
+import jazz2 from './audio/jazz2.mp3';
+import lofi1 from './audio/lofi1.mp3';
+import lofi2 from './audio/lofi2.mp3';
+
+// UI Components - using your exact paths
+import { Button } from '../components/ui/button';
+import { Input } from '../components/ui/input';
+import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '../components/ui/card';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '../components/ui/select';
+
 export default function SoloStudyPage() {
-  // Timer states
+  // State management
   const [isRunning, setIsRunning] = useState(false);
-  const [time, setTime] = useState(25 * 60); // 25 minutes in seconds
-  const [mode, setMode] = useState('focus'); // 'focus' | 'shortBreak' | 'longBreak'
-  
-  // Music player states
+  const [time, setTime] = useState(50 * 60);
+  const [mode, setMode] = useState<'focus' | 'shortBreak' | 'longBreak'>('focus');
+  const [goals, setGoals] = useState<string[]>([]);
+  const [newGoal, setNewGoal] = useState('');
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(0.5);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [currentTrack, setCurrentTrack] = useState(lofi1);
+  const [showControls, setShowControls] = useState({
+    background: false,
+    audio: false
+  });
+  const audioRef = useRef<HTMLAudioElement>(null);
 
-  // Background states
-  const [background, setBackground] = useState('library'); // 'library' | 'cafe' | 'nature'
+  // Assets
+  const backgrounds = [
+    { id: 'cafe1', name: 'Cozy Cafe', path: cozyCafe.src },
+    { id: 'cafe2', name: 'Urban Cafe', path: cozyCafe2.src },
+    { id: 'anime1', name: 'Anime 1', path: animePic1.src },
+    { id: 'anime2', name: 'Anime 2', path: animePic2.src },
+  ];
+  const [currentBg, setCurrentBg] = useState(backgrounds[0]);
 
-  // Format time as MM:SS
+  const tracks = [
+    { id: 'lofi1', name: 'Lofi Beats', path: lofi1 },
+    { id: 'lofi2', name: 'Lofi Chill', path: lofi2 },
+    { id: 'jazz1', name: 'Jazz Relax', path: jazz1 },
+    { id: 'jazz2', name: 'Jazz Vibes', path: jazz2 },
+  ];
+
+  // Timer logic
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (isRunning && time > 0) {
+      interval = setInterval(() => setTime(prev => prev - 1), 1000);
+    }
+    return () => clearInterval(interval);
+  }, [isRunning, time]);
+
+  // Audio control
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = volume;
+      if (isPlaying) {
+        audioRef.current.play().catch(e => console.error('Playback failed:', e));
+      } else {
+        audioRef.current.pause();
+      }
+    }
+  }, [volume, isPlaying, currentTrack]);
+
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60).toString().padStart(2, '0');
     const secs = (seconds % 60).toString().padStart(2, '0');
     return `${mins}:${secs}`;
   };
 
-  // Timer logic
-  useEffect(() => {
-    let interval: NodeJS.Timeout;
-    
-    if (isRunning && time > 0) {
-      interval = setInterval(() => {
-        setTime(prev => prev - 1);
-      }, 1000);
-    } else if (time === 0) {
-      // Timer completed
-      setIsRunning(false);
-      // Play completion sound or notification
-    }
-    
-    return () => clearInterval(interval);
-  }, [isRunning, time]);
-
-  // Music player logic
-  useEffect(() => {
-    if (audioRef.current) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-      isPlaying ? audioRef.current.play() : audioRef.current.pause();
-      audioRef.current.volume = volume;
-    }
-  }, [isPlaying, volume]);
-
-  // Set timer mode
-  const setTimerMode = (newMode: string) => {
-    setIsRunning(false);
-    switch(newMode) {
-      case 'focus':
-        setTime(25 * 60);
-        break;
-      case 'shortBreak':
-        setTime(5 * 60);
-        break;
-      case 'longBreak':
-        setTime(15 * 60);
-        break;
-      default:
-        setTime(25 * 60);
-    }
+  const switchMode = (newMode: 'focus' | 'shortBreak' | 'longBreak') => {
     setMode(newMode);
+    if (newMode === 'focus') setTime(50 * 60);
+    if (newMode === 'shortBreak') setTime(10 * 60);
+    if (newMode === 'longBreak') setTime(25 * 60);
+    setIsRunning(false);
+  };
+
+  const addGoal = () => {
+    if (newGoal.trim()) {
+      setGoals([...goals, newGoal.trim()]);
+      setNewGoal('');
+    }
+  };
+
+  const toggleControl = (control: 'background' | 'audio') => {
+    setShowControls(prev => ({
+      ...prev,
+      [control]: !prev[control],
+      [control === 'background' ? 'audio' : 'background']: false
+    }));
   };
 
   return (
-    <div className={`min-h-screen flex flex-col items-center justify-center transition-all duration-500 
-      ${background === 'library' ? 'bg-[url("/library-bg.jpg")]' : 
-        background === 'cafe' ? 'bg-[url("/cafe-bg.jpg")]' : 
-        'bg-[url("/nature-bg.jpg")]'}`}>
-      
-      {/* Hidden audio element */}
-      <audio 
-        ref={audioRef} 
-        loop 
-        src="/lofi-music.mp3" 
-      />
-
+    <div
+      className="relative min-h-screen bg-cover bg-center bg-no-repeat"
+      style={{ 
+        backgroundImage: `url(${currentBg?.path})`,
+        transition: 'background-image 0.5s ease-in-out'
+      }}
+    >
       <Head>
-        <title>Study Solo | Focus Timer</title>
+        <title>Focus Flow | Solo Study</title>
       </Head>
 
-      {/* Main container */}
-      <div className="backdrop-blur-sm bg-black/30 p-8 rounded-2xl shadow-xl w-full max-w-md">
-        {/* Timer display */}
-        <div className="text-center mb-8">
-          <div className="text-7xl font-bold text-white mb-4">
-            {formatTime(time)}
-          </div>
-          
-          {/* Timer controls */}
-          <div className="flex justify-center gap-4 mb-6">
-            <button 
-              onClick={() => setIsRunning(!isRunning)}
-              className="px-6 py-2 bg-white/90 text-gray-900 rounded-full font-medium hover:bg-white transition"
+      <audio ref={audioRef} src={currentTrack} loop />
+
+      {/* Main content container */}
+      <div className="absolute inset-0 p-6 flex flex-col">
+        {/* Header row with control icons */}
+        <div className="flex justify-end gap-4 mb-6">
+          {/* Background selector */}
+          <div className="relative">
+            <Button 
+              variant="outline" 
+              size="icon"
+              onClick={() => toggleControl('background')}
+              className="bg-white/90 hover:bg-white shadow-md w-12 h-12"
             >
-              {isRunning ? 'Pause' : 'Start'}
-            </button>
-            <button 
-              onClick={() => {
-                setIsRunning(false);
-                setTimerMode(mode);
-              }}
-              className="px-4 py-2 bg-white/20 text-white rounded-full hover:bg-white/30 transition"
-            >
-              Reset
-            </button>
+              <span className="text-xl">🌄</span>
+            </Button>
+            {showControls.background && (
+              <Card className="absolute right-0 mt-2 w-64 bg-white shadow-lg z-50">
+                <CardHeader>
+                  <CardTitle className="text-sm font-semibold">
+                    Background Options
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="grid grid-cols-2 gap-2">
+                  {backgrounds.map((bg) => (
+                    <button
+                      key={bg.id}
+                      onClick={() => {
+                        setCurrentBg(bg);
+                        setShowControls(prev => ({ ...prev, background: false }));
+                      }}
+                      className={`aspect-video rounded overflow-hidden border ${currentBg?.id === bg.id ? 'ring-2 ring-blue-500' : ''}`}
+                    >
+                      <img 
+                        src={bg.path} 
+                        alt={bg.name} 
+                        className="w-full h-full object-cover"
+                      />
+                    </button>
+                  ))}
+                </CardContent>
+              </Card>
+            )}
           </div>
-          
-          {/* Timer mode selector */}
-          <div className="flex justify-center gap-2 mb-8">
-            {['focus', 'shortBreak', 'longBreak'].map((m) => (
-              <button
-                key={m}
-                onClick={() => setTimerMode(m)}
-                className={`px-4 py-1 rounded-full text-sm font-medium ${
-                  mode === m 
-                    ? 'bg-white text-gray-900' 
-                    : 'bg-white/10 text-white hover:bg-white/20'
-                }`}
-              >
-                {m === 'focus' ? 'Focus' : m === 'shortBreak' ? 'Short Break' : 'Long Break'}
-              </button>
-            ))}
+
+          {/* Audio selector */}
+          <div className="relative">
+            <Button 
+              variant="outline" 
+              size="icon"
+              onClick={() => toggleControl('audio')}
+              className="bg-white/90 hover:bg-white shadow-md w-12 h-12"
+            >
+              <span className="text-xl">🎵</span>
+            </Button>
+            {showControls.audio && (
+              <Card className="absolute right-0 mt-2 w-64 bg-white shadow-lg z-50">
+                <CardHeader>
+                  <CardTitle className="text-sm font-semibold">
+                    Audio Options
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <Select 
+                    value={currentTrack} 
+                    onValueChange={(value) => {
+                      setCurrentTrack(value);
+                      setIsPlaying(true);
+                    }}
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select track" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {tracks.map((track) => (
+                        <SelectItem key={track.id} value={track.path}>
+                          {track.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <div className="flex items-center gap-2">
+                    <Button 
+                      variant={isPlaying ? 'default' : 'outline'} 
+                      size="sm"
+                      onClick={() => setIsPlaying(!isPlaying)}
+                    >
+                      {isPlaying ? 'Pause' : 'Play'}
+                    </Button>
+                    <Input
+                      type="range"
+                      min="0"
+                      max="1"
+                      step="0.01"
+                      value={volume}
+                      onChange={(e) => setVolume(parseFloat(e.target.value))}
+                      className="w-full"
+                    />
+                  </div>
+                </CardContent>
+              </Card>
+            )}
           </div>
         </div>
 
-        {/* Music player */}
-        <div className="bg-white/10 p-4 rounded-xl mb-6">
-          <div className="flex items-center justify-between mb-2">
-            <div className="text-white font-medium">Lo-fi Study Beats</div>
-            <button 
-              onClick={() => setIsPlaying(!isPlaying)}
-              className="w-8 h-8 flex items-center justify-center bg-white/20 rounded-full hover:bg-white/30"
-            >
-              {isPlaying ? '❚❚' : '▶'}
-            </button>
+        {/* Content area */}
+        <div className="flex flex-1 gap-6 overflow-auto">
+          {/* Left sidebar - Timer and Goals */}
+          <div className="flex flex-col gap-6 w-full lg:w-80">
+            {/* Timer Card */}
+            <Card className="bg-white border border-gray-200 shadow-lg">
+              <CardHeader>
+                <CardTitle className="text-xl font-semibold">
+                  Personal Timer
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="text-5xl font-bold text-center py-4 font-mono">
+                  {formatTime(time)}
+                </div>
+                
+                <div className="flex gap-2 justify-center">
+                  <Button 
+                    onClick={() => setIsRunning(!isRunning)}
+                    className="w-full"
+                    variant={isRunning ? 'secondary' : 'default'}
+                  >
+                    {isRunning ? 'Pause' : 'Start'}
+                  </Button>
+                </div>
+              </CardContent>
+              <CardFooter className="flex gap-2 justify-center">
+                {(['focus', 'shortBreak', 'longBreak'] as const).map((m) => (
+                  <Button
+                    key={m}
+                    variant={mode === m ? 'default' : 'outline'}
+                    onClick={() => switchMode(m)}
+                  >
+                    {m === 'focus' ? 'Focus' : m === 'shortBreak' ? 'Short Break' : 'Long Break'}
+                  </Button>
+                ))}
+              </CardFooter>
+            </Card>
+
+            {/* Goals Card */}
+            <Card className="bg-white border border-gray-200 shadow-lg">
+              <CardHeader>
+                <CardTitle className="text-xl font-semibold">
+                  Setable Goals
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex gap-2">
+                  <Input 
+                    value={newGoal} 
+                    onChange={(e) => setNewGoal(e.target.value)}
+                    placeholder="Type a goal"
+                    onKeyDown={(e) => e.key === 'Enter' && addGoal()}
+                  />
+                  <Button onClick={addGoal}>Add</Button>
+                </div>
+                <div className="space-y-2 max-h-60 overflow-y-auto">
+                  {goals.length === 0 ? (
+                    <div className="text-center py-4 text-gray-500">
+                      No goals set yet
+                    </div>
+                  ) : (
+                    <ul className="space-y-2">
+                      {goals.map((goal, idx) => (
+                        <li key={idx} className="flex items-center justify-between p-2 border-b">
+                          <span>{goal}</span>
+                          <Button 
+                            variant="ghost" 
+                            size="sm" 
+                            onClick={() => setGoals(goals.filter((_, i) => i !== idx))}
+                          >
+                            ×
+                          </Button>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
           </div>
-          <input
-            type="range"
-            min="0"
-            max="1"
-            step="0.01"
-            value={volume}
-            onChange={(e) => setVolume(parseFloat(e.target.value))}
-            className="w-full accent-white"
-          />
         </div>
 
-        {/* Background selector */}
-        <div className="flex gap-2 justify-center">
-          {['library', 'cafe', 'nature'].map((bg) => (
-            <button
-              key={bg}
-              onClick={() => setBackground(bg)}
-              className={`w-10 h-10 rounded-md overflow-hidden ${
-                background === bg ? 'ring-2 ring-white' : ''
-              }`}
-            >
-              <div className={`w-full h-full ${
-                bg === 'library' ? 'bg-[url("/library-thumb.jpg")]' :
-                bg === 'cafe' ? 'bg-[url("/cafe-thumb.jpg")]' :
-                'bg-[url("/nature-thumb.jpg")]'
-              } bg-cover`} />
-            </button>
-          ))}
-        </div>
+        
       </div>
-
-      {/* Stats/achievements could be added here */}
     </div>
   );
 }
