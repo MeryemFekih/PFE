@@ -1,0 +1,25 @@
+{
+  "extends": "@repo/typescript-config/nextjs.json",
+  "compilerOptions": {
+    "baseUrl": ".", // Ensures that aliases start from the root folder
+    "paths": {
+      "@/*": ["./*"], // Resolves @/ to the root folder (project root)
+      "@/ui/*": ["app/components/ui/*"] // Ensures the alias resolves to the ui folder inside components
+    },
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "next-env.d.ts",
+    "next.config.js",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
