@@ -4,13 +4,12 @@ import { deleteSession } from "@/lib/session";
 import { revalidatePath } from "next/cache";
 import { redirect, RedirectType } from "next/navigation";
 
-import { NextRequest } from "next/server";
 
-export async function GET(req: NextRequest) {
-  const respone = await authFetch(`${BACKEND_URL}/auth/signout`, {
+export async function GET() {
+  const response = await authFetch(`${BACKEND_URL}/auth/signout`, {
     method: "POST",
   });
-  if (respone.ok) {
+  if (response.ok) {
     await deleteSession();
     revalidatePath('/') // Revalidate the root path
     redirect('/') //

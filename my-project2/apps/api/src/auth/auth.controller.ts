@@ -42,7 +42,7 @@ export class AuthController {
   getAll(@Request() req) {
     return {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      messege: `Now you can access this protected API. this is your user ID: ${req.user.id}`,
+      message: `Now you can access this protected API. this is your user ID: ${req.user.id}`,
     };
   }
   @Public()
@@ -54,8 +54,6 @@ export class AuthController {
   }
   @Post('signout')
   signOut(@Req() req) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    console.log('here is the id : ', req.user.id);
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
     return this.authService.signOut(req.user.id);
   }
