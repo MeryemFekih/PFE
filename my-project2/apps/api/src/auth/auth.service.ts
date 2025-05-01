@@ -29,18 +29,35 @@ export class AuthService {
 
   async validateLocalUser(email: string, password: string) {
     const user = await this.userService.findByEmail(email);
-    if (!user) throw new UnauthorizedException('User not found!');
-    const isPasswordMatched = verify(user.password, password);
-    // eslint-disable-next-line @typescript-eslint/no-misused-promises
-    if (!isPasswordMatched)
-      throw new UnauthorizedException('Invalid Credentials!');
+    if (!user) {
+      throw new UnauthorizedException('User not found!');
+    }
 
-    return {
-      id: user.id,
-      email: user.email,
-      firstName: user.firstName,
-      role: user.role,
-    };
+    try {
+      // Properly await the verification
+      const isPasswordMatched = await verify(user.password, password);
+
+      console.log(`Password verification result: ${isPasswordMatched}`);
+      console.log(`Input password: ${password}`);
+      console.log(`Stored hash: ${user.password}`);
+
+      const isMatch = await verify(user.password, password);
+      console.log('Verification result:', isMatch);
+
+      if (!isMatch) {
+        throw new UnauthorizedException('Invalid credentials');
+      }
+
+      return {
+        id: user.id,
+        email: user.email,
+        firstName: user.firstName,
+        role: user.role,
+      };
+    } catch (error) {
+      console.error('Password verification error:', error);
+      throw new UnauthorizedException('Authentication failed');
+    }
   }
 
   async login(userId: number, email: string, firstName: string, role: Role) {

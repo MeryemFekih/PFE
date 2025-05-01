@@ -81,7 +81,7 @@ export async function signIn(
   try {
     const validatedFields = LoginFormSchema.safeParse({
       email: formData.get("email"),
-      password: formData.get("password"),
+      password: formData.get("password") as string,
       firstName: formData.get("firstName")
     });
     
@@ -110,9 +110,7 @@ export async function signIn(
         refreshToken: result.refreshToken,
       });
       
-      // Redirect ONLY on successful authentication
       redirect("/");
-      // No return needed after redirect - it throws internally
     } else {
       return {
         message: response.status === 401
@@ -121,9 +119,8 @@ export async function signIn(
       };
     }
   } catch (error) {
-    // Special handling for redirect errors
     if (error instanceof Error && error.message.includes('NEXT_REDIRECT')) {
-      throw error; // Let Next.js handle the redirect
+      throw error; 
     }
     
     console.error("Signin error:", error);
@@ -151,12 +148,13 @@ export const refreshToken = async (
     );
 
     if (!response.ok) {
-      return "hello";
+      throw new Error(
+        "Failed to refresh token" + response.statusText
+      );
     }
 
     const { accessToken, refreshToken } =
       await response.json();
-    // update session with new tokens
     const updateRes = await fetch(
       "http://localhost:3000/api/auth/update",
       {

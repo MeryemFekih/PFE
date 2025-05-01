@@ -126,7 +126,7 @@ const SignInPage = () => {
                 
                 <div className="mt-8 text-center text-lg text-gray-600">
                   New to our platform?{' '}
-                  <a href="/auth/signup" className="font-semibold text-customBlue hover:underline hover:text-customBlue/80 transition-colors">
+                  <a href="/auth/signUp" className="font-semibold text-customBlue hover:underline hover:text-customBlue/80 transition-colors">
                     Create an account
                   </a>
                 </div>
