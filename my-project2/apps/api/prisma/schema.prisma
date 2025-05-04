@@ -13,6 +13,12 @@ enum Priority {
   HIGH
 }
 
+enum PostStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
 enum TaskStatus {
   PENDING
   IN_PROGRESS
@@ -45,53 +51,54 @@ enum UserStatus {
 
 model user {
   // Core Identity
-  id                 Int         @id @default(autoincrement())
-  email              String      @unique @db.VarChar(320)
-  password           String      @db.VarChar(100)
-  firstName          String      @db.VarChar(100)
-  lastName           String      @db.VarChar(100)
+  id        Int    @id @default(autoincrement())
+  email     String @unique @db.VarChar(320)
+  password  String @db.VarChar(100)
+  firstName String @db.VarChar(100)
+  lastName  String @db.VarChar(100)
 
   // Claimed Identity
-  userType           String?     @db.VarChar(20)
+  userType String? @db.VarChar(20)
 
   // Verified Identity
-  role               Role        @default(PENDING)
-  status             UserStatus  @default(PENDING_APPROVAL)
+  role   Role       @default(PENDING)
+  status UserStatus @default(PENDING_APPROVAL)
 
   // Profile
-  profilePicture     String?     @db.VarChar(255)
-  phone              String?     @db.VarChar(25)
-  birthdate          DateTime    @db.Date
-  gender             String      @db.VarChar(20)
+  profilePicture String?  @db.VarChar(255)
+  phone          String?  @db.VarChar(25)
+  birthdate      DateTime @db.Date
+  gender         String   @db.VarChar(20)
 
   // Academic
-  university         String?     @db.VarChar(150)
-  formation          String?     @db.VarChar(100)
-  degree             String?     @db.VarChar(100)
-  graduationYear     DateTime?   @db.Date
+  university     String?   @db.VarChar(150)
+  formation      String?   @db.VarChar(100)
+  degree         String?   @db.VarChar(100)
+  graduationYear DateTime? @db.Date
 
   // Professional
-  occupation         String?     @db.VarChar(100)
-  subject            String?     @db.VarChar(100)
-  rank               String?     @db.VarChar(100)
+  occupation String? @db.VarChar(100)
+  subject    String? @db.VarChar(100)
+  rank       String? @db.VarChar(100)
 
   // System
   hashedRefreshToken String?
-  interests          String[]    @db.VarChar(100)
+  interests          String[]  @db.VarChar(100)
   documents          Json?
   approvedAt         DateTime?
   approvedBy         Int?
   rejectedAt         DateTime?
   rejectionReason    String?
   verificationNotes  String?
-  createdAt          DateTime    @default(now())
-  updatedAt          DateTime    @updatedAt
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
 
   // Relations
-  tasks              Task[]
-  events             Event[]
-  approver           user?       @relation("UserApprovals", fields: [approvedBy], references: [id])
-  approvedUsers      user[]      @relation("UserApprovals")
+  tasks         Task[]
+  posts         Post[]
+  events        Event[]
+  approver      user?   @relation("UserApprovals", fields: [approvedBy], references: [id])
+  approvedUsers user[]  @relation("UserApprovals")
 
   // Indexes
   @@index([status])
@@ -101,23 +108,23 @@ model user {
 }
 
 model Task {
-  id           String      @id
-  title        String
-  description  String?
-  dueDate      DateTime
-  reminderAt   DateTime?
-  priority     Priority
-  status       TaskStatus  @default(PENDING)
-  userId       Int
-  user         user        @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Restrict)
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @updatedAt
+  id          String     @id
+  title       String
+  description String?
+  dueDate     DateTime
+  reminderAt  DateTime?
+  priority    Priority
+  status      TaskStatus @default(PENDING)
+  userId      Int
+  user        user       @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Restrict)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
 
   @@map("Task")
 }
 
 model Event {
-  id          String      @id
+  id          String        @id
   title       String
   description String?
   startTime   DateTime
@@ -125,9 +132,20 @@ model Event {
   category    EventCategory
   reminderAt  DateTime?
   userId      Int
-  user        user        @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Restrict)
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+  user        user          @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Restrict)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
 
   @@map("Event")
+}
+
+model Post {
+  id         Int        @id @default(autoincrement())
+  title      String     @db.VarChar(200)
+  content    String     @db.Text
+  createdAt  DateTime   @default(now())
+  approvedAt DateTime?
+  status     PostStatus @default(PENDING)
+  authorId   Int
+  author     user       @relation(fields: [authorId], references: [id], onDelete: Cascade)
 }

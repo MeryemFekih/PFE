@@ -3,8 +3,7 @@ import { useState } from 'react';
 import { approveUser, rejectUser } from '@/lib/admin-actions';
 import { Button } from './ui/button';
 import { user } from '@prisma/client';
-import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
-import { ClockIcon, CheckIcon, XIcon, User, Mail, Calendar, CheckCircle2, XCircle } from 'lucide-react';
+import {User, Mail, Calendar, CheckCircle2, XCircle } from 'lucide-react';
 import { Badge } from './ui/badge';
 
 export default function AdminTable({ users }: { users: user[] }) {

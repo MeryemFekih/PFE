@@ -2,7 +2,8 @@ import { redirect } from 'next/navigation';
 import AdminTable from '@/app/components/admin_table';
 import StatsCards from '@/app/components/stats_card';
 import { getSession } from '@/lib/session';
-import { getPendingUsers } from '@/lib/admin-actions';
+import { getPendingUsers, getPendingPosts, } from '@/lib/admin-actions';
+import AdminPostTable from '@/app/components/adminPostTable';
 
 export default async function AdminDashboard() {
   const session = await getSession();
@@ -11,12 +12,17 @@ export default async function AdminDashboard() {
     redirect('/auth/signIn');
   }
 
-  const pendingUsers = await getPendingUsers();
+  const [pendingUsers, pendingPosts] = await Promise.all([
+    getPendingUsers(),
+    getPendingPosts(),
+  ]);
+  
   const stats = {
-    totalPending: pendingUsers.length,
-    approvedThisWeek: 24, 
+    totalPending: pendingUsers.length + pendingPosts.length,
+    approvedThisWeek: 24,
     rejectedThisWeek: 5
   };
+  
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
@@ -33,6 +39,9 @@ export default async function AdminDashboard() {
         <StatsCards stats={stats} />
         
         <AdminTable users={pendingUsers} />
+
+        <AdminPostTable posts={pendingPosts} />
+
       </div>
     </div>
   );

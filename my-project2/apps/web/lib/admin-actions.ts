@@ -120,4 +120,78 @@ export async function getAdminStats() {
       rejectedThisWeek: 0
     };
   }
+  
+}
+export async function getPendingPosts() {
+  const session = await getSession();
+  if (!session || session.user.role !== 'ADMIN') {
+    redirect('/auth/signIn');
+  }
+
+  try {
+    const response = await fetch(`${BACKEND_URL}/post/pending`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${session.accessToken}`
+      },
+      next: { tags: ['pending-posts'] }
+    });
+
+    if (!response.ok) throw new Error('Failed to fetch pending posts');
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching pending posts:', error);
+    return [];
+  }
+}
+
+export async function approvePost(postId: number) {
+  const session = await getSession();
+  if (!session || session.user.role !== 'ADMIN') {
+    redirect('/auth/signIn');
+  }
+
+  try {
+    const response = await fetch(`${BACKEND_URL}/post/approve/${postId}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${session.accessToken}`
+      },
+      body: JSON.stringify({})
+    });
+
+    if (!response.ok) throw new Error('Failed to approve post');
+    revalidatePath('/admin/dashboard');
+    return await response.json();
+  } catch (error) {
+    console.error('Error approving post:', error);
+    throw error;
+  }
+}
+
+export async function rejectPost(postId: number) {
+  const session = await getSession();
+  if (!session || session.user.role !== 'ADMIN') {
+    redirect('/auth/signIn');
+  }
+
+  try {
+    const response = await fetch(`${BACKEND_URL}/post/reject/${postId}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${session.accessToken}`
+      },
+      body: JSON.stringify({})
+    });
+
+    if (!response.ok) throw new Error('Failed to reject post');
+    revalidatePath('/admin/dashboard');
+    return await response.json();
+  } catch (error) {
+    console.error('Error rejecting post:', error);
+    throw error;
+  }
 }

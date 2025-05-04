@@ -45,7 +45,6 @@ export async function getSession() {
         const {payload}= await jwtVerify(cookie, encodedKey, {
             algorithms : ["HS256"]
         });
-        console.log("session",payload);
         return payload as Session;
     }
     catch(err){
