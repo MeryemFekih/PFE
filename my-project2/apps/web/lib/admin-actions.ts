@@ -125,7 +125,7 @@ export async function getAdminStats() {
 export async function getPendingPosts() {
   const session = await getSession();
   if (!session || session.user.role !== 'ADMIN') {
-    redirect('/auth/signIn');
+    return null
   }
 
   try {

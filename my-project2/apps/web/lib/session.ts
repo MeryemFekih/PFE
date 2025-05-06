@@ -7,7 +7,7 @@ import { Role } from "./type";
 export type Session = {
     user:{
         firstName:string;
-        id: string;
+        id: number;
         email: string;
         role : Role;
         

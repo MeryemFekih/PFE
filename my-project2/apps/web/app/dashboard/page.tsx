@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation';
 const Dashboard = async () => {
   const session = await getSession();
   
-  if (!session || !session.user) redirect("/auth/signIn");
+  if (!session || !session.user) return  ;
   
   if (![
     Role.ALUMNI,
@@ -15,8 +15,6 @@ const Dashboard = async () => {
   ].includes(session.user.role)) {
     redirect("/auth/signIn");
   }
-
-  console.log({session});
   return (
     <div>Dashboard</div>
   )

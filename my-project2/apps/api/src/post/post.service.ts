@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreatePostDto } from './dto/create-post.dto';
@@ -19,11 +20,20 @@ export class PostService {
   findAllApproved() {
     return this.prisma.post.findMany({
       where: { status: 'APPROVED' },
-      include: { author: true },
+      include: {
+        author: true,
+        comments: {
+          include: {
+            author: {
+              select: { firstName: true, lastName: true },
+            },
+          },
+          orderBy: { createdAt: 'asc' },
+        },
+      },
       orderBy: { createdAt: 'desc' },
     });
   }
-
   findOne(id: number) {
     return this.prisma.post.findUnique({
       where: { id },
@@ -63,5 +73,17 @@ export class PostService {
     return this.prisma.post.delete({
       where: { id },
     });
+  }
+  async removeIfAuthorized(postId: number, user: any) {
+    const post = await this.prisma.post.findUnique({ where: { id: postId } });
+
+    if (!post) throw new Error('Post not found');
+
+    // Allow if admin or author
+    if (user.role !== 'ADMIN' && post.authorId !== user.id) {
+      throw new Error('Unauthorized');
+    }
+
+    return this.prisma.post.delete({ where: { id: postId } });
   }
 }

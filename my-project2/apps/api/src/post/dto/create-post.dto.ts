@@ -1,4 +1,5 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+// src/post/dto/create-post.dto.ts
+import { IsOptional, IsString, IsNotEmpty } from 'class-validator';
 
 export class CreatePostDto {
   @IsNotEmpty()
@@ -8,4 +9,8 @@ export class CreatePostDto {
   @IsNotEmpty()
   @IsString()
   content: string;
+
+  @IsOptional()
+  @IsString()
+  mediaUrl?: string;
 }

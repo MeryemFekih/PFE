@@ -25,11 +25,9 @@ export async function signUp(state: FormState, formData: FormData): Promise<Form
       rank: formData.get("rank") as string || null,
       interests: JSON.parse((formData.get("interests") as string) || '[]')
     };
-    console.log("this the data", rawData);
 
     // Validate data
     const validation = SignupFormSchema.safeParse(rawData);
-    console.log("this the validation:", validation);
     if (!validation.success) {
       return {
         error: validation.error.flatten().fieldErrors,

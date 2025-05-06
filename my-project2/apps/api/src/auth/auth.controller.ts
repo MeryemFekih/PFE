@@ -37,7 +37,7 @@ export class AuthController {
       req.user.role,
     );
   }
-  @Roles('ALUMNI', 'ADMIN')
+  @Roles('ALUMNI', 'ADMIN', 'STUDENT')
   @Get('protected')
   getAll(@Request() req) {
     return {

@@ -97,8 +97,9 @@ model user {
   tasks         Task[]
   posts         Post[]
   events        Event[]
-  approver      user?   @relation("UserApprovals", fields: [approvedBy], references: [id])
-  approvedUsers user[]  @relation("UserApprovals")
+  approver      user?     @relation("UserApprovals", fields: [approvedBy], references: [id])
+  approvedUsers user[]    @relation("UserApprovals")
+  Comment       Comment[]
 
   // Indexes
   @@index([status])
@@ -143,9 +144,24 @@ model Post {
   id         Int        @id @default(autoincrement())
   title      String     @db.VarChar(200)
   content    String     @db.Text
+  mediaUrl   String?    @db.VarChar(255)
   createdAt  DateTime   @default(now())
   approvedAt DateTime?
   status     PostStatus @default(PENDING)
   authorId   Int
   author     user       @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  comments   Comment[]
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  text      String
+  createdAt DateTime @default(now())
+
+  // Relations
+  postId Int
+  post   Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  authorId Int
+  author   user @relation(fields: [authorId], references: [id], onDelete: Cascade)
 }

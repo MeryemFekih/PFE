@@ -1,16 +1,23 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    webpack: (config) => {
-      config.module.rules.push({
-        test: /\.(mp3)$/,          // Match .mp3 files
-        type: 'asset/resource',    // Treat as static resources
-        generator: {
-          filename: 'static/media/[hash][ext][query]', // Output folder
-        },
-      });
-      return config;
+  experimental: {
+    serverActions: {
+      bodySizeLimit: '50mb', // For larger uploads like images/videos
     },
-  };
-  
-  export default nextConfig;
-  
+  },
+  images: {
+    domains: ['localhost'], // Allow image src from http://localhost:4000
+  },
+  webpack: (config) => {
+    config.module.rules.push({
+      test: /\.(mp3)$/,              // Support .mp3 files
+      type: 'asset/resource',
+      generator: {
+        filename: 'static/media/[hash][ext][query]',
+      },
+    });
+    return config;
+  },
+};
+
+export default nextConfig;

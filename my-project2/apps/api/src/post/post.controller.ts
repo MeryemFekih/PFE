@@ -10,7 +10,14 @@ import {
   Delete,
   UseGuards,
   Req,
+  UploadedFile,
+  UseInterceptors,
+  ValidationPipe,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { extname } from 'path';
+
 import { PostService } from './post.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
@@ -24,19 +31,42 @@ export class PostController {
 
   @Post()
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('PROFESSOR', 'ALUMNI')
-  create(@Body() createPostDto: CreatePostDto, @Req() req) {
-    return this.postService.create(createPostDto, req.user.id);
+  @Roles('PROFESSOR', 'ALUMNI', 'ADMIN')
+  @UseInterceptors(
+    FileInterceptor('media', {
+      storage: diskStorage({
+        destination: './uploads',
+        filename: (req, file, cb) => {
+          const uniqueSuffix =
+            Date.now() + '-' + Math.round(Math.random() * 1e9);
+          cb(null, `${uniqueSuffix}${extname(file.originalname)}`);
+        },
+      }),
+    }),
+  )
+  async create(
+    @UploadedFile() file: Express.Multer.File,
+    @Body(new ValidationPipe({ transform: true })) createPostDto: CreatePostDto,
+    @Req() req,
+  ) {
+    const mediaUrl = file ? `/uploads/${file.filename}` : undefined;
+    const post = this.postService.create(
+      { ...createPostDto, mediaUrl },
+      req.user.id,
+    );
+    return post;
   }
 
   @Get()
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('PROFESSOR', 'ALUMNI', 'ADMIN', 'STUDENT')
   findAll() {
     return this.postService.findAllApproved();
   }
 
   @Get('pending')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('ADMIN')
+  @Roles('ADMIN', 'ALUMNI', 'PROFESSOR', 'STUDENT')
   getPending() {
     return this.postService.getPendingPosts();
   }
@@ -66,7 +96,8 @@ export class PostController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.postService.remove(+id);
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  remove(@Param('id') id: string, @Req() req) {
+    return this.postService.removeIfAuthorized(+id, req.user);
   }
 }

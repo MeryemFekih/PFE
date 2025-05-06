@@ -7,8 +7,10 @@ interface Post {
   id: number;
   title: string;
   content: string;
+  mediaUrl:string;
   createdAt: string;
   author: {
+    id:number;
     firstName: string;
     lastName: string;
     email: string;
