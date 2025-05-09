@@ -66,11 +66,13 @@ export const SignupFormSchema = z.object({
     
   university: z
     .string()
-    .min(1, { message: "University is required." })
-    .trim(),
+    .min(0, { message: "University is required." })
+    .trim()
+    .optional()
+    .nullable(),
     
   userType: z
-    .enum(["student", "alumni", "professor"], { message: "Select a valid user type." })
+    .enum(["student", "alumni", "professor", "public"], { message: "Select a valid user type." })
     .refine(val => val.length > 0, { message: "User type is required." }),
 
   formation: z
@@ -133,5 +135,5 @@ export enum Role {
   ALUMNI = "ALUMNI",
   PROFESSOR = "PROFESSOR",
   STUDENT = "STUDENT",
-  PENDING ="PENDING"
+  PUBLIC ="PUBLIC"
 }

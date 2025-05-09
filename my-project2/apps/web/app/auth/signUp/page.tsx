@@ -40,7 +40,8 @@ const SignUpPage = () => {
   const prevStep = () => setStep(prev => prev - 1);
 
   const step1Complete = formData.firstName && formData.lastName && formData.email && formData.password;
-  const step2Complete = formData.university && formData.userType;
+  const step2Complete =formData.userType === 'public' || (formData.university && formData.userType);
+
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-4">
@@ -320,6 +321,35 @@ const SignUpPage = () => {
                 {/* Step 2: Professional Information */}
                 {step === 2 && (
                   <div className="space-y-5">
+                    
+                    <div>
+                      <Label htmlFor="userType" className="block text-md font-medium text-gray-700 mb-2">
+                        I am a
+                      </Label>
+                      <Select
+                        value={formData.userType}
+                        onValueChange={(value) => handleSelectChange('userType', value)}
+                      >
+                        <SelectTrigger className="h-12 text-md px-4 py-3 focus:ring-2 focus:ring-customBlue">
+                          <SelectValue placeholder="Select your role" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="student">Current Student</SelectItem>
+                          <SelectItem value="alumni">Alumni</SelectItem>
+                          <SelectItem value="professor">Professor</SelectItem>
+                          <SelectItem value="public">Other</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      {state?.error?.userType && (
+                        <p className="mt-1 text-sm text-red-600 flex items-center">
+                          <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                          </svg>
+                          {state.error.userType}
+                        </p>
+                      )}
+                    </div>
+                    {formData.userType !== 'public' && (
                     <div>
                       <Label htmlFor="university" className="block text-md font-medium text-gray-700 mb-2">
                         University
@@ -341,185 +371,159 @@ const SignUpPage = () => {
                         </p>
                       )}
                     </div>
+                  )}
 
-                    <div>
-                      <Label htmlFor="userType" className="block text-md font-medium text-gray-700 mb-2">
-                        I am a
-                      </Label>
-                      <Select
-                        value={formData.userType}
-                        onValueChange={(value) => handleSelectChange('userType', value)}
-                      >
-                        <SelectTrigger className="h-12 text-md px-4 py-3 focus:ring-2 focus:ring-customBlue">
-                          <SelectValue placeholder="Select your role" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="student">Current Student</SelectItem>
-                          <SelectItem value="alumni">Alumni</SelectItem>
-                          <SelectItem value="professor">Professor</SelectItem>
-                        </SelectContent>
-                      </Select>
-                      {state?.error?.userType && (
-                        <p className="mt-1 text-sm text-red-600 flex items-center">
-                          <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                            <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                          </svg>
-                          {state.error.userType}
-                        </p>
+                      {formData.userType === 'student' && (
+                        <div>
+                          <Label htmlFor="formation" className="block text-md font-medium text-gray-700 mb-2">
+                            Current Program
+                          </Label>
+                          <Input
+                            id="formation"
+                            name="formation"
+                            placeholder="e.g. Computer Science, MBA"
+                            value={formData.formation}
+                            onChange={handleChange}
+                            className="focus:ring-2 focus:ring-customBlue focus:border-customBlue h-12 text-md px-4 py-3"
+                          />
+                          {state?.error?.formation && (
+                            <p className="mt-1 text-sm text-red-600 flex items-center">
+                              <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                              </svg>
+                              {state.error.formation}
+                            </p>
+                          )}
+                        </div>
                       )}
-                    </div>
 
-                    {formData.userType === 'student' && (
-                      <div>
-                        <Label htmlFor="formation" className="block text-md font-medium text-gray-700 mb-2">
-                          Current Program
-                        </Label>
-                        <Input
-                          id="formation"
-                          name="formation"
-                          placeholder="e.g. Computer Science, MBA"
-                          value={formData.formation}
-                          onChange={handleChange}
-                          className="focus:ring-2 focus:ring-customBlue focus:border-customBlue h-12 text-md px-4 py-3"
-                        />
-                        {state?.error?.formation && (
-                          <p className="mt-1 text-sm text-red-600 flex items-center">
-                            <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                            </svg>
-                            {state.error.formation}
-                          </p>
-                        )}
-                      </div>
-                    )}
+                      {formData.userType === 'alumni' && (
+                        <>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <div>
+                              <Label htmlFor="graduationYear" className="block text-md font-medium text-gray-700 mb-2">
+                                Graduation Year
+                              </Label>
+                              <Input
+                                id="graduationYear"
+                                name="graduationYear"
+                                type="date"
+                                value={formData.graduationYear}
+                                onChange={handleChange}
+                                className="focus:ring-2 focus:ring-customBlue focus:border-customBlue h-12 text-md px-4 py-3"
+                              />
+                              {state?.error?.graduationYear && (
+                                <p className="mt-1 text-sm text-red-600 flex items-center">
+                                  <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                                  </svg>
+                                  {state.error.graduationYear}
+                                </p>
+                              )}
+                            </div>
 
-                    {formData.userType === 'alumni' && (
-                      <>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <div>
+                              <Label htmlFor="degree" className="block text-md font-medium text-gray-700 mb-2">
+                                Degree Earned
+                              </Label>
+                              <Input
+                                id="degree"
+                                name="degree"
+                                placeholder="e.g. B.Sc, Ph.D"
+                                value={formData.degree}
+                                onChange={handleChange}
+                                className="focus:ring-2 focus:ring-customBlue focus:border-customBlue h-12 text-md px-4 py-3"
+                              />
+                              {state?.error?.degree && (
+                                <p className="mt-1 text-sm text-red-600 flex items-center">
+                                  <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                                  </svg>
+                                  {state.error.degree}
+                                </p>
+                              )}
+                            </div>
+                          </div>
+
                           <div>
-                            <Label htmlFor="graduationYear" className="block text-md font-medium text-gray-700 mb-2">
-                              Graduation Year
+                            <Label htmlFor="occupation" className="block text-md font-medium text-gray-700 mb-2">
+                              Current Occupation
                             </Label>
                             <Input
-                              id="graduationYear"
-                              name="graduationYear"
-                              type="date"
-                              value={formData.graduationYear}
+                              id="occupation"
+                              name="occupation"
+                              placeholder="e.g. Software Engineer at Google"
+                              value={formData.occupation}
                               onChange={handleChange}
                               className="focus:ring-2 focus:ring-customBlue focus:border-customBlue h-12 text-md px-4 py-3"
                             />
-                            {state?.error?.graduationYear && (
+                            {state?.error?.occupation && (
                               <p className="mt-1 text-sm text-red-600 flex items-center">
                                 <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
                                   <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
                                 </svg>
-                                {state.error.graduationYear}
+                                {state.error.occupation}
+                              </p>
+                            )}
+                          </div>
+                        </>
+                      )}
+
+                      {formData.userType === 'professor' && (
+                        <>
+                          <div>
+                            <Label htmlFor="subject" className="block text-md font-medium text-gray-700 mb-2">
+                              Teaching Subject
+                            </Label>
+                            <Input
+                              id="subject"
+                              name="subject"
+                              type="text"
+                              placeholder="e.g. Artificial Intelligence"
+                              value={formData.subject}
+                              onChange={handleChange}
+                              className="focus:ring-2 focus:ring-customBlue focus:border-customBlue h-12 text-md px-4 py-3"
+                            />
+                            {state?.error?.subject && (
+                              <p className="mt-1 text-sm text-red-600 flex items-center">
+                                <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                  <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                                </svg>
+                                {state.error.subject}
                               </p>
                             )}
                           </div>
 
                           <div>
-                            <Label htmlFor="degree" className="block text-md font-medium text-gray-700 mb-2">
-                              Degree Earned
+                            <Label htmlFor="rank" className="block text-md font-medium text-gray-700 mb-2">
+                              Academic Rank
                             </Label>
-                            <Input
-                              id="degree"
-                              name="degree"
-                              placeholder="e.g. B.Sc, Ph.D"
-                              value={formData.degree}
-                              onChange={handleChange}
-                              className="focus:ring-2 focus:ring-customBlue focus:border-customBlue h-12 text-md px-4 py-3"
-                            />
-                            {state?.error?.degree && (
+                            <Select
+                              value={formData.rank}
+                              onValueChange={(value) => handleSelectChange('rank', value)}
+                            >
+                              <SelectTrigger className="h-12 text-md px-4 py-3 focus:ring-2 focus:ring-customBlue">
+                                <SelectValue placeholder="Select your rank" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="assistant">Assistant Professor</SelectItem>
+                                <SelectItem value="associate">Associate Professor</SelectItem>
+                                <SelectItem value="full">Full Professor</SelectItem>
+                                <SelectItem value="lecturer">Lecturer</SelectItem>
+                              </SelectContent>
+                            </Select>
+                            {state?.error?.rank && (
                               <p className="mt-1 text-sm text-red-600 flex items-center">
                                 <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
                                   <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
                                 </svg>
-                                {state.error.degree}
+                                {state.error.rank}
                               </p>
                             )}
                           </div>
-                        </div>
-
-                        <div>
-                          <Label htmlFor="occupation" className="block text-md font-medium text-gray-700 mb-2">
-                            Current Occupation
-                          </Label>
-                          <Input
-                            id="occupation"
-                            name="occupation"
-                            placeholder="e.g. Software Engineer at Google"
-                            value={formData.occupation}
-                            onChange={handleChange}
-                            className="focus:ring-2 focus:ring-customBlue focus:border-customBlue h-12 text-md px-4 py-3"
-                          />
-                          {state?.error?.occupation && (
-                            <p className="mt-1 text-sm text-red-600 flex items-center">
-                              <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                              </svg>
-                              {state.error.occupation}
-                            </p>
-                          )}
-                        </div>
-                      </>
-                    )}
-
-                    {formData.userType === 'professor' && (
-                      <>
-                        <div>
-                          <Label htmlFor="subject" className="block text-md font-medium text-gray-700 mb-2">
-                            Teaching Subject
-                          </Label>
-                          <Input
-                            id="subject"
-                            name="subject"
-                            type="text"
-                            placeholder="e.g. Artificial Intelligence"
-                            value={formData.subject}
-                            onChange={handleChange}
-                            className="focus:ring-2 focus:ring-customBlue focus:border-customBlue h-12 text-md px-4 py-3"
-                          />
-                          {state?.error?.subject && (
-                            <p className="mt-1 text-sm text-red-600 flex items-center">
-                              <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                              </svg>
-                              {state.error.subject}
-                            </p>
-                          )}
-                        </div>
-
-                        <div>
-                          <Label htmlFor="rank" className="block text-md font-medium text-gray-700 mb-2">
-                            Academic Rank
-                          </Label>
-                          <Select
-                            value={formData.rank}
-                            onValueChange={(value) => handleSelectChange('rank', value)}
-                          >
-                            <SelectTrigger className="h-12 text-md px-4 py-3 focus:ring-2 focus:ring-customBlue">
-                              <SelectValue placeholder="Select your rank" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="assistant">Assistant Professor</SelectItem>
-                              <SelectItem value="associate">Associate Professor</SelectItem>
-                              <SelectItem value="full">Full Professor</SelectItem>
-                              <SelectItem value="lecturer">Lecturer</SelectItem>
-                            </SelectContent>
-                          </Select>
-                          {state?.error?.rank && (
-                            <p className="mt-1 text-sm text-red-600 flex items-center">
-                              <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                              </svg>
-                              {state.error.rank}
-                            </p>
-                          )}
-                        </div>
-                      </>
-                    )}
-
+                        </>
+                      )}
+                  
                     <div className="flex justify-between pt-4">
                       <Button
                         type="button"

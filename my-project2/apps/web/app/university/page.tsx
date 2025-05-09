@@ -1,7 +1,24 @@
+import { getSession, Session } from '@/lib/session';
 import FacultyFeedPage from './faculty-page';
+import { Role } from '@/lib/type';
 import { getApprovedPosts } from '@/lib/post-action';
+import { redirect } from 'next/navigation';
 
 export default async function UniversityPage() {
-  const posts = await getApprovedPosts(); // now runs on the server
-  return <FacultyFeedPage posts={posts} />;
+  const session= await getSession() as Session;
+    
+    if (!session || !session.user) return  ;
+    
+    if (![
+      Role.ALUMNI,
+      Role.ADMIN,
+      Role.PROFESSOR,
+      Role.STUDENT
+    ].includes(session.user.role)) {
+      redirect("/auth/signIn");
+    }
+  const posts = await getApprovedPosts(); 
+  return <FacultyFeedPage posts={posts} session={session} />;
 }
+
+

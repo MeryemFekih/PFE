@@ -39,7 +39,7 @@ enum Role {
   ALUMNI
   PROFESSOR
   STUDENT
-  PENDING
+  PUBLIC
 }
 
 enum UserStatus {
@@ -61,7 +61,7 @@ model user {
   userType String? @db.VarChar(20)
 
   // Verified Identity
-  role   Role       @default(PENDING)
+  role   Role       @default(PUBLIC)
   status UserStatus @default(PENDING_APPROVAL)
 
   // Profile

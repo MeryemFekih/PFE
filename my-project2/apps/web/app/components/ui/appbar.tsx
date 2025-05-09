@@ -1,4 +1,4 @@
-import { Brain, Home, LayoutDashboard } from 'lucide-react';
+import { Brain, Home } from 'lucide-react';
 import Link from 'next/link';
 import SignInButton from '../signInButton';
 

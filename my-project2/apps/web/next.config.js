@@ -2,15 +2,15 @@
 const nextConfig = {
   experimental: {
     serverActions: {
-      bodySizeLimit: '50mb', // For larger uploads like images/videos
+      bodySizeLimit: '90mb', 
     },
   },
   images: {
-    domains: ['localhost'], // Allow image src from http://localhost:4000
+    domains: ['localhost'], 
   },
   webpack: (config) => {
     config.module.rules.push({
-      test: /\.(mp3)$/,              // Support .mp3 files
+      test:  /\.(mp4|mov|avi|mkv|pdf|docx?|pptx?|xlsx?)$/i,
       type: 'asset/resource',
       generator: {
         filename: 'static/media/[hash][ext][query]',

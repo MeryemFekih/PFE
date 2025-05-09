@@ -31,7 +31,7 @@ export class PostController {
 
   @Post()
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('PROFESSOR', 'ALUMNI', 'ADMIN')
+  @Roles('PROFESSOR', 'ALUMNI', 'ADMIN', 'STUDENT')
   @UseInterceptors(
     FileInterceptor('media', {
       storage: diskStorage({
@@ -66,7 +66,7 @@ export class PostController {
 
   @Get('pending')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('ADMIN', 'ALUMNI', 'PROFESSOR', 'STUDENT')
+  @Roles('ADMIN')
   getPending() {
     return this.postService.getPendingPosts();
   }
