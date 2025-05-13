@@ -1,5 +1,5 @@
 // src/post/dto/create-post.dto.ts
-import { IsOptional, IsString, IsNotEmpty } from 'class-validator';
+import { IsOptional, IsString, IsNotEmpty, IsEnum } from 'class-validator';
 
 export class CreatePostDto {
   @IsNotEmpty()
@@ -9,6 +9,9 @@ export class CreatePostDto {
   @IsNotEmpty()
   @IsString()
   content: string;
+
+  @IsEnum(['PUBLIC', 'PRIVATE'])
+  visibility: 'PUBLIC' | 'PRIVATE';
 
   @IsOptional()
   @IsString()

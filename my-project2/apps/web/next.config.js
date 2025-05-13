@@ -10,7 +10,7 @@ const nextConfig = {
   },
   webpack: (config) => {
     config.module.rules.push({
-      test:  /\.(mp4|mov|avi|mkv|pdf|docx?|pptx?|xlsx?)$/i,
+      test:  /\.(mp4|mp3|mov|avi|mkv|pdf|docx?|pptx?|xlsx?)$/i,
       type: 'asset/resource',
       generator: {
         filename: 'static/media/[hash][ext][query]',

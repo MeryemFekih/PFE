@@ -9,14 +9,6 @@ export default async function UniversityPage() {
     
     if (!session || !session.user) return  ;
     
-    if (![
-      Role.ALUMNI,
-      Role.ADMIN,
-      Role.PROFESSOR,
-      Role.STUDENT
-    ].includes(session.user.role)) {
-      redirect("/auth/signIn");
-    }
   const posts = await getApprovedPosts(); 
   return <FacultyFeedPage posts={posts} session={session} />;
 }

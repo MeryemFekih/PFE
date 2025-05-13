@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -13,20 +14,24 @@ export class PostService {
       data: {
         ...createPostDto,
         authorId: userId,
+        visibility: createPostDto.visibility,
       },
     });
   }
 
-  findAllApproved() {
+  findAllApproved(user: any) {
+    const role = user?.role || 'PUBLIC';
+
     return this.prisma.post.findMany({
-      where: { status: 'APPROVED' },
+      where: {
+        status: 'APPROVED',
+        ...(role === 'PUBLIC' ? { visibility: 'PUBLIC' } : {}), //This filter will now work
+      },
       include: {
         author: true,
         comments: {
           include: {
-            author: {
-              select: { firstName: true, lastName: true },
-            },
+            author: { select: { firstName: true, lastName: true } },
           },
           orderBy: { createdAt: 'asc' },
         },
@@ -34,6 +39,7 @@ export class PostService {
       orderBy: { createdAt: 'desc' },
     });
   }
+
   findOne(id: number) {
     return this.prisma.post.findUnique({
       where: { id },
@@ -79,7 +85,6 @@ export class PostService {
 
     if (!post) throw new Error('Post not found');
 
-    // Allow if admin or author
     if (user.role !== 'ADMIN' && post.authorId !== user.id) {
       throw new Error('Unauthorized');
     }

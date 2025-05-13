@@ -10,6 +10,7 @@ export default function EnhancedCreatePostPage() {
   const [content, setContent] = useState('');
   const [media, setMedia] = useState<File | null>(null);
   const [mediaPreview, setMediaPreview] = useState<string | null>(null);
+  const [visibility, setVisibility] = useState<'PUBLIC' | 'PRIVATE'>('PRIVATE');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = (file: File | null) => {
@@ -37,6 +38,7 @@ export default function EnhancedCreatePostPage() {
     const formData = new FormData();
     formData.append('title', title);
     formData.append('content', content);
+    formData.append('visibility', visibility);
     if (media) formData.append('media', media);
 
     await createPost(formData);
@@ -44,6 +46,7 @@ export default function EnhancedCreatePostPage() {
     setContent('');
     setMedia(null);
     setMediaPreview(null);
+    setVisibility('PRIVATE'); // reset to default
   };
 
   return (
@@ -65,6 +68,16 @@ export default function EnhancedCreatePostPage() {
         value={content}
         onChange={(e) => setContent(e.target.value)}
       />
+
+      {/* New visibility selector */}
+      <select
+        value={visibility}
+        onChange={(e) => setVisibility(e.target.value as 'PUBLIC' | 'PRIVATE')}
+        className="w-full mb-4 border px-3 py-2 rounded"
+      >
+        <option value="PRIVATE">🔒 Private</option>
+        <option value="PUBLIC">🌍 Public</option>
+      </select>
 
       <button
         type="button"

@@ -59,9 +59,8 @@ export class PostController {
 
   @Get()
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('PROFESSOR', 'ALUMNI', 'ADMIN', 'STUDENT')
-  findAll() {
-    return this.postService.findAllApproved();
+  findAll(@Req() req) {
+    return this.postService.findAllApproved(req.user);
   }
 
   @Get('pending')

@@ -41,12 +41,16 @@ enum Role {
   STUDENT
   PUBLIC
 }
-
 enum UserStatus {
   PENDING_APPROVAL
   ACTIVE
   REJECTED
   SUSPENDED
+}
+
+enum Visibility {
+  PUBLIC
+  PRIVATE
 }
 
 model user {
@@ -148,6 +152,7 @@ model Post {
   createdAt  DateTime   @default(now())
   approvedAt DateTime?
   status     PostStatus @default(PENDING)
+  visibility Visibility @default(PRIVATE)
   authorId   Int
   author     user       @relation(fields: [authorId], references: [id], onDelete: Cascade)
   comments   Comment[]
