@@ -53,7 +53,7 @@ export type Priority = (typeof Priority)[keyof typeof Priority]
 
 
 export const TaskStatus: {
-  TODO: TaskStatus;
+  TODO: 'TODO';
   PENDING: 'PENDING',
   COMPLETED: 'COMPLETED',
   CANCELED: 'CANCELED'

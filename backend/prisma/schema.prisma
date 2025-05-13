@@ -1,6 +1,6 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "./node_modules/.prisma/client" 
+  output   = "../node_modules/.prisma/client"
 }
 
 datasource db {
@@ -15,7 +15,6 @@ enum Priority {
 }
 
 enum TaskStatus {
-  PENDING
   IN_PROGRESS
   COMPLETED
   TODO  
@@ -36,21 +35,55 @@ enum Role {
   STUDENT
   PENDING
 }
-
+enum PostStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+enum Visibility {
+  PUBLIC
+  PRIVATE
+}
 enum UserStatus {
   PENDING_APPROVAL
   ACTIVE
   REJECTED
   SUSPENDED
 }
+model Comment {
+  id        Int      @id @default(autoincrement())
+  text      String
+  createdAt DateTime @default(now())
+
+  // Relations
+  postId Int
+  post   Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  authorId Int
+  author   user @relation(fields: [authorId], references: [id], onDelete: Cascade)
+}
+model Post {
+  id         Int        @id @default(autoincrement())
+  title      String     @db.VarChar(200)
+  content    String     @db.Text
+  mediaUrl   String?    @db.VarChar(255)
+  createdAt  DateTime   @default(now())
+  approvedAt DateTime?
+  status     PostStatus @default(PENDING)
+  visibility Visibility @default(PRIVATE)
+  authorId   Int
+  author     user       @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  comments   Comment[]
+}
+
+
+
 model Task {
   id           String      @id @default(uuid()) 
   title        String
   description  String?
-  dueDate      DateTime
-  reminderAt   DateTime?
   priority     Priority
-  status       TaskStatus  @default(PENDING)
+  status       TaskStatus  @default(TODO)
   userId       Int
   user         user        @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Restrict)
   createdAt    DateTime    @default(now())
@@ -118,10 +151,13 @@ model user {
   verificationNotes  String?
   createdAt          DateTime    @default(now())
   updatedAt          DateTime    @updatedAt
-
+  resetCode       String?    @db.VarChar(6)
+  resetCodeExpiry DateTime?
   // Relations
   tasks              Task[]
   events             Event[]
+  posts              Post[]
+  Comment            Comment[]
   approver           user?       @relation("UserApprovals", fields: [approvedBy], references: [id])
   approvedUsers      user[]      @relation("UserApprovals")
 

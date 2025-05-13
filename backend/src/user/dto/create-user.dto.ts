@@ -16,22 +16,22 @@ export class CreateUserDto {
   @IsString()
   @IsNotEmpty()
   @MaxLength(100)
-  firstName: string;
+  firstName!: string;
 
   @IsString()
   @IsNotEmpty()
   @MaxLength(100)
-  lastName: string;
+  lastName!: string;
 
   @IsEmail()
   @IsNotEmpty()
   @MaxLength(320)
-  email: string;
+  email!: string;
 
   @IsString()
   @IsNotEmpty()
   @MaxLength(100)
-  password: string;
+  password!: string;
 
   @IsString()
   @IsOptional()
@@ -51,12 +51,12 @@ export class CreateUserDto {
   @IsDate()
   @IsNotEmpty()
   @Type(() => Date)
-  birthdate: Date;
+  birthdate!: Date;
 
   @IsString()
   @IsNotEmpty()
   @MaxLength(20)
-  gender: string;
+  gender!: string;
 
   @IsString()
   @IsOptional()

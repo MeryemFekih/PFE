@@ -1,9 +1,21 @@
-import { TaskStatus, Priority } from '@prisma/client';
+// update-task.dto.ts
+import { IsOptional, IsEnum, IsString } from 'class-validator';
+import { Priority, TaskStatus } from '@prisma/client';
 
 export class UpdateTaskDto {
+  @IsOptional()
+  @IsString()
   title?: string;
+
+  @IsOptional()
+  @IsString()
   description?: string;
-  dueDate?: string;
-  status?: TaskStatus;  // This needs to be of type Status enum, not string
+
+  @IsOptional()
+  @IsEnum(Priority)
   priority?: Priority;
+
+  @IsOptional()
+  @IsEnum(TaskStatus)
+  status?: TaskStatus;
 }

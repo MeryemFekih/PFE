@@ -1,11 +1,11 @@
 import { IsString, IsOptional, IsEnum, IsDateString } from 'class-validator';
-import { TaskStatus, Priority } from '@prisma/client';  // Correct import from Prisma
+import { TaskStatus, Priority } from '@prisma/client'; 
 
 
 
 export class CreateTaskDto {
   @IsString()
-  title: string;
+  title!: string;
 
   @IsString()
   @IsOptional()
@@ -19,9 +19,7 @@ export class CreateTaskDto {
   @IsOptional()
   status?: TaskStatus;
 
-  @IsDateString()
-  @IsOptional()
-  dueDate?: string;
+  
 }
 
 export { Priority}; 

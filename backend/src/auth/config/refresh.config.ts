@@ -1,6 +1,7 @@
+// src/auth/config/refresh.config.ts
 import { registerAs } from '@nestjs/config';
 
 export default registerAs('refresh', () => ({
-  secret: process.env.JWT_REFRESH_SECRET,
-  expiresIn: '7d', // Exemple: 7 jours pour les tokens refresh
+  secret: process.env.REFRESH_SECRET,
+  expiresIn: process.env.REFRESH_EXPIRES_IN || '7d',
 }));

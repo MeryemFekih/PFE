@@ -1,15 +1,20 @@
-import { Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { hash } from 'argon2';
 import { Role } from '@prisma/client';
+import { EventService } from 'src/event/event.service';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly prisma: PrismaService) {}
-
+  constructor(
+    private readonly prisma: PrismaService,
+    @Inject(forwardRef(() => EventService)) // Correctly reference EventService
+    private readonly eventService: EventService // Rename to eventService for clarity
+  ) {}
   async create(createUserDto: CreateUserDto) {
     const { password, ...user } = createUserDto;
+    console.log(password);
     const hashedPassword = await hash(password);
     return await this.prisma.user.create({
       data: {
@@ -98,4 +103,54 @@ export class UserService {
       },
     });
   }
+
+async getProfile(userId: number) {
+  const user = await this.prisma.user.findUnique({ where: { id: userId } });
+  if (!user) throw new Error('User not found');
+
+  const base = {
+    id: user.id,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    email: user.email,
+    role: user.role,
+    profilePicture: user.profilePicture,
+    university: user.university,
+  };
+
+  switch (user.role) {
+    case 'STUDENT':
+      return {
+        ...base,
+        formation: user.formation,
+        graduationYear: user.graduationYear,
+        degree: user.degree,
+        interests: user.interests,
+      };
+    case 'PROFESSOR':
+      return {
+        ...base,
+        subject: user.subject,
+        rank: user.rank,
+      };
+    case 'ALUMNI':
+      return {
+        ...base,
+        occupation: user.occupation,
+        graduationYear: user.graduationYear,
+        degree: user.degree,
+      };
+    default:
+      return base;
+  }
+}
+
+async updateProfile(userId: number, data: Partial<any>) {
+  const { id, email, role, status, ...updatableFields } = data;
+  return this.prisma.user.update({
+    where: { id: userId },
+    data: updatableFields,
+  });
+}
+
 }

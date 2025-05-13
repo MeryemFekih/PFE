@@ -8,6 +8,15 @@ import { v4 as uuidv4 } from 'uuid';
 export class TasksService {
   constructor(private readonly prisma: PrismaService) {}
 
+  // Removed duplicate removeById method
+  
+  findByUser(userId: number) {
+    return this.prisma.task.findMany({
+      where: { userId, },
+      orderBy: { createdAt: 'desc' },
+    });
+  }
+
   // Create a task
   async create(userId: number, createTaskDto: CreateTaskDto) {
     return this.prisma.task.create({
@@ -16,11 +25,10 @@ export class TasksService {
         user: { connect: { id: userId } },
         title: createTaskDto.title,
         description: createTaskDto.description || null,
-        dueDate: createTaskDto.dueDate ? new Date(createTaskDto.dueDate) : null,
-        priority: createTaskDto.priority || Priority.MEDIUM, // Provide default
+        priority: createTaskDto.priority || Priority.MEDIUM, 
         status: createTaskDto.status || TaskStatus.TODO,
       },
-    });
+    }); 
   }
 
   // Get all tasks for a user
@@ -38,22 +46,36 @@ export class TasksService {
   }
 
   // Update task
-  async update(userId: number, id: string, updateTaskDto: UpdateTaskDto) {
+  async update(id: string, data: UpdateTaskDto) {
+  console.log('Updating with:', data);
+  console.log(`Updating task ${id} with data:`, data);
+
+  return this.prisma.task.update({
+    where: { id },
+    data: {
+       ...(data.title !== undefined ? { title: data.title }: {}),
+      ...(data.description !== undefined ? { description: data.description }: {}),
+      ...(data.priority !== undefined ? { priority: data.priority }: {}),
+      ...(data.status !== undefined ? { status: data.status }: {}),
+    },
+  });
+}
+  async updateStatus(id: string, status: TaskStatus) {
+  console.log(`Updating status for task ${id} to ${status}`);
+
     return this.prisma.task.update({
       where: { id },
-      data: {
-        title: updateTaskDto.title,
-        description: updateTaskDto.description || null,  // Make description optional
-        dueDate: updateTaskDto.dueDate ? new Date(updateTaskDto.dueDate) : null,  // Convert dueDate to Date if provided
-        status: updateTaskDto.status || TaskStatus.TODO,  // Default to TaskStatus.TODO if status is not provided
-      },
+      data: { status },
     });
-  }
-
+  }// Removed duplicate removeById method
+  
   // Remove a task
-  async remove(userId: number, id: string) {
+  async removeById(id: string) {
+    console.log(`Deleting task ${id}`);
+
     return this.prisma.task.delete({
       where: { id },
     });
   }
+  
 }
