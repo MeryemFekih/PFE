@@ -50,6 +50,12 @@ export default function SoloStudyPage() {
     { id: 'jazz1', name: 'Jazz Relax', path: jazz1 },
     { id: 'jazz2', name: 'Jazz Vibes', path: jazz2 },
   ];
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, []);
 
   useEffect(() => {
     let interval: NodeJS.Timeout;

@@ -15,6 +15,9 @@ async function bootstrap() {
     prefix: '/uploads/',
   });
 
+  app.useStaticAssets(join(__dirname, '..', 'uploads/profile-pictures'), {
+    prefix: '/profile-pictures', // ✅ Now it matches the DB value
+  });
   // Apply global validation
   app.useGlobalPipes(
     new ValidationPipe({

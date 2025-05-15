@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/require-await */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 import {
   ConflictException,
   Inject,
@@ -25,6 +28,17 @@ export class AuthService {
     const user = await this.userService.findByEmail(createUserDto.email);
     if (user) throw new ConflictException('User already exists!');
     return this.userService.create(createUserDto);
+  }
+  async updateProfile(
+    userId: number,
+    updateData: {
+      firstName: string;
+      lastName: string;
+      university: string;
+      profilePicture?: string;
+    },
+  ) {
+    return this.userService.updateProfile(userId, updateData);
   }
 
   async validateLocalUser(email: string, password: string) {
@@ -90,7 +104,15 @@ export class AuthService {
   async validateJwtUser(userId: number) {
     const user = await this.userService.findOne(userId);
     if (!user) throw new UnauthorizedException('User not found!');
-    const currentUser = { id: user.id, role: user.role };
+    const currentUser = {
+      id: user.id,
+      role: user.role,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      university: user.university,
+      email: user.email,
+      profilePicture: user.profilePicture,
+    };
     return currentUser;
   }
 

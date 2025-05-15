@@ -3,7 +3,6 @@ import { FormState, LoginFormSchema, SignupFormSchema } from "./type";
 import { BACKEND_URL } from "./constants";
 import { redirect } from "next/navigation";
 import { createSession } from "./session";
-import { revalidatePath } from "next/cache";
 
 export async function signUp(state: FormState, formData: FormData): Promise<FormState> {
   try {
