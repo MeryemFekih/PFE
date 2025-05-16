@@ -7,10 +7,33 @@ import { UpdatePostDto } from './dto/update-post.dto';
 export class PostService {
   constructor(private readonly prisma: PrismaService) {}
 
-  create(createPostDto: CreatePostDto, userId: number) {
+  create(createPostDto: CreatePostDto, userId: number, mediaUrl?: string) {
+    const {
+      title,
+      content,
+      type,
+      eventType,
+      subject,
+      startDate,
+      endDate,
+      location,
+      speakerId,
+      visibility,
+    } = createPostDto;
+
     return this.prisma.post.create({
       data: {
-        ...createPostDto,
+        title,
+        content,
+        type,
+        eventType,
+        subject,
+        visibility,
+        startDate: startDate ? new Date(startDate) : undefined,
+        endDate: endDate ? new Date(endDate) : undefined,
+        location,
+        speakerId,
+        mediaUrl,
         authorId: userId,
       },
     });
@@ -19,7 +42,14 @@ export class PostService {
   findAllApproved() {
     return this.prisma.post.findMany({
       where: { status: 'APPROVED' },
-      include: { author: true },
+      include: {
+        author: true,
+        comments: {
+          include: {
+            author: true,
+          },
+        },
+      },
       orderBy: { createdAt: 'desc' },
     });
   }
@@ -27,7 +57,14 @@ export class PostService {
   findOne(id: number) {
     return this.prisma.post.findUnique({
       where: { id },
-      include: { author: true },
+      include: {
+        author: true,
+        comments: {
+          include: {
+            author: true,
+          },
+        },
+      },
     });
   }
 
@@ -41,14 +78,19 @@ export class PostService {
   approvePost(id: number) {
     return this.prisma.post.update({
       where: { id },
-      data: { status: 'APPROVED', approvedAt: new Date() },
+      data: {
+        status: 'APPROVED',
+        approvedAt: new Date(),
+      },
     });
   }
 
   rejectPost(id: number) {
     return this.prisma.post.update({
       where: { id },
-      data: { status: 'REJECTED' },
+      data: {
+        status: 'REJECTED',
+      },
     });
   }
 

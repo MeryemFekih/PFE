@@ -13,15 +13,28 @@ export class UserService {
     private readonly eventService: EventService // Rename to eventService for clarity
   ) {}
   async create(createUserDto: CreateUserDto) {
-    const { password, ...user } = createUserDto;
+    const { password, userType,  ...user } = createUserDto;
     console.log(password);
     const hashedPassword = await hash(password);
-    return await this.prisma.user.create({
+    let role: Role = 'PUBLIC';
+    let status: 'ACTIVE' | 'SUSPENDED' | 'PENDING_APPROVAL' = 'SUSPENDED';
+
+    if (
+      userType === 'student' ||
+      userType === 'alumni' ||
+      userType === 'professor'
+    ) {
+      role = 'PUBLIC';
+      status = 'PENDING_APPROVAL';
+    }
+
+    return this.prisma.user.create({
       data: {
-        password: hashedPassword,
-        role: 'PENDING',
-        status: 'PENDING_APPROVAL',
         ...user,
+        userType,
+        password: hashedPassword,
+        role,
+        status,
       },
     });
   }
@@ -96,7 +109,7 @@ export class UserService {
     return this.prisma.user.update({
       where: { id },
       data: {
-        role: 'PENDING',
+        role: 'PUBLIC',
         status: 'REJECTED',
         rejectionReason: reason,
         rejectedAt: new Date(),

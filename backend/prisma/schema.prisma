@@ -17,7 +17,7 @@ enum Priority {
 enum TaskStatus {
   IN_PROGRESS
   COMPLETED
-  TODO  
+  TODO
 }
 
 enum EventCategory {
@@ -33,24 +33,48 @@ enum Role {
   ALUMNI
   PROFESSOR
   STUDENT
-  PENDING
   PUBLIC
 }
+
 enum PostStatus {
   PENDING
   APPROVED
   REJECTED
 }
+
 enum Visibility {
   PUBLIC
   PRIVATE
 }
+
 enum UserStatus {
   PENDING_APPROVAL
   ACTIVE
   REJECTED
   SUSPENDED
 }
+
+enum PostType {
+  GENERAL
+  EVENT
+  FORMATION
+  COURSE_MATERIAL
+  REVISION_EXERCISE
+  ANNOUNCEMENT
+  POLL
+  SUGGESTION_BOX
+}
+
+enum EventType {
+  CONFERENCE
+  WORKSHOP
+  CLUB_EVENT
+  CLUB_RECRUITMENT
+  STUDENT_INTERVIEW
+  INTERNSHIP_OFFER
+  HACKATHON_ALERT
+}
+
 model Comment {
   id        Int      @id @default(autoincrement())
   text      String
@@ -63,38 +87,70 @@ model Comment {
   authorId Int
   author   user @relation(fields: [authorId], references: [id], onDelete: Cascade)
 }
+
+model Participation {
+  id         Int      @id @default(autoincrement())
+  postId     Int
+  userId     Int? // ← optional, for registered users only
+  name       String // ← required for visitors
+  email      String? // ← optional for contact/confirmation
+  motivation String?  @db.Text
+  createdAt  DateTime @default(now())
+
+  post Post  @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user user? @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
 model Post {
-  id         Int        @id @default(autoincrement())
-  title      String     @db.VarChar(200)
-  content    String     @db.Text
-  mediaUrl   String?    @db.VarChar(255)
+  id       Int     @id @default(autoincrement())
+  title    String  @db.VarChar(200)
+  content  String  @db.Text
+  mediaUrl String? @db.VarChar(255)
+  subject  String? @db.VarChar(100)
+
+  type      PostType   @default(GENERAL)
+  eventType EventType?
+
+  startDate DateTime?
+  endDate   DateTime?
+  location  String?
+
+  speakerId Int?
+  speaker   user? @relation("PostSpeaker", fields: [speakerId], references: [id])
+
   createdAt  DateTime   @default(now())
   approvedAt DateTime?
   status     PostStatus @default(PENDING)
   visibility Visibility @default(PRIVATE)
-  authorId   Int
-  author     user       @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  comments   Comment[]
+
+  authorId Int
+  author   user @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  participants Participation[]
+  comments     Comment[]
+
+  @@index([type])
+  @@index([status])
+  @@index([subject])
+  @@index([eventType])
 }
 
-
-
 model Task {
-  id           String      @id @default(uuid()) 
-  title        String
-  description  String?
-  priority     Priority
-  status       TaskStatus  @default(TODO)
-  userId       Int
-  user         user        @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Restrict)
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @updatedAt
+  id          String     @id @default(uuid())
+  title       String
+  description String?
+  priority    Priority
+  status      TaskStatus @default(TODO)
+  userId      Int
+  user        user       @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Restrict)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
 
   @@map("Task")
 }
 
 model Event {
-  id          String      @id @default(uuid())
+  id          String        @id @default(uuid())
   title       String
   description String?
   startTime   DateTime
@@ -102,65 +158,68 @@ model Event {
   category    EventCategory
   reminderAt  DateTime?
   userId      Int
-  user        user        @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Restrict)
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+  user        user          @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Restrict)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
 
   @@map("Event")
 }
 
 model user {
   // Core Identity
-  id                 Int         @id @default(autoincrement())
-  email              String      @unique @db.VarChar(320)
-  password           String      @db.VarChar(100)
-  firstName          String      @db.VarChar(100)
-  lastName           String      @db.VarChar(100)
+  id        Int    @id @default(autoincrement())
+  email     String @unique @db.VarChar(320)
+  password  String @db.VarChar(100)
+  firstName String @db.VarChar(100)
+  lastName  String @db.VarChar(100)
 
   // Claimed Identity
-  userType           String?     @db.VarChar(20)
+  userType String? @db.VarChar(20)
 
   // Verified Identity
-  role               Role        @default(PENDING)
-  status             UserStatus  @default(PENDING_APPROVAL)
+  role   Role       @default(PUBLIC)
+  status UserStatus @default(PENDING_APPROVAL)
 
   // Profile
-  profilePicture     String?     @db.VarChar(255)
-  phone              String?     @db.VarChar(25)
-  birthdate          DateTime    @db.Date
-  gender             String      @db.VarChar(20)
+  profilePicture String?  @db.VarChar(255)
+  phone          String?  @db.VarChar(25)
+  birthdate      DateTime @db.Date
+  gender         String   @db.VarChar(20)
 
   // Academic
-  university         String?     @db.VarChar(150)
-  formation          String?     @db.VarChar(100)
-  degree             String?     @db.VarChar(100)
-  graduationYear     DateTime?   @db.Date
+  university     String?   @db.VarChar(150)
+  formation      String?   @db.VarChar(100)
+  degree         String?   @db.VarChar(100)
+  graduationYear DateTime? @db.Date
 
   // Professional
-  occupation         String?     @db.VarChar(100)
-  subject            String?     @db.VarChar(100)
-  rank               String?     @db.VarChar(100)
+  occupation String? @db.VarChar(100)
+  subject    String? @db.VarChar(100)
+  rank       String? @db.VarChar(100)
 
   // System
   hashedRefreshToken String?
-  interests          String[]    @db.VarChar(100)
+  interests          String[]  @db.VarChar(100)
   documents          Json?
   approvedAt         DateTime?
   approvedBy         Int?
   rejectedAt         DateTime?
   rejectionReason    String?
   verificationNotes  String?
-  createdAt          DateTime    @default(now())
-  updatedAt          DateTime    @updatedAt
-  resetCode       String?    @db.VarChar(6)
-  resetCodeExpiry DateTime?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  resetCode          String?   @db.VarChar(6)
+  resetCodeExpiry    DateTime?
+
   // Relations
-  tasks              Task[]
-  events             Event[]
-  posts              Post[]
-  Comment            Comment[]
-  approver           user?       @relation("UserApprovals", fields: [approvedBy], references: [id])
-  approvedUsers      user[]      @relation("UserApprovals")
+  tasks          Task[]
+  posts          Post[]
+  events         Event[]
+  approver       user?           @relation("UserApprovals", fields: [approvedBy], references: [id])
+  approvedUsers  user[]          @relation("UserApprovals")
+  Comment        Comment[]
+  participations Participation[] // ← reverse relation for Participation.user
+  speakerPosts   Post[]          @relation("PostSpeaker") // ← reverse relation for Post.speaker
 
   // Indexes
   @@index([status])
@@ -168,4 +227,3 @@ model user {
   @@index([userType])
   @@index([approvedBy])
 }
-

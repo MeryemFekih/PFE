@@ -20,9 +20,6 @@ import * as nodemailer from 'nodemailer';
 
 @Injectable()
 export class AuthService {
-  signOut(id: any) {
-    throw new Error('Method not implemented.');
-  }
   
   constructor(
     private readonly prisma: PrismaService,
@@ -37,7 +34,7 @@ export class AuthService {
     if (user) throw new ConflictException('User already exists!');
     return this.userService.create(createUserDto);
   }
-
+  
   async validateLocalUser(email: string, password: string) {
     const user = await this.userService.findByEmail(email);
     if (!user) {
@@ -194,12 +191,13 @@ export class AuthService {
     await this.userService.updateHashedRefreshToken(userId, hashedRT);
     return {
       id: userId,
-      email,
+      email: email,
       accessToken,
       refreshToken,
     };
   }
-// backend/src/auth/auth.service.ts
-
+    async signOut(userId: number) {
+    return await this.userService.updateHashedRefreshToken(userId, null);
+  }
 // auth.service.ts
 }

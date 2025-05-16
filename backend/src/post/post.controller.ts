@@ -3,14 +3,19 @@
 import {
   Controller,
   Get,
-  Post,
+  Post as HttpPost,
   Body,
   Patch,
   Param,
   Delete,
   UseGuards,
   Req,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { extname } from 'path';
 import { PostService } from './post.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
@@ -22,11 +27,28 @@ import { Roles } from 'src/auth/decorators/roles.decorator';
 export class PostController {
   constructor(private readonly postService: PostService) {}
 
-  @Post()
+  @HttpPost()
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('PROFESSOR', 'ALUMNI')
-  create(@Body() createPostDto: CreatePostDto, @Req() req) {
-    return this.postService.create(createPostDto, req.user.id);
+  @UseInterceptors(
+    FileInterceptor('media', {
+      storage: diskStorage({
+        destination: './uploads/posts',
+        filename: (req, file, cb) => {
+          const ext = extname(file.originalname);
+          const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 10)}${ext}`;
+          cb(null, fileName);
+        },
+      }),
+    })
+  )
+  create(
+    @UploadedFile() file: Express.Multer.File,
+    @Body() createPostDto: CreatePostDto,
+    @Req() req
+  ) {
+    const mediaUrl = file ? `/uploads/posts/${file.filename}` : undefined;
+    return this.postService.create(createPostDto, req.user.id, mediaUrl);
   }
 
   @Get()
