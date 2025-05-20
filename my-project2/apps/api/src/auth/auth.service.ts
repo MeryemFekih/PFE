@@ -29,17 +29,6 @@ export class AuthService {
     if (user) throw new ConflictException('User already exists!');
     return this.userService.create(createUserDto);
   }
-  async updateProfile(
-    userId: number,
-    updateData: {
-      firstName: string;
-      lastName: string;
-      university: string;
-      profilePicture?: string;
-    },
-  ) {
-    return this.userService.updateProfile(userId, updateData);
-  }
 
   async validateLocalUser(email: string, password: string) {
     const user = await this.userService.findByEmail(email);
@@ -106,11 +95,18 @@ export class AuthService {
     if (!user) throw new UnauthorizedException('User not found!');
     const currentUser = {
       id: user.id,
-      role: user.role,
+      email: user.email,
       firstName: user.firstName,
       lastName: user.lastName,
       university: user.university,
-      email: user.email,
+      formation: user.formation,
+      graduationYear: user.graduationYear,
+      degree: user.degree,
+      occupation: user.occupation,
+      subject: user.subject,
+      rank: user.rank,
+      interests: user.interests,
+      role: user.role,
       profilePicture: user.profilePicture,
     };
     return currentUser;

@@ -137,3 +137,29 @@ export enum Role {
   STUDENT = "STUDENT",
   PUBLIC ="PUBLIC"
 }
+
+// types/post.ts
+export interface Author {
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  profilePicture: string;
+}
+
+export interface Comment {
+  id: number;
+  text: string;
+  author: Author;
+}
+
+export interface Post {
+  id: number;
+  title: string;
+  content: string;
+  mediaUrl: string;
+  createdAt: string;
+  likes: number;
+  author: Author;
+  comments: Comment[];
+}

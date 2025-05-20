@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { Injectable } from '@nestjs/common';
@@ -90,5 +91,43 @@ export class PostService {
     }
 
     return this.prisma.post.delete({ where: { id: postId } });
+  }
+  async getPostsByUserId(userId: number) {
+    return this.prisma.post.findMany({
+      where: { authorId: userId, status: 'APPROVED' },
+      orderBy: { createdAt: 'desc' },
+      include: {
+        author: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            email: true,
+            profilePicture: true,
+          },
+        },
+        comments: {
+          include: {
+            author: {
+              select: {
+                firstName: true,
+                lastName: true,
+                profilePicture: true,
+              },
+            },
+          },
+          orderBy: { createdAt: 'asc' },
+        },
+      },
+    });
+  }
+  getSavedPosts(id: any) {
+    throw new Error('Method not implemented.');
+  }
+  unsavePost(arg0: number, id: any) {
+    throw new Error('Method not implemented.');
+  }
+  savePost(arg0: number, id: any) {
+    throw new Error('Method not implemented.');
   }
 }

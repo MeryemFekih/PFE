@@ -42,6 +42,23 @@ export class PostController {
           cb(null, `${uniqueSuffix}${extname(file.originalname)}`);
         },
       }),
+      fileFilter: (req, file, cb) => {
+        const allowedTypes = [
+          'image/jpeg',
+          'image/png',
+          'image/jpg',
+          'image/webp',
+          'video/mp4',
+          'application/pdf',
+        ];
+
+        if (allowedTypes.includes(file.mimetype)) {
+          cb(null, true);
+        } else {
+          cb(new Error('Unsupported file type'), false);
+        }
+      },
+      limits: { fileSize: 20 * 1024 * 1024 }, // Optional: limit size to 20MB
     }),
   )
   async create(
@@ -98,5 +115,27 @@ export class PostController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   remove(@Param('id') id: string, @Req() req) {
     return this.postService.removeIfAuthorized(+id, req.user);
+  }
+  @Get('user/:id')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  getUserPosts(@Param('id') id: string) {
+    return this.postService.getPostsByUserId(+id);
+  }
+  @Patch(':id/save')
+  @UseGuards(JwtAuthGuard)
+  savePost(@Param('id') id: string, @Req() req) {
+    return this.postService.savePost(+id, req.user.id);
+  }
+
+  @Patch(':id/unsave')
+  @UseGuards(JwtAuthGuard)
+  unsavePost(@Param('id') id: string, @Req() req) {
+    return this.postService.unsavePost(+id, req.user.id);
+  }
+
+  @Get('/saved/all')
+  @UseGuards(JwtAuthGuard)
+  getSaved(@Req() req) {
+    return this.postService.getSavedPosts(req.user.id);
   }
 }

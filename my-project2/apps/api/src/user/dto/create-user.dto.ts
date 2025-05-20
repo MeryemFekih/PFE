@@ -10,7 +10,7 @@ import {
   MaxLength,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { Role, UserStatus } from '@prisma/client';
+import { Post, Role, UserStatus } from '@prisma/client';
 
 export class CreateUserDto {
   @IsString()

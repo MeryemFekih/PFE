@@ -80,4 +80,17 @@
       console.error('Error deleting post:', err);
     }
   }
+  export async function toggleSavePost(postId: number, isBookmarked: boolean, accessToken: string) {
+    const endpoint = isBookmarked ? 'unsave' : 'save';
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/post/${postId}/${endpoint}`, {
+      method: 'PATCH',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+  
+    if (!res.ok) {
+      throw new Error(`Failed to ${endpoint} post`);
+    }
+  }
 

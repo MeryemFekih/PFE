@@ -52,37 +52,6 @@ export class AuthController {
     return this.authService.registerUser(createUserDto);
   }
 
-  @Patch('update-profile')
-  @UseInterceptors(
-    FileInterceptor('profilePicture', {
-      storage: diskStorage({
-        destination: './uploads/profile-pictures',
-        filename: (req, file, cb) => {
-          const uniqueSuffix =
-            Date.now() + '-' + Math.round(Math.random() * 1e9);
-          cb(null, `profile-${uniqueSuffix}${extname(file.originalname)}`);
-        },
-      }),
-    }),
-  )
-  async updateProfile(
-    @Req() req,
-    @Body()
-    updateData: { firstName: string; lastName: string; university: string },
-    @UploadedFile() file: Express.Multer.File,
-  ) {
-    const userId = req.user.id;
-    let profilePictureUrl: string | undefined;
-
-    if (file) {
-      profilePictureUrl = `/profile-pictures/${file.filename}`;
-    }
-
-    return this.authService.updateProfile(userId, {
-      ...updateData,
-      profilePicture: profilePictureUrl,
-    });
-  }
   @Public()
   @UseGuards(LocalAuthGuard)
   @Post('signin')
@@ -98,11 +67,7 @@ export class AuthController {
       req.user.role,
     );
   }
-  @Roles('ALUMNI', 'ADMIN', 'STUDENT', 'PROFESSOR', 'PUBLIC')
-  @Get('protected')
-  getFullProfile(@Request() req) {
-    return req.user; // ✅ This returns full user object (id, role, email, etc.)
-  }
+  
   @Public()
   @UseGuards(RefreshAuthGuard)
   @Post('refresh')

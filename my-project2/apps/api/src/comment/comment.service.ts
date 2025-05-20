@@ -21,7 +21,7 @@ export class CommentService {
       orderBy: { createdAt: 'asc' },
       include: {
         author: {
-          select: { firstName: true, lastName: true },
+          select: { firstName: true, lastName: true, profilePicture: true },
         },
       },
     });

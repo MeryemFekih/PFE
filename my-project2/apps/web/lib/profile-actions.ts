@@ -26,31 +26,40 @@ export interface UserProfile {
 export async function getUserProfileAndPosts(): Promise<{
   profile: UserProfile | null;
   posts: any[];
+  savedPosts: any[];
 }> {
   const session = await getSession();
   if (!session) redirect('/auth/signIn');
 
-  const { accessToken, user } = session;
+  const { accessToken } = session;
 
   try {
-    const profileRes = await fetch(`${BACKEND_URL}/auth/protected`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-      cache: 'no-store',
-    });
-
-    const postsRes = await fetch(`${BACKEND_URL}/post/user/${user.id}`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-      cache: 'no-store',
-    });
+    const [profileRes, postsRes, savedPostsRes] = await Promise.all([
+      fetch(`${BACKEND_URL}/user/protected`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        cache: 'no-store',
+      }),
+      fetch(`${BACKEND_URL}/post/user`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        cache: 'no-store',
+      }),
+      fetch(`${BACKEND_URL}/post/saved/all`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        cache: 'no-store',
+      }),
+    ]);
 
     const profile = profileRes.ok ? await profileRes.json() : null;
     const posts = postsRes.ok ? await postsRes.json() : [];
+    const savedPosts = savedPostsRes.ok ? await savedPostsRes.json() : [];
 
-    // Ensure profile picture URL is complete
+    // Fix incomplete profile picture URLs
     if (
       profile?.profilePicture &&
       !profile.profilePicture.startsWith('http') &&
@@ -59,10 +68,10 @@ export async function getUserProfileAndPosts(): Promise<{
       profile.profilePicture = `${BACKEND_URL}${profile.profilePicture}`;
     }
 
-    return { profile, posts };
+    return { profile, posts, savedPosts };
   } catch (err) {
-    console.error('Error fetching profile/posts:', err);
-    return { profile: null, posts: [] };
+    console.error('Error fetching profile/posts/savedPosts:', err);
+    return { profile: null, posts: [], savedPosts: [] };
   }
 }
 
@@ -71,7 +80,7 @@ export async function updateProfile(formData: FormData) {
   if (!session) throw new Error('Not authenticated');
 
   try {
-    const response = await fetch(`${BACKEND_URL}/auth/update-profile`, {
+    const response = await fetch(`${BACKEND_URL}/user/update-profile`, {
       method: 'PATCH',
       headers: {
         Authorization: `Bearer ${session.accessToken}`,
@@ -101,3 +110,5 @@ export async function updateProfile(formData: FormData) {
     throw error;
   }
 }
+
+

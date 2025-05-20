@@ -10,7 +10,6 @@ dotenv.config(); // Load environment variables from .env
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
-  // Serve static files (like uploads)
   app.useStaticAssets(join(__dirname, '..', 'uploads'), {
     prefix: '/uploads/',
   });
@@ -18,7 +17,6 @@ async function bootstrap() {
   app.useStaticAssets(join(__dirname, '..', 'uploads/profile-pictures'), {
     prefix: '/profile-pictures', // ✅ Now it matches the DB value
   });
-  // Apply global validation
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
