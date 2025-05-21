@@ -121,21 +121,4 @@ export class PostController {
   getUserPosts(@Param('id') id: string) {
     return this.postService.getPostsByUserId(+id);
   }
-  @Patch(':id/save')
-  @UseGuards(JwtAuthGuard)
-  savePost(@Param('id') id: string, @Req() req) {
-    return this.postService.savePost(+id, req.user.id);
-  }
-
-  @Patch(':id/unsave')
-  @UseGuards(JwtAuthGuard)
-  unsavePost(@Param('id') id: string, @Req() req) {
-    return this.postService.unsavePost(+id, req.user.id);
-  }
-
-  @Get('/saved/all')
-  @UseGuards(JwtAuthGuard)
-  getSaved(@Req() req) {
-    return this.postService.getSavedPosts(req.user.id);
-  }
 }

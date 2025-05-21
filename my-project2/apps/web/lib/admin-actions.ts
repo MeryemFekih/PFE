@@ -116,8 +116,8 @@ export async function getAdminStats() {
     console.error('Error fetching admin stats:', error);
     return {
       totalPending: 0,
-      approvedThisWeek: 0,
-      rejectedThisWeek: 0
+      PendingUsers: 0,
+      PendingPosts: 0
     };
   }
   

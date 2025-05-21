@@ -1,16 +1,10 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/require-await */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import {
   Body,
   Controller,
-  Get,
   Post,
   Req,
   Request,
-  Patch,
   UseGuards,
   UploadedFile,
   UseInterceptors,
@@ -20,7 +14,6 @@ import { CreateUserDto } from '../user/dto/create-user.dto';
 import { LocalAuthGuard } from './guards/local-auth/local-auth.guard';
 import { RefreshAuthGuard } from './guards/refresh-auth/refresh-auth.guard';
 import { Public } from './decorators/public.decorator';
-import { Roles } from './decorators/roles.decorator';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
@@ -67,7 +60,7 @@ export class AuthController {
       req.user.role,
     );
   }
-  
+
   @Public()
   @UseGuards(RefreshAuthGuard)
   @Post('refresh')

@@ -2,8 +2,10 @@ import { redirect } from 'next/navigation';
 import AdminTable from '@/app/components/admin_table';
 import StatsCards from '@/app/components/stats_card';
 import { getSession } from '@/lib/session';
-import { getPendingUsers, getPendingPosts, } from '@/lib/admin-actions';
+import { getPendingUsers, getPendingPosts } from '@/lib/admin-actions';
 import AdminPostTable from '@/app/components/adminPostTable';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/app/components/ui/tabs';
+import { Pen } from 'lucide-react';
 
 export default async function AdminDashboard() {
   const session = await getSession();
@@ -19,10 +21,9 @@ export default async function AdminDashboard() {
   
   const stats = {
     totalPending: pendingUsers.length + pendingPosts.length,
-    approvedThisWeek: 24,
-    rejectedThisWeek: 5
+    PendingUsers: pendingUsers.length,
+    PendingPosts: pendingPosts.length,
   };
-  
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
@@ -38,10 +39,20 @@ export default async function AdminDashboard() {
 
         <StatsCards stats={stats} />
         
-        <AdminTable users={pendingUsers} />
-
-        <AdminPostTable posts={pendingPosts} />
-
+        <Tabs defaultValue="users" className="w-full">
+          <TabsList className="grid w-full grid-cols-2 max-w-xs">
+            <TabsTrigger value="users">Users</TabsTrigger>
+            <TabsTrigger value="posts">Posts</TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="users">
+            <AdminTable users={pendingUsers} />
+          </TabsContent>
+          
+          <TabsContent value="posts">
+            <AdminPostTable posts={pendingPosts} />
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );

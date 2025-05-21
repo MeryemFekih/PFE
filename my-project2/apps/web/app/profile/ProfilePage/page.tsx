@@ -32,7 +32,6 @@ interface ProfilePageProps {
 export default function ProfilePage({  session }: ProfilePageProps) {
   const [user, setUser] = useState<UserProfile | null>(null);
   const [posts, setPosts] = useState<any[]>([]);
-  const [savedPosts, setSavedPosts] = useState<any[]>([]);
   const [isEditing, setIsEditing] = useState(false);
   const [selectedTab, setSelectedTab] = useState<'posts' | 'saved'>('posts');
   const [formData, setFormData] = useState({
@@ -52,8 +51,7 @@ export default function ProfilePage({  session }: ProfilePageProps) {
 
   useEffect(() => {
     (async () => {
-      const { profile, posts, savedPosts } = await getUserProfileAndPosts();
-
+      const { profile, posts } = await getUserProfileAndPosts();
       if (profile) {
         setUser(profile);
         setFormData({
@@ -63,8 +61,6 @@ export default function ProfilePage({  session }: ProfilePageProps) {
         });
       }
       setPosts(posts);
-      setSavedPosts(savedPosts || []);
-
     })();
   }, []);
 
@@ -375,17 +371,6 @@ export default function ProfilePage({  session }: ProfilePageProps) {
             )}
           </div>
         ) : (
-          <div className="space-y-6">
-          {savedPosts.length > 0 ? (
-            savedPosts.map(post => (
-              <PostCard
-                key={post.id}
-                post={post}
-                currentUserId={session.user.id}
-                session={session}
-              />
-            ))
-          ) : (
             <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-8 text-center">
               <div className="mx-auto w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-4">
                 <FaBookmark className="text-gray-400 text-3xl" />
@@ -395,8 +380,6 @@ export default function ProfilePage({  session }: ProfilePageProps) {
                 When you save posts, they'll appear here.
               </p>
             </div>
-          )}
-        </div>
           )}
         </div>
       </div>

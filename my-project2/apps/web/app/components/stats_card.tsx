@@ -1,11 +1,11 @@
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
-import { ClockIcon, CheckIcon, XIcon, ArrowUp, ArrowDown } from 'lucide-react';
+import { ClockIcon, CheckIcon, XIcon, ArrowUp, ArrowDown, User2Icon, PodcastIcon, File } from 'lucide-react';
 
 export default function StatsCards({ stats }: {
   stats: {
     totalPending: number;
-    approvedThisWeek: number;
-    rejectedThisWeek: number;
+    PendingUsers: number;
+    PendingPosts: number;
   }
 }) {
   return (
@@ -25,30 +25,30 @@ export default function StatsCards({ stats }: {
       <Card className="hover:shadow-md transition-shadow">
         <CardHeader className="flex flex-row items-center justify-between pb-2">
           <CardTitle className="text-sm font-medium text-gray-500">
-            Approved (Week)
+            Pending Users
           </CardTitle>
           <div className="flex items-center">
-            <ArrowUp className="h-4 w-4 text-green-500 mr-1" />
-            <CheckIcon className="h-5 w-5 text-green-500" />
+            <User2Icon className="h-4 w-4 text-green-500 mr-1" />
+            
           </div>
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">{stats.approvedThisWeek}</div>
+          <div className="text-2xl font-bold">{stats.PendingUsers}</div>
         </CardContent>
       </Card>
       
       <Card className="hover:shadow-md transition-shadow">
         <CardHeader className="flex flex-row items-center justify-between pb-2">
           <CardTitle className="text-sm font-medium text-gray-500">
-            Rejected (Week)
+            Pending Posts
           </CardTitle>
           <div className="flex items-center">
-            <ArrowDown className="h-4 w-4 text-red-500 mr-1" />
-            <XIcon className="h-5 w-5 text-red-500" />
+            <File  className="h-4 w-4 text-red-500 mr-1" />
+            
           </div>
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">{stats.rejectedThisWeek}</div>
+          <div className="text-2xl font-bold">{stats.PendingPosts}</div>
         </CardContent>
       </Card>
     </div>

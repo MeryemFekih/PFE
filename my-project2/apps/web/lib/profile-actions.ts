@@ -26,40 +26,31 @@ export interface UserProfile {
 export async function getUserProfileAndPosts(): Promise<{
   profile: UserProfile | null;
   posts: any[];
-  savedPosts: any[];
 }> {
   const session = await getSession();
   if (!session) redirect('/auth/signIn');
 
-  const { accessToken } = session;
+  const { accessToken, user } = session;
 
   try {
-    const [profileRes, postsRes, savedPostsRes] = await Promise.all([
-      fetch(`${BACKEND_URL}/user/protected`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-        cache: 'no-store',
-      }),
-      fetch(`${BACKEND_URL}/post/user`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-        cache: 'no-store',
-      }),
-      fetch(`${BACKEND_URL}/post/saved/all`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-        cache: 'no-store',
-      }),
-    ]);
+    const profileRes = await fetch(`${BACKEND_URL}/user/protected`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      cache: 'no-store',
+    });
+
+    const postsRes = await fetch(`${BACKEND_URL}/post/user/${user.id}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      cache: 'no-store',
+    });
 
     const profile = profileRes.ok ? await profileRes.json() : null;
     const posts = postsRes.ok ? await postsRes.json() : [];
-    const savedPosts = savedPostsRes.ok ? await savedPostsRes.json() : [];
 
-    // Fix incomplete profile picture URLs
+    // Ensure profile picture URL is complete
     if (
       profile?.profilePicture &&
       !profile.profilePicture.startsWith('http') &&
@@ -68,10 +59,10 @@ export async function getUserProfileAndPosts(): Promise<{
       profile.profilePicture = `${BACKEND_URL}${profile.profilePicture}`;
     }
 
-    return { profile, posts, savedPosts };
+    return { profile, posts };
   } catch (err) {
-    console.error('Error fetching profile/posts/savedPosts:', err);
-    return { profile: null, posts: [], savedPosts: [] };
+    console.error('Error fetching profile/posts:', err);
+    return { profile: null, posts: [] };
   }
 }
 
@@ -110,5 +101,3 @@ export async function updateProfile(formData: FormData) {
     throw error;
   }
 }
-
-

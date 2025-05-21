@@ -9,6 +9,10 @@ import { AdminModule } from './admin/admin.module';
 import { PostModule } from './post/post.module';
 import { CommentService } from './comment/comment.service';
 import { CommentController } from './comment/comment.controller';
+import { ConversationService } from './conversation/conversation.service';
+import { ConversationController } from './conversation/conversation.controller';
+import { MessageController } from './message/message.controller';
+import { MessageService } from './message/message.service';
 
 @Module({
   imports: [
@@ -18,7 +22,18 @@ import { CommentController } from './comment/comment.controller';
     AdminModule,
     PostModule,
   ],
-  controllers: [AppController, CommentController],
-  providers: [AppService, PrismaService, CommentService],
+  controllers: [
+    AppController,
+    CommentController,
+    ConversationController,
+    MessageController,
+  ],
+  providers: [
+    AppService,
+    PrismaService,
+    CommentService,
+    ConversationService,
+    MessageService,
+  ],
 })
 export class AppModule {}

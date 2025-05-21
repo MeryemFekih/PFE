@@ -14,7 +14,6 @@ import { Post } from '@/lib/type';
 import { createComment } from '@/lib/comment-action';
 import { useState } from 'react';
 import { Session } from '@/lib/session';
-import { toggleSavePost } from '@/lib/post-action';
 interface Props {
   post: Post;
   showActions?: boolean;
@@ -38,10 +37,6 @@ export default function PostCard({ post, showActions = true, currentUserId, onDe
     if (!text) return;
     await createComment(postId, text);
     setCommentInputs(prev => ({ ...prev, [postId]: '' }));
-  };
-  const toggleSave = async () => {
-    setIsBookmarked(!isBookmarked);
-    await toggleSavePost(post.id, isBookmarked, session.accessToken);
   };
 
   return (
@@ -149,7 +144,7 @@ export default function PostCard({ post, showActions = true, currentUserId, onDe
             </button>
           </div>
           <button 
-            onClick={toggleSave}
+            onClick={() => setIsBookmarked(!isBookmarked)}
             className={isBookmarked ? 'text-blue-500' : 'hover:text-gray-700'}
           >
             <Bookmark size={18} fill={isBookmarked ? 'currentColor' : 'none'} />

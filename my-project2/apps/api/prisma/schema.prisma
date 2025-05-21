@@ -216,10 +216,29 @@ model user {
   participations Participation[]
   speakerPosts   Post[]          @relation("PostSpeaker")
   savedPosts     Post[]          @relation("SavedPosts")
+  conversations Conversation[]
 
   // Indexes
   @@index([status])
   @@index([role, status])
   @@index([userType])
   @@index([approvedBy])
+}
+model Conversation {
+  id        Int       @id @default(autoincrement())
+  userId    Int
+  user      user      @relation(fields: [userId], references: [id])
+  startedAt DateTime  @default(now())
+  messages  Message[]
+}
+
+model Message {
+  id             Int          @id @default(autoincrement())
+  conversationId Int
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  role           String       // 'user' or 'assistant'
+  content        String
+  createdAt      DateTime     @default(now())
+
+  @@index([conversationId])
 }
