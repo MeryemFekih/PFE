@@ -25,4 +25,13 @@ export class ConversationService {
       include: { messages: true },
     });
   }
+  // conversation.service.ts
+  async deleteConversation(id: number, userId: number) {
+    return this.prisma.conversation.deleteMany({
+      where: {
+        id,
+        userId,
+      },
+    });
+  }
 }

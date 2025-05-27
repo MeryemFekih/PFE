@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
-import { Controller, Get, Post, Param, Request } from '@nestjs/common';
+import { Controller, Get, Post, Param, Request, Delete } from '@nestjs/common';
 import { ConversationService } from './conversation.service';
 
 @Controller('conversations')
@@ -23,5 +23,10 @@ export class ConversationController {
       Number(id),
       req.user.id,
     );
+  }
+  // conversation.controller.ts
+  @Delete(':id')
+  delete(@Param('id') id: string, @Request() req) {
+    return this.conversationService.deleteConversation(Number(id), req.user.id);
   }
 }

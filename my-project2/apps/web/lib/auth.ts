@@ -3,46 +3,35 @@ import { FormState, LoginFormSchema, SignupFormSchema } from "./type";
 import { BACKEND_URL } from "./constants";
 import { redirect } from "next/navigation";
 import { createSession } from "./session";
+import z from "zod";
 
-export async function signUp(state: FormState, formData: FormData): Promise<FormState> {
+type Inputs = z.infer<typeof SignupFormSchema>;
+
+export async function signUp(data: Inputs): Promise<FormState> {
   try {
-    const rawData = {
-      firstName: formData.get("firstName") as string,
-      lastName: formData.get("lastName") as string,
-      email: formData.get("email") as string,
-      password: formData.get("password") as string,
-      phone: formData.get("phone") as string,
-      birthdate: formData.get("birthdate") as string,
-      gender: formData.get("gender") as string,
-      university: formData.get("university") as string,
-      userType: formData.get("userType") as string,
-      formation: formData.get("formation") as string || null,
-      graduationYear: formData.get("graduationYear") as string || null,
-      degree: formData.get("degree") as string || null,
-      occupation: formData.get("occupation") as string || null,
-      subject: formData.get("subject") as string || null,
-      rank: formData.get("rank") as string || null,
-      interests: JSON.parse((formData.get("interests") as string) || '[]')
-    };
-
-    // Validate data
-    const validation = SignupFormSchema.safeParse(rawData);
+    const cleanedData = Object.fromEntries(
+      Object.entries(data).map(([key, value]) => {
+        if (typeof value === 'string' && value.trim() === '') return [key, null];
+        return [key, value];
+      })
+    );
+    const validation = SignupFormSchema.safeParse(cleanedData);
+    console.log("Validation result:", validation);
     if (!validation.success) {
+       console.log("Validation errors:", validation.error.flatten());
       return {
         error: validation.error.flatten().fieldErrors,
       };
     }
-
-    // Prepare the request body with proper dates
     const requestBody = {
       ...validation.data,
       birthdate: new Date(validation.data.birthdate).toISOString(),
-      graduationYear: validation.data.graduationYear 
-        ? new Date(validation.data.graduationYear).toISOString() 
-        : null
+      graduationYear: validation.data.graduationYear
+        ? new Date(validation.data.graduationYear).toISOString()
+        : null,
     };
+    console.log("Final signup payload:", requestBody);
 
-    // Send to backend
     const response = await fetch(`${BACKEND_URL}/auth/signup`, {
       method: "POST",
       headers: {
@@ -50,24 +39,27 @@ export async function signUp(state: FormState, formData: FormData): Promise<Form
       },
       body: JSON.stringify(requestBody),
     });
-
+    
     if (response.ok) {
-      redirect("/auth/signIn"); // This will throw a NEXT_REDIRECT
-      return {}; // This line won't be reached
+      redirect("/auth/signIn");
     } else {
+      const errorText = await response.text(); // 👈 get full error message
+      console.error("Signup failed:", response.status, errorText); // 👈 log it
       return {
         message: response.status === 409
-          ? "The user already exists!" 
-          : "An error occurred during signup"
+          ? "The user already exists!"
+          : `Signup failed with status ${response.status}: ${errorText}`, // more specific
       };
     }
+    
   } catch (error) {
     if (error instanceof Error && error.message.includes('NEXT_REDIRECT')) {
-      throw error; // Let Next.js handle the redirect
+      throw error;
     }
+
     console.error("Signup error:", error);
     return {
-      message: "An unexpected error occurred. Please try again."
+      message: "An unexpected error occurred. Please try again.",
     };
   }
 }
@@ -100,6 +92,7 @@ export async function signIn(
       await createSession({
         user: {
           firstName: result.firstName,
+          lastName: result.lastName,
           id: result.id,
           email: result.email,
           role : result.role,

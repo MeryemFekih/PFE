@@ -1,5 +1,4 @@
 import { z } from "zod";
-
 export type FormState =
   | {
       error?: {
@@ -10,6 +9,7 @@ export type FormState =
         phone?: string[];
         birthdate?: string[];
         gender?: string[];
+        identification?: string[];
         university?: string[];
         userType?: string[];
         formation?: string[];
@@ -24,11 +24,13 @@ export type FormState =
     }
   | undefined;
 
+
 export const SignupFormSchema = z.object({
   firstName: z
     .string()
     .min(2, { message: "First name must be at least 2 characters long." })
-    .trim(),
+    .trim().optional()
+    .nullable(),
     
   lastName: z
     .string()
@@ -41,13 +43,31 @@ export const SignupFormSchema = z.object({
     .email({ message: "Please enter a valid email." })
     .trim(),
     
-  password: z
-    .string()
-    .min(8, { message: "Password must be at least 8 characters long." })
-    .regex(/[a-zA-Z]/, { message: "Password must contain at least one letter." })
-    .regex(/[0-9]/, { message: "Password must contain at least one number." })
-    .regex(/[^a-zA-Z0-9]/, { message: "Password must contain at least one special character." })
-    .trim(),
+    password: z
+  .string()
+  .min(8, { message: "Password must be at least 8 characters long." })
+  .trim()
+  .superRefine((val, ctx) => {
+    if (!/[a-zA-Z]/.test(val)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Password must contain at least one letter.",
+      });
+    }
+    if (!/[0-9]/.test(val)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Password must contain at least one number.",
+      });
+    }
+    if (!/[^a-zA-Z0-9]/.test(val)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Password must contain at least one special character.",
+      });
+    }
+  }),
+  
 
   phone: z
     .string()
@@ -68,6 +88,12 @@ export const SignupFormSchema = z.object({
     .string()
     .min(0, { message: "University is required." })
     .trim()
+    .optional()
+    .nullable(),
+  
+  identification: z
+    .string()
+    .min(0, { message: "SID is required." })
     .optional()
     .nullable(),
     
@@ -109,7 +135,7 @@ export const SignupFormSchema = z.object({
     .nullable(),
 
   rank: z
-    .enum(["assistant", "associate", "full","lecturer"], { message: "Select a valid rank." })
+    .string()
     .refine(val => val.length > 0, { message: "Rank is required." })
     .nullable(),
 
@@ -119,6 +145,8 @@ export const SignupFormSchema = z.object({
     .optional()
     .nullable(),
 });
+
+
 export const LoginFormSchema = z.object({
   email: z
     .string()

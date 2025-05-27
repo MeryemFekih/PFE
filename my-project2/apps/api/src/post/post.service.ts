@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { Injectable } from '@nestjs/common';
@@ -120,14 +119,5 @@ export class PostService {
         },
       },
     });
-  }
-  getSavedPosts(id: any) {
-    throw new Error('Method not implemented.');
-  }
-  unsavePost(arg0: number, id: any) {
-    throw new Error('Method not implemented.');
-  }
-  savePost(arg0: number, id: any) {
-    throw new Error('Method not implemented.');
   }
 }

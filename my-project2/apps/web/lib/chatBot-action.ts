@@ -61,3 +61,35 @@ export async function saveAssistantMessage(conversationId: number, content: stri
   });
   return res.json();
 }
+export async function getConversations(accessToken: string) {
+  const res = await fetch(`${BACKEND_URL}/conversations`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+    cache: 'no-store',
+  });
+  return res.json();
+}
+
+export async function getMessagesByConversationId(conversationId: number, accessToken: string) {
+  const res = await fetch(`${BACKEND_URL}/messages/${conversationId}`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+    cache: 'no-store',
+  });
+  return res.json();
+}
+export async function deleteConversation(id: number, accessToken: string) {
+  const res = await fetch(`${BACKEND_URL}/conversations/${id}`, {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+  if (!res.ok) throw new Error('Failed to delete conversation');
+  return res.json();
+}
+
+

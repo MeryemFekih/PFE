@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "./button";
 import { useFormStatus } from "react-dom";
-import { cn } from "@/lib/utils"; // Assuming you're using clsx or tailwind-merge
+import { cn } from "@/lib/utils"; 
 
 interface SubmitButtonProps extends React.ComponentPropsWithoutRef<typeof Button> {
   children: React.ReactNode;

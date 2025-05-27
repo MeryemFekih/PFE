@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { hash } from 'argon2';
-import { Role } from '@prisma/client';
+import { Role } from '.prisma/client';
 
 @Injectable()
 export class UserService {
@@ -64,6 +64,16 @@ export class UserService {
   async findPending() {
     return this.prisma.user.findMany({
       where: { status: 'PENDING_APPROVAL' },
+      select: {
+        id: true,
+        email: true,
+        firstName: true,
+        lastName: true,
+        role: true,
+        userType: true,
+        createdAt: true,
+        identification: true, // ✅ this is the key you were missing
+      },
     });
   }
 

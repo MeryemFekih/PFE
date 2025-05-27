@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/require-await */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
 import {
   ConflictException,
   Inject,
@@ -14,7 +11,7 @@ import type { AuthJwtPayload } from './types/jwt-payloads';
 import { JwtService } from '@nestjs/jwt';
 import refreshConfig from './config/refresh.config';
 import { ConfigType } from '@nestjs/config';
-import { Role } from '@prisma/client';
+import { Role } from '.prisma/client';
 
 @Injectable()
 export class AuthService {
@@ -100,6 +97,7 @@ export class AuthService {
       lastName: user.lastName,
       university: user.university,
       formation: user.formation,
+      identification: user.identification,
       graduationYear: user.graduationYear,
       degree: user.degree,
       occupation: user.occupation,

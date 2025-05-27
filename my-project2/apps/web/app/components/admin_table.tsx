@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { approveUser, rejectUser } from '@/lib/admin-actions';
 import { Button } from './ui/button';
-import { user } from '@prisma/client';
+import { user } from '../../../api/node_modules/.prisma/client';
 import {User, Mail, Calendar, CheckCircle2, XCircle } from 'lucide-react';
 import { Badge } from './ui/badge';
 
@@ -55,7 +55,7 @@ export default function AdminTable({ users }: { users: user[] }) {
                   </div>
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Role
+                  SID
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Type
@@ -98,14 +98,8 @@ export default function AdminTable({ users }: { users: user[] }) {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <Badge 
-                      variant={
-                        user.role === 'STUDENT' ? 'default' :
-                        user.role === 'PROFESSOR' ? 'secondary' :
-                        user.role === 'ALUMNI' ? 'outline' :
-                        'default'
-                      }
                     >
-                      {user.role}
+                      {user.identification }
                     </Badge>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-gray-500 capitalize">

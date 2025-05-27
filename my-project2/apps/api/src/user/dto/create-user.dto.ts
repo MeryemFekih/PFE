@@ -10,7 +10,7 @@ import {
   MaxLength,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { Post, Role, UserStatus } from '@prisma/client';
+import { Role, UserStatus } from '.prisma/client';
 
 export class CreateUserDto {
   @IsString()
@@ -37,6 +37,11 @@ export class CreateUserDto {
   @IsOptional()
   @MaxLength(20)
   userType?: string;
+
+  @IsString()
+  @IsOptional()
+  @MaxLength(40)
+  identification?: string;
 
   @IsString()
   @IsOptional()
