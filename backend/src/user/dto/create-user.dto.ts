@@ -65,6 +65,11 @@ export class CreateUserDto {
 
   @IsString()
   @IsOptional()
+  @MaxLength(40)
+  identification?: string;
+
+  @IsString()
+  @IsOptional()
   @MaxLength(100)
   formation?: string;
 

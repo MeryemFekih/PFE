@@ -12,6 +12,8 @@ import { NotificationsModule } from './notification/notifications.module';
 import { PostModule } from './post/post.module';
 import { JwtAuthGuard } from './auth/guards/jwt-auth/jwt-auth.guard';
 import { APP_GUARD } from '@nestjs/core';
+import { join } from 'path';
+import { ServeStaticModule } from '@nestjs/serve-static';
 
 @Module({
   imports: [
@@ -19,17 +21,24 @@ import { APP_GUARD } from '@nestjs/core';
     AuthModule,
     AdminModule,
     UserModule,
-    TasksModule, 
-    EventModule, 
-    NotificationsModule, 
-    PostModule
+    TasksModule,
+    EventModule,
+    NotificationsModule,
+    PostModule,
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'uploads'), // 👈 should point to the actual uploads folder
+      serveRoot: '/uploads', // 👈 matches the prefix you use in mediaUrl
+    }),
+   
   ],
   controllers: [AppController],
-  providers: [AppService, PrismaService ,  
+  providers: [
+    AppService,
+    PrismaService,
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
-    }, ],
-
+    },
+  ],
 })
 export class AppModule {}

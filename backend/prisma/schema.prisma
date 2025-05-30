@@ -60,18 +60,11 @@ enum PostType {
   FORMATION
   COURSE_MATERIAL
   REVISION_EXERCISE
-  ANNOUNCEMENT
-  POLL
-  SUGGESTION_BOX
 }
 
 enum EventType {
   CONFERENCE
   WORKSHOP
-  CLUB_EVENT
-  CLUB_RECRUITMENT
-  STUDENT_INTERVIEW
-  INTERNSHIP_OFFER
   HACKATHON_ALERT
 }
 
@@ -125,6 +118,7 @@ model Post {
 
   authorId Int
   author   user @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  savedBy  user[] @relation("SavedPosts")
 
   participants Participation[]
   comments     Comment[]
@@ -164,6 +158,24 @@ model Event {
 
   @@map("Event")
 }
+model Conversation {
+  id        Int       @id @default(autoincrement())
+  userId    Int
+  user      user      @relation(fields: [userId], references: [id])
+  startedAt DateTime  @default(now())
+  messages  Message[]
+}
+
+model Message {
+  id             Int          @id @default(autoincrement())
+  conversationId Int
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  role           String       // 'user' or 'assistant'
+  content        String
+  createdAt      DateTime     @default(now())
+
+  @@index([conversationId])
+}
 
 model user {
   // Core Identity
@@ -185,6 +197,7 @@ model user {
   phone          String?  @db.VarChar(25)
   birthdate      DateTime @db.Date
   gender         String   @db.VarChar(20)
+  identification String?  @db.VarChar(255)
 
   // Academic
   university     String?   @db.VarChar(150)
@@ -220,6 +233,11 @@ model user {
   Comment        Comment[]
   participations Participation[] // ← reverse relation for Participation.user
   speakerPosts   Post[]          @relation("PostSpeaker") // ← reverse relation for Post.speaker
+  savedPosts Post[] @relation("SavedPosts")
+  conversations Conversation[]
+  following user[] @relation("UserFollows")
+  followers user[] @relation("UserFollows")
+
 
   // Indexes
   @@index([status])

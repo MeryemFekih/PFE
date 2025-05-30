@@ -73,10 +73,17 @@ export class EventService {
     }
 
     return event;
-  }
-
-  async findAll(userId: number) {
-    return this.prisma.event.findMany({ where: { userId } });
+  }  async findAll(userId: number) {
+    return this.prisma.event.findMany({
+      where: {
+        userId: {
+          equals: userId
+        }
+      },
+      orderBy: {
+        startTime: 'asc'
+      }
+    });
   }
 
   async findOne(userId: number, id: string) {
@@ -85,5 +92,53 @@ export class EventService {
 
   async remove(userId: number, id: string) {
     return this.prisma.event.delete({ where: { id } });
+  }  async getSuggestedEvents(userInterests: string[]) {
+    try {
+      return await this.prisma.post.findMany({
+        where: {
+          type: 'EVENT',
+          OR: [
+            {
+              subject: {
+                in: userInterests,
+              }
+            },
+            {
+              status: 'APPROVED',
+              type: 'EVENT'
+            }
+          ]
+        },
+        orderBy: {
+          createdAt: 'desc',
+        },
+        take: 10,
+        include: {
+          author: {
+            select: {
+              id: true,
+              firstName: true,
+              lastName: true,
+              profilePicture: true,
+              university: true
+            }
+          },
+          comments: {
+            include: {
+              author: {
+                select: {
+                  firstName: true,
+                  lastName: true
+                }
+              }
+            }
+          }
+        },
+      });
+    } catch (error) {
+      console.error('Error fetching suggested events:', error);
+      throw error;
+    }
   }
+
 }
