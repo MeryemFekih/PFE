@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 7, "column": 0}, "map": {"version":3,"sources":["file://C%3A/Users/21693/Desktop/Brain_wave/frontend/src/app/auth/layout.tsx"],"sourcesContent":["import React, { PropsWithChildren } from \"react\";\r\n\r\nconst AuthLayout = ({ children }: PropsWithChildren) => {\r\n  return (\r\n    <div >\r\n      {children}\r\n    </div>\r\n  );\r\n};\r\n\r\nexport default AuthLayout;"],"names":[],"mappings":";;;;;AAEA,MAAM,aAAa,CAAC,EAAE,QAAQ,EAAqB;IACjD,qBACE,8OAAC;kBACE;;;;;;AAGP;uCAEe","debugId":null}}]
+}

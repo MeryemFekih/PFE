@@ -1,0 +1,73 @@
+
+import { BACKEND_URL } from './constants';
+import { Role } from './schemas';
+import { getSession } from './session';
+import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
+export interface UserProfile {
+  id: number;
+  firstName: string;
+  lastName?: string;
+  email: string;
+  role: Role;
+  profilePicture?: string;
+  university?: string;
+  formation?: string;
+  graduationYear?: string;
+  degree?: string;
+  interests: string[];
+  occupation?: string;
+  subject?: string;
+  rank?: string;
+}
+export async function getUserProfileAndPosts(): Promise<{
+  profile: UserProfile | null;
+  posts: any[];
+  savedPosts: any[];
+}> {
+  const session = await getSession();
+  if (!session) redirect('/auth/signIn');
+
+  const { accessToken } = session;
+
+  try {
+    const [profileRes, postsRes, savedPostsRes] = await Promise.all([
+      fetch(`${BACKEND_URL}/user/protected`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        cache: 'no-store',
+      }),
+      fetch(`${BACKEND_URL}/post/user`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        cache: 'no-store',
+      }),
+      fetch(`${BACKEND_URL}/post/saved/all`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        cache: 'no-store',
+      }),
+    ]);
+
+    const profile = profileRes.ok ? await profileRes.json() : null;
+    const posts = postsRes.ok ? await postsRes.json() : [];
+    const savedPosts = savedPostsRes.ok ? await savedPostsRes.json() : [];
+
+    // Fix incomplete profile picture URLs
+    if (
+      profile?.profilePicture &&
+      !profile.profilePicture.startsWith('http') &&
+      !profile.profilePicture.startsWith('/uploads')
+    ) {
+      profile.profilePicture = `${BACKEND_URL}${profile.profilePicture}`;
+    }
+
+    return { profile, posts, savedPosts };
+  } catch (err) {
+    console.error('Error fetching profile/posts/savedPosts:', err);
+    return { profile: null, posts: [], savedPosts: [] };
+  }
+}
