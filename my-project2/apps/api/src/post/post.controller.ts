@@ -3,7 +3,7 @@
 import {
   Controller,
   Get,
-  Post,
+  Post as HttpPost,
   Body,
   Patch,
   Param,
@@ -29,7 +29,7 @@ import { Roles } from 'src/auth/decorators/roles.decorator';
 export class PostController {
   constructor(private readonly postService: PostService) {}
 
-  @Post()
+  @HttpPost()
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('PROFESSOR', 'ALUMNI', 'ADMIN', 'STUDENT')
   @UseInterceptors(
@@ -120,5 +120,43 @@ export class PostController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   getUserPosts(@Param('id') id: string) {
     return this.postService.getPostsByUserId(+id);
+  }
+  @Get('saved')
+  @UseGuards(JwtAuthGuard)
+  getSavedPosts(@Req() req) {
+    console.log('📥 Incoming request from user:', req.user);
+
+    return this.postService.getSavedPosts(req.user.id);
+  }
+
+  @HttpPost(':id/save')
+  @UseGuards(JwtAuthGuard)
+  async savePost(@Param('id') postId: number, @Req() req) {
+    try {
+      console.log('👉 Save request received:', { postId, userId: req.user.id });
+      const result = await this.postService.savePost(+postId, req.user.id);
+      console.log('✅ Save successful:', result);
+      return result;
+    } catch (error) {
+      console.error('❌ Save failed:', error);
+      throw error;
+    }
+  }
+
+  @Delete(':id/unsave')
+  @UseGuards(JwtAuthGuard)
+  async unsavePost(@Param('id') postId: number, @Req() req) {
+    try {
+      console.log('👉 Unsave request received:', {
+        postId,
+        userId: req.user.id,
+      });
+      const result = await this.postService.unsavePost(+postId, req.user.id);
+      console.log('✅ Unsave successful:', result);
+      return result;
+    } catch (error) {
+      console.error('❌ Unsave failed:', error);
+      throw error;
+    }
   }
 }

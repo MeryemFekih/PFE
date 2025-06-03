@@ -1,5 +1,5 @@
 'use server';
-import { BACKEND_URL } from "./constants";
+import { NEXT_PUBLIC_BACKEND_URL } from "./constants";
 
 export async function fetchAIResponse(
   messages: { role: string; content: string }[],
@@ -29,7 +29,7 @@ export async function fetchAIResponse(
 
 
 export async function createConversation(accessToken: string) {
-  const res = await fetch(`${BACKEND_URL}/conversations`, {
+  const res = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/conversations`, {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -39,7 +39,7 @@ export async function createConversation(accessToken: string) {
 }
 
 export async function sendUserMessage(conversationId: number, content: string, accessToken: string) {
-  const res = await fetch(`${BACKEND_URL}/messages`, {
+  const res = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/messages`, {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -51,7 +51,7 @@ export async function sendUserMessage(conversationId: number, content: string, a
 }
 
 export async function saveAssistantMessage(conversationId: number, content: string, accessToken: string) {
-  const res = await fetch(`${BACKEND_URL}/messages/assistant`, {
+  const res = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/messages/assistant`, {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -62,7 +62,7 @@ export async function saveAssistantMessage(conversationId: number, content: stri
   return res.json();
 }
 export async function getConversations(accessToken: string) {
-  const res = await fetch(`${BACKEND_URL}/conversations`, {
+  const res = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/conversations`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
@@ -72,7 +72,7 @@ export async function getConversations(accessToken: string) {
 }
 
 export async function getMessagesByConversationId(conversationId: number, accessToken: string) {
-  const res = await fetch(`${BACKEND_URL}/messages/${conversationId}`, {
+  const res = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/messages/${conversationId}`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
@@ -81,7 +81,7 @@ export async function getMessagesByConversationId(conversationId: number, access
   return res.json();
 }
 export async function deleteConversation(id: number, accessToken: string) {
-  const res = await fetch(`${BACKEND_URL}/conversations/${id}`, {
+  const res = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/conversations/${id}`, {
     method: 'DELETE',
     headers: {
       Authorization: `Bearer ${accessToken}`,

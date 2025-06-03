@@ -42,6 +42,23 @@ export class UserService {
       },
     });
   }
+  async findById(id: number) {
+    return this.prisma.user.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        email: true,
+        firstName: true,
+        lastName: true,
+        role: true,
+        interests: true,
+        university: true,
+        formation: true,
+        subject: true,
+        profilePicture: true,
+      },
+    });
+  }
 
   async findOne(userId: number) {
     return await this.prisma.user.findUnique({

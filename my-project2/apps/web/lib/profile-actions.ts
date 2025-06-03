@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use server';
 
-import { BACKEND_URL } from './constants';
+import { NEXT_PUBLIC_BACKEND_URL } from './constants';
 import { getSession } from './session';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
@@ -33,14 +33,14 @@ export async function getUserProfileAndPosts(): Promise<{
   const { accessToken, user } = session;
 
   try {
-    const profileRes = await fetch(`${BACKEND_URL}/user/protected`, {
+    const profileRes = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/user/protected`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
       cache: 'no-store',
     });
 
-    const postsRes = await fetch(`${BACKEND_URL}/post/user/${user.id}`, {
+    const postsRes = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/post/user/${user.id}`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -56,7 +56,7 @@ export async function getUserProfileAndPosts(): Promise<{
       !profile.profilePicture.startsWith('http') &&
       !profile.profilePicture.startsWith('/uploads')
     ) {
-      profile.profilePicture = `${BACKEND_URL}${profile.profilePicture}`;
+      profile.profilePicture = `${NEXT_PUBLIC_BACKEND_URL}${profile.profilePicture}`;
     }
 
     return { profile, posts };
@@ -71,7 +71,7 @@ export async function updateProfile(formData: FormData) {
   if (!session) throw new Error('Not authenticated');
 
   try {
-    const response = await fetch(`${BACKEND_URL}/user/update-profile`, {
+    const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/user/update-profile`, {
       method: 'PATCH',
       headers: {
         Authorization: `Bearer ${session.accessToken}`,
@@ -90,7 +90,7 @@ export async function updateProfile(formData: FormData) {
       !updatedProfile.profilePicture.startsWith('http') &&
       !updatedProfile.profilePicture.startsWith('/uploads')
     ) {
-      updatedProfile.profilePicture = `${BACKEND_URL}${updatedProfile.profilePicture}`;
+      updatedProfile.profilePicture = `${NEXT_PUBLIC_BACKEND_URL}${updatedProfile.profilePicture}`;
     }
     
 

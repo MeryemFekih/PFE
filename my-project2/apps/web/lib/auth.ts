@@ -1,6 +1,6 @@
 "use server";
 import { FormState, LoginFormSchema, SignupFormSchema } from "./type";
-import { BACKEND_URL } from "./constants";
+import { NEXT_PUBLIC_BACKEND_URL } from "./constants";
 import { redirect } from "next/navigation";
 import { createSession } from "./session";
 import z from "zod";
@@ -32,7 +32,7 @@ export async function signUp(data: Inputs): Promise<FormState> {
     };
     console.log("Final signup payload:", requestBody);
 
-    const response = await fetch(`${BACKEND_URL}/auth/signup`, {
+    const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/auth/signup`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -81,7 +81,7 @@ export async function signIn(
       };
     }
   
-    const response = await fetch(`${BACKEND_URL}/auth/signin`, {
+    const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/auth/signin`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(validatedFields.data),
@@ -96,11 +96,12 @@ export async function signIn(
           id: result.id,
           email: result.email,
           role : result.role,
+          interests: result.interests || [],
         },
         accessToken:result.accessToken,
         refreshToken: result.refreshToken,
       });
-      redirect('/');
+      redirect('/profile');
     } else {
       return {
         message: response.status === 401
@@ -125,7 +126,7 @@ export const refreshToken = async (
 ) => {
   try {
     const response = await fetch(
-      `${BACKEND_URL}/auth/refresh`,
+      `${NEXT_PUBLIC_BACKEND_URL}/auth/refresh`,
       {
         method: "POST",
         headers: {

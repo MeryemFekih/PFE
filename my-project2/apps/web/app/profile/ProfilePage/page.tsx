@@ -1,4 +1,3 @@
-
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react/no-unescaped-entities */
 'use client';
@@ -146,10 +145,10 @@ export default function ProfilePage({  session }: ProfilePageProps) {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 flex-1 w-full md:ml-14 md:mr-5 p-2 relative">
       {/* Enhanced Profile Header */}
       <div className="bg-white shadow-md">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto px-4 sm:px-7 lg:px-6">
           <div className="py-8 flex flex-col items-center text-center md:flex-row md:text-left gap-8">
             {/* Profile Picture Section */}
             <div className="relative shrink-0">

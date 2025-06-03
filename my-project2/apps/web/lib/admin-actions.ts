@@ -2,7 +2,7 @@
 import { getSession } from '@/lib/session';
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
-import { BACKEND_URL } from './constants';
+import { NEXT_PUBLIC_BACKEND_URL } from './constants';
 
 
 export async function getPendingUsers() {
@@ -14,7 +14,7 @@ export async function getPendingUsers() {
   
     try {
       const response = await fetch(
-        `${BACKEND_URL}/admin/pending-users`, 
+        `${NEXT_PUBLIC_BACKEND_URL}/admin/pending-users`, 
         {
           method: 'GET',
           headers: {
@@ -42,7 +42,7 @@ export async function approveUser(userId: number) {
   }
 
   try {
-    const response = await fetch(`${BACKEND_URL}/admin/approve/${userId}`, {
+    const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/admin/approve/${userId}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -70,7 +70,7 @@ export async function approveUser(userId: number) {
     }
 
     try {
-      const response = await fetch(`${BACKEND_URL}/admin/reject/${userId}`, {
+      const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/admin/reject/${userId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -98,7 +98,7 @@ export async function getAdminStats() {
   }
 
   try {
-    const response = await fetch(`${BACKEND_URL}/admin/stats`, {
+    const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/admin/stats`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -129,7 +129,7 @@ export async function getPendingPosts() {
   }
 
   try {
-    const response = await fetch(`${BACKEND_URL}/post/pending`, {
+    const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/post/pending`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -153,7 +153,7 @@ export async function approvePost(postId: number) {
   }
 
   try {
-    const response = await fetch(`${BACKEND_URL}/post/approve/${postId}`, {
+    const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/post/approve/${postId}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -178,7 +178,7 @@ export async function rejectPost(postId: number) {
   }
 
   try {
-    const response = await fetch(`${BACKEND_URL}/post/reject/${postId}`, {
+    const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/post/reject/${postId}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',

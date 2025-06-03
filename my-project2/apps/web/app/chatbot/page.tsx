@@ -21,8 +21,9 @@ import {
   Loader2,
   Trash2,
   Menu,
-  Pencil,
+  ChevronLeft,
 } from 'lucide-react';
+import AppBar from '../components/ui/appbar';
 
 export default function Chat() {
   const chatRef = useRef<HTMLDivElement>(null);
@@ -32,11 +33,10 @@ export default function Chat() {
   const [conversationId, setConversationId] = useState<number | null>(null);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [showSidebar, setShowSidebar] = useState(true);
+  const [showChatSidebar, setShowChatSidebar] = useState(true);
   const [editingTitleId, setEditingTitleId] = useState<number | null>(null);
   const [editedTitle, setEditedTitle] = useState('');
 
-  // LocalStorage helpers
   const getConversationTitle = (id: number) => {
     if (typeof window === 'undefined') return `Chat #${id}`;
     return localStorage.getItem(`chat-title-${id}`) || `Chat #${id}`;
@@ -58,7 +58,7 @@ export default function Chat() {
       if (convs.length) {
         setConversationId(convs[0].id);
         const msgs = await getMessagesByConversationId(convs[0].id, sess.accessToken);
-        setMessages(msgs);
+        setMessages(Array.isArray(msgs) ? msgs : []);
       }
     })();
   }, []);
@@ -77,17 +77,27 @@ export default function Chat() {
     const question = input.trim();
     if (!question || isLoading || !conversationId || !session?.accessToken) return;
 
-    const newUserMsg = { role: 'user', content: question };
-    setMessages((prev) => [...prev, newUserMsg]);
     setInput('');
     setIsLoading(true);
-    scrollToBottom();
 
     await sendUserMessage(conversationId, question, session.accessToken);
-    const aiReply = await fetchAIResponse([...messages, newUserMsg]);
+
+    const aiReply = await fetchAIResponse([
+      ...messages,
+      { role: 'user', content: question },
+    ]);
+
     await saveAssistantMessage(conversationId, aiReply, session.accessToken);
 
-    setMessages((prev) => [...prev, { role: 'assistant', content: aiReply }]);
+    const updatedMessages = await getMessagesByConversationId(
+      conversationId,
+      session.accessToken
+    );
+    setMessages(Array.isArray(updatedMessages) ? updatedMessages : []);
+
+    const updatedConversations = await getConversations(session.accessToken);
+    setConversations(updatedConversations);
+
     setIsLoading(false);
     scrollToBottom();
   };
@@ -102,7 +112,7 @@ export default function Chat() {
     if (!session?.accessToken) return;
     const msgs = await getMessagesByConversationId(id, session.accessToken);
     setConversationId(id);
-    setMessages(msgs);
+    setMessages(Array.isArray(msgs) ? msgs : []);
   };
 
   const deleteConversationApi = async (id: number, e: React.MouseEvent) => {
@@ -120,184 +130,202 @@ export default function Chat() {
   };
 
   return (
-    <div className="flex h-screen bg-[#f9fafb] text-sm text-gray-800 relative">
-      {/* Show Sidebar Button when hidden */}
-      {!showSidebar && (
-        <button
-          onClick={() => setShowSidebar(true)}
-          className="absolute top-4 left-4 z-50 bg-blue-600 text-white p-2 rounded-md hover:bg-blue-700"
-          title="Show sidebar"
-        >
-          <Menu size={18} />
-        </button>
-      )}
+    <div className="flex h-screen bg-blue-50">
 
-      {/* Sidebar */}
-      {showSidebar && (
-        <aside className="w-72 bg-white border-r shadow-sm p-4 flex flex-col transition-all duration-300">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-lg font-bold text-gray-700">Conversations</h2>
-            <div className="flex items-center gap-2">
-              <button
-                onClick={startNewChat}
-                className="bg-blue-600 text-white p-2 rounded-md hover:bg-blue-700 flex items-center gap-1 text-xs"
-              >
-                <Plus size={16} />
-                New
-              </button>
-              <button
-                onClick={() => setShowSidebar(false)}
-                className="text-gray-500 hover:text-red-600"
-                title="Hide sidebar"
-              >
-                <Menu size={18} />
-              </button>
-            </div>
-          </div>
-          <div className="overflow-y-auto space-y-1 flex-1">
-            {conversations.map((conv) => (
-              <div
-                key={conv.id}
-                onClick={() => loadConversation(conv.id)}
-                className={`group cursor-pointer flex justify-between items-center px-3 py-2 rounded-lg ${
-                  conversationId === conv.id
-                    ? 'bg-blue-50 text-blue-700 font-medium'
-                    : 'hover:bg-gray-100'
-                }`}
-              >
-                <div className="flex items-center gap-2 truncate w-full">
-                  <MessageSquare size={16} className="text-gray-500 shrink-0" />
-                  {editingTitleId === conv.id ? (
-                    <input
-                      type="text"
-                      value={editedTitle}
-                      onChange={(e) => setEditedTitle(e.target.value)}
-                      onBlur={() => {
-                        setConversationTitle(conv.id, editedTitle);
-                        setEditingTitleId(null);
-                      }}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter') {
-                          setConversationTitle(conv.id, editedTitle);
-                          setEditingTitleId(null);
-                        }
-                      }}
-                      autoFocus
-                      className="text-sm px-2 py-1 rounded border bg-white text-black border-gray-300 focus:outline-none w-full"
-                    />
-                  ) : (
-                    <span
-                      onDoubleClick={() => {
-                        setEditingTitleId(conv.id);
-                        setEditedTitle(getConversationTitle(conv.id));
-                      }}
-                      className="truncate cursor-pointer hover:underline w-full"
-                      title="Double-click to rename"
-                    >
-                      {getConversationTitle(conv.id)}
-                    </span>
-                  )}
-                </div>
-                <Trash2
-                  size={14}
-                  onClick={(e) => deleteConversationApi(conv.id, e)}
-                  className="text-gray-400 hover:text-red-500 hidden group-hover:block shrink-0"
-                />
-              </div>
-            ))}
-          </div>
-        </aside>
-      )}
-
-      {/* Chat Panel */}
-      <main
-        className={`flex-1 flex flex-col transition-all duration-300 ${
-          showSidebar ? '' : 'ml-0'
-        }`}
-      >
-        <header className="bg-gradient-to-r from-blue-600 to-blue-500 text-white p-4 text-center">
-          <h1 className="text-base font-semibold flex items-center justify-center gap-2">
-            <Bot size={18} /> AI Assistant
+      {/* Main Content Area */}
+      <div className="flex-1 flex flex-col ml-48 h-full">
+        {/* Header */}
+        <header className="bg-blue-900 text-white p-4 flex justify-between items-center sticky top-0 z-10 shadow-md">
+          <h1 className="font-semibold flex gap-2 items-center">
+            <Bot size={21} className="text-blue-200" /> AI Assistant
           </h1>
+          <button
+            onClick={() => setShowChatSidebar(!showChatSidebar)}
+            className="md:hidden bg-blue-800 p-2 rounded-lg hover:bg-blue-700 transition"
+            aria-label={showChatSidebar ? "Hide sidebar" : "Show sidebar"}
+          >
+            {showChatSidebar ? <ChevronLeft size={20} /> : <Menu size={20} />}
+          </button>
         </header>
 
-        <div
-          ref={chatRef}
-          className="flex-1 overflow-y-auto p-6 bg-white space-y-6"
-        >
-          {messages.length === 0 && (
-            <div className="flex flex-col items-center justify-center h-full text-gray-400">
-              <MessageSquare size={40} className="mb-3" />
-              <p>Start a new conversation above</p>
-            </div>
-          )}
-
-          {messages.map((msg, i) => (
-            <div
-              key={i}
-              className={`flex ${
-                msg.role === 'user' ? 'justify-end' : 'justify-start'
-              }`}
+        {/* Chat Container */}
+        <div className="flex-1 flex overflow-hidden">
+          {/* Chat Content */}
+          <div className="flex-1 flex flex-col h-full">
+            {/* Messages */}
+            <div 
+              ref={chatRef} 
+              className="flex-1 overflow-y-auto p-4 space-y-4 bg-white"
             >
-              <div
-                className={`flex items-start gap-3 px-4 py-3 rounded-xl max-w-[85%] ${
-                  msg.role === 'user'
-                    ? 'bg-blue-600 text-white rounded-br-none'
-                    : 'bg-gray-100 text-gray-900 rounded-bl-none border border-gray-200'
-                }`}
-              >
-                <div
-                  className={`p-1.5 rounded-full ${
-                    msg.role === 'user' ? 'bg-blue-700' : 'bg-blue-100'
-                  }`}
-                >
-                  {msg.role === 'user' ? (
-                    <User size={16} className="text-white" />
-                  ) : (
-                    <Bot size={16} className="text-blue-600" />
-                  )}
+              {messages.length === 0 && (
+                <div className="flex flex-col items-center justify-center h-full text-blue-500">
+                  <MessageSquare size={40} className="mb-3 text-blue-300" />
+                  <p>Start a new conversation</p>
+                  <button
+                    onClick={startNewChat}
+                    className="mt-4 bg-blue-700 text-white px-4 py-2 rounded-lg hover:bg-blue-800 transition flex items-center gap-2"
+                  >
+                    <Plus size={18} /> New Chat
+                  </button>
                 </div>
-                <p className="whitespace-pre-wrap">{msg.content}</p>
-              </div>
-            </div>
-          ))}
-
-          {isLoading && (
-            <div className="flex justify-start">
-              <div className="flex items-center gap-3 px-4 py-3 bg-gray-100 rounded-xl border border-gray-200">
-                <div className="p-1.5 rounded-full bg-blue-100">
-                  <Bot size={16} className="text-blue-600" />
-                </div>
-                <Loader2 size={16} className="animate-spin text-blue-500" />
-              </div>
-            </div>
-          )}
-        </div>
-
-        <footer className="bg-white border-t p-4">
-          <div className="max-w-3xl mx-auto flex gap-2">
-            <input
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
-              placeholder="Type your message..."
-              className="flex-1 px-4 py-3 rounded-md bg-white text-black border border-gray-300 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-            <button
-              onClick={handleSendMessage}
-              disabled={isLoading || !input.trim()}
-              className="bg-blue-600 text-white px-4 py-3 rounded-md hover:bg-blue-700 transition disabled:opacity-50"
-            >
-              {isLoading ? (
-                <Loader2 size={18} className="animate-spin" />
-              ) : (
-                <Send size={18} />
               )}
-            </button>
+
+              {messages.map((msg, i) => (
+                <div
+                  key={i}
+                  className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                >
+                  <div
+                    className={`flex items-start gap-3 px-4 py-3 rounded-xl max-w-[90%] md:max-w-[85%] ${
+                      msg.role === 'user'
+                        ? 'bg-blue-700 text-white rounded-br-none shadow-md'
+                        : 'bg-blue-50 text-blue-900 rounded-bl-none border border-blue-100 shadow-sm'
+                    }`}
+                  >
+                    <div
+                      className={`p-1.5 rounded-full ${
+                        msg.role === 'user' ? 'bg-blue-600' : 'bg-blue-100'
+                      }`}
+                    >
+                      {msg.role === 'user' ? (
+                        <User size={16} className="text-white" />
+                      ) : (
+                        <Bot size={16} className="text-blue-800" />
+                      )}
+                    </div>
+                    <p className="whitespace-pre-wrap">{msg.content}</p>
+                  </div>
+                </div>
+              ))}
+
+              {isLoading && (
+                <div className="flex justify-start">
+                  <div className="flex items-center gap-3 px-4 py-3 bg-blue-50 rounded-xl border border-blue-100">
+                    <div className="p-1.5 rounded-full bg-blue-100">
+                      <Bot size={16} className="text-blue-800" />
+                    </div>
+                    <Loader2 size={16} className="animate-spin text-blue-600" />
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Input */}
+            <footer className="bg-white border-t border-blue-100 p-4">
+              <div className="max-w-3xl mx-auto flex gap-2">
+                <input
+                  type="text"
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
+                  placeholder="Type your message..."
+                  className="flex-1 px-4 py-3 rounded-lg bg-white text-blue-900 border border-blue-200 placeholder-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+                />
+                <button
+                  onClick={handleSendMessage}
+                  disabled={isLoading || !input.trim()}
+                  className="bg-blue-700 p-2 text-white px-4 py-3 rounded-lg hover:bg-blue-800 transition disabled:opacity-50 flex items-center justify-center"
+                >
+                  {isLoading ? (
+                    <Loader2 size={18} className="animate-spin" />
+                  ) : (
+                    <Send size={18} />
+                  )}
+                </button>
+              </div>
+            </footer>
           </div>
-        </footer>
-      </main>
+
+          {/* Conversations Sidebar */}
+          <div className={`
+            ${showChatSidebar ? 'translate-x-0' : 'translate-x-full'}
+            fixed md:relative md:translate-x-0
+            right-0 top-0 h-full w-72 bg-white border-l border-blue-100
+            transition-transform duration-300 ease-in-out z-20
+            shadow-lg md:shadow-none
+          `}>
+            <div className="p-4 h-full flex flex-col">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-lg font-bold text-blue-900">Conversations</h2>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={startNewChat}
+                    className="bg-blue-700 text-white p-2 rounded-lg hover:bg-blue-800 transition flex items-center gap-1 text-sm"
+                  >
+                    <Plus size={16} />
+                    <span className="hidden md:inline">New</span>
+                  </button>
+                  <button 
+                    onClick={() => setShowChatSidebar(false)}
+                    className="md:hidden text-blue-500 hover:text-blue-700"
+                    aria-label="Close sidebar"
+                  >
+                    <ChevronLeft size={20} />
+                  </button>
+                </div>
+              </div>
+              
+              <div className="overflow-y-auto flex-1">
+                {conversations.length === 0 && (
+                  <div className="text-center text-blue-500 py-4">
+                    <p>No conversations yet</p>
+                  </div>
+                )}
+                {conversations.map((conv) => (
+                  <div
+                    key={conv.id}
+                    onClick={() => loadConversation(conv.id)}
+                    className={`group cursor-pointer flex justify-between items-center px-3 py-3 rounded-lg mb-1 ${
+                      conversationId === conv.id
+                        ? 'bg-blue-100 text-blue-800 font-medium border border-blue-200'
+                        : 'hover:bg-blue-50'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2 truncate w-full">
+                      <MessageSquare size={16} className="text-blue-500 shrink-0" />
+                      {editingTitleId === conv.id ? (
+                        <input
+                          type="text"
+                          value={editedTitle}
+                          onChange={(e) => setEditedTitle(e.target.value)}
+                          onBlur={() => {
+                            setConversationTitle(conv.id, editedTitle);
+                            setEditingTitleId(null);
+                          }}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                              setConversationTitle(conv.id, editedTitle);
+                              setEditingTitleId(null);
+                            }
+                          }}
+                          autoFocus
+                          className="text-sm px-2 py-1 rounded border bg-white text-blue-900 border-blue-300 focus:outline-none w-full"
+                        />
+                      ) : (
+                        <span
+                          onDoubleClick={() => {
+                            setEditingTitleId(conv.id);
+                            setEditedTitle(getConversationTitle(conv.id));
+                          }}
+                          className="truncate cursor-pointer hover:underline w-full"
+                          title="Double-click to rename"
+                        >
+                          {getConversationTitle(conv.id)}
+                        </span>
+                      )}
+                    </div>
+                    <Trash2
+                      size={14}
+                      onClick={(e) => deleteConversationApi(conv.id, e)}
+                      className="text-blue-400 hover:text-red-500 hidden group-hover:block shrink-0"
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

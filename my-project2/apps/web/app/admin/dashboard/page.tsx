@@ -26,7 +26,7 @@ export default async function AdminDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="flex-1  md:ml-48   p-8 relative ">
       <div className="max-w-7xl mx-auto space-y-6">
         <div className="flex items-center justify-between">
           <div>

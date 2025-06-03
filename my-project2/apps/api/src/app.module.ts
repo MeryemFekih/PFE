@@ -13,6 +13,9 @@ import { ConversationService } from './conversation/conversation.service';
 import { ConversationController } from './conversation/conversation.controller';
 import { MessageController } from './message/message.controller';
 import { MessageService } from './message/message.service';
+import { EventModule } from './event/event.module';
+import { TasksModule } from './task/task.module';
+import { NotificationsModule } from './notification/notifications.module';
 
 @Module({
   imports: [
@@ -21,6 +24,9 @@ import { MessageService } from './message/message.service';
     UserModule,
     AdminModule,
     PostModule,
+    EventModule,
+    TasksModule,
+    NotificationsModule,
   ],
   controllers: [
     AppController,

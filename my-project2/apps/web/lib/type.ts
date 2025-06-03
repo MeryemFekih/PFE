@@ -190,4 +190,5 @@ export interface Post {
   likes: number;
   author: Author;
   comments: Comment[];
+  
 }
