@@ -63,33 +63,41 @@ export async function approveUser(userId: number) {
   }
 }
 
-  export async function rejectUser(userId: number, reason: string) {
-    const session = await getSession();
-    if (!session || session.user.role !== 'ADMIN') {
-      redirect('/auth/signIn');
-    }
-
-    try {
-      const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/admin/reject/${userId}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${session.accessToken}`
-        },
-        body: JSON.stringify({ reason })
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to reject user');
-      }
-
-      revalidatePath('/admin/dashboard');
-      return await response.json();
-    } catch (error) {
-      console.error('Error rejecting user:', error);
-      throw error;
-    }
+export async function rejectUser(userId: number, reason: string) {
+  const session = await getSession();
+  if (!session || session.user.role !== 'ADMIN') {
+    redirect('/auth/signIn');
   }
+
+  try {
+    const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/admin/reject/${userId}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${session.accessToken}`
+      },
+      body: JSON.stringify({ reason })
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to reject user');
+    }
+
+    revalidatePath('/admin/dashboard');
+
+    // Only parse JSON if there's something to parse
+    if (response.status !== 204) {
+      return await response.json();
+    } else {
+      return null;
+    }
+
+  } catch (error) {
+    console.error('Error rejecting user:', error);
+    throw error;
+  }
+}
+
 
 export async function getAdminStats() {
   const session = await getSession();

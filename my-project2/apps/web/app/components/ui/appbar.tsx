@@ -152,7 +152,7 @@ function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
   ];
 
   return (
-    <aside className="w-full h-full bg-blue-950 text-white flex flex-col">
+    <aside className="w-64 h-full bg-blue-950 text-white flex flex-col">
       {/* Logo */}
       <div className='flex items-center pt-6 px-4'>
         <Link href="/">
