@@ -44,10 +44,12 @@ const [eventViewMode, setEventViewMode] = useState<'week' | 'month'>('week');
     const init = async () => {
   try {
     const session = await fetSessionInfo();
-    if (!session) redirect('/auth/signIn');
+    console.log('Session:', session);
+    if (!session) redirect('/profile');
 
     const userId: number = session.user?.id;
     const accessToken = session.accessToken;
+    console.log('Access token:', accessToken);
 
     if (!userId || !accessToken) throw new Error('Missing userId or token');
 

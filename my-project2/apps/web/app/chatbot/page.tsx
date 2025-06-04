@@ -21,9 +21,8 @@ import {
   Loader2,
   Trash2,
   Menu,
-  ChevronLeft,
+  Pencil,
 } from 'lucide-react';
-import AppBar from '../components/ui/appbar';
 
 export default function Chat() {
   const chatRef = useRef<HTMLDivElement>(null);
@@ -130,198 +129,177 @@ export default function Chat() {
   };
 
   return (
-    <div className="flex h-screen bg-blue-50">
+    <div className="flex h-screen bg-gray-50">
+      {/* 1. Main Sidebar (fixed left with proper flex) */}
+      
 
-      {/* Main Content Area */}
-      <div className="flex-1 flex flex-col ml-48 h-full">
-        {/* Header */}
-        <header className="bg-blue-900 text-white p-4 flex justify-between items-center sticky top-0 z-10 shadow-md">
-          <h1 className="font-semibold flex gap-2 items-center">
-            <Bot size={21} className="text-blue-200" /> AI Assistant
-          </h1>
-          <button
-            onClick={() => setShowChatSidebar(!showChatSidebar)}
-            className="md:hidden bg-blue-800 p-2 rounded-lg hover:bg-blue-700 transition"
-            aria-label={showChatSidebar ? "Hide sidebar" : "Show sidebar"}
-          >
-            {showChatSidebar ? <ChevronLeft size={20} /> : <Menu size={20} />}
-          </button>
-        </header>
+      {/* 2. Main Content Area with right sidebar */}
+      <div className="flex-1 flex ml-64">
+        {/* Chat Content Area */}
+        <div className="flex-1 flex flex-col">
+          {/* Header with toggle button */}
+          <header className="bg-gradient-to-r from-indigo-700 to-indigo-600 text-white p-4">
+            <div className="flex justify-around max-w-6xl mx-auto">
+                <h1 className=" font-semibold flex gap-2">
+                  <Bot size={21} /> AI is here to help you 
+                </h1>
+              
+            </div>
+          </header>
 
-        {/* Chat Container */}
-        <div className="flex-1 flex overflow-hidden">
-          {/* Chat Content */}
-          <div className="flex-1 flex flex-col h-full">
-            {/* Messages */}
-            <div 
-              ref={chatRef} 
-              className="flex-1 overflow-y-auto p-4 space-y-4 bg-white"
-            >
-              {messages.length === 0 && (
-                <div className="flex flex-col items-center justify-center h-full text-blue-500">
-                  <MessageSquare size={40} className="mb-3 text-blue-300" />
-                  <p>Start a new conversation</p>
-                  <button
-                    onClick={startNewChat}
-                    className="mt-4 bg-blue-700 text-white px-4 py-2 rounded-lg hover:bg-blue-800 transition flex items-center gap-2"
-                  >
-                    <Plus size={18} /> New Chat
-                  </button>
-                </div>
-              )}
+          {/* Messages */}
+          <div ref={chatRef} className="flex-1 overflow-y-auto p-4 bg-white space-y-4">
+            {messages.length === 0 && (
+              <div className="flex flex-col items-center justify-center h-full text-gray-400">
+                <MessageSquare size={40} className="mb-3" />
+                <p>Start a new conversation above</p>
+              </div>
+            )}
 
-              {messages.map((msg, i) => (
+            {messages.map((msg, i) => (
+              <div
+                key={i}
+                className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
+              >
                 <div
-                  key={i}
-                  className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                  className={`flex items-start gap-3 px-4 py-3 rounded-xl max-w-[90%] md:max-w-[85%] ${
+                    msg.role === 'user'
+                      ? 'bg-blue-700 text-white rounded-br-none shadow-xl'
+                      : 'bg-gray-100 shadow-xl text-gray-900 rounded-bl-none border border-gray-200'
+                  }`}
                 >
                   <div
-                    className={`flex items-start gap-3 px-4 py-3 rounded-xl max-w-[90%] md:max-w-[85%] ${
-                      msg.role === 'user'
-                        ? 'bg-blue-700 text-white rounded-br-none shadow-md'
-                        : 'bg-blue-50 text-blue-900 rounded-bl-none border border-blue-100 shadow-sm'
+                    className={`p-1.5 rounded-full ${
+                      msg.role === 'user' ? 'bg-indigo-400' : 'bg-blue-100'
                     }`}
                   >
-                    <div
-                      className={`p-1.5 rounded-full ${
-                        msg.role === 'user' ? 'bg-blue-600' : 'bg-blue-100'
-                      }`}
-                    >
-                      {msg.role === 'user' ? (
-                        <User size={16} className="text-white" />
-                      ) : (
-                        <Bot size={16} className="text-blue-800" />
-                      )}
-                    </div>
-                    <p className="whitespace-pre-wrap">{msg.content}</p>
+                    {msg.role === 'user' ? (
+                      <User size={16} className="text-white" />
+                    ) : (
+                      <Bot size={16} className="text-blue-900" />
+                    )}
                   </div>
+                  <p className="whitespace-pre-wrap">{msg.content}</p>
                 </div>
-              ))}
-
-              {isLoading && (
-                <div className="flex justify-start">
-                  <div className="flex items-center gap-3 px-4 py-3 bg-blue-50 rounded-xl border border-blue-100">
-                    <div className="p-1.5 rounded-full bg-blue-100">
-                      <Bot size={16} className="text-blue-800" />
-                    </div>
-                    <Loader2 size={16} className="animate-spin text-blue-600" />
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Input */}
-            <footer className="bg-white border-t border-blue-100 p-4">
-              <div className="max-w-3xl mx-auto flex gap-2">
-                <input
-                  type="text"
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
-                  placeholder="Type your message..."
-                  className="flex-1 px-4 py-3 rounded-lg bg-white text-blue-900 border border-blue-200 placeholder-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
-                />
-                <button
-                  onClick={handleSendMessage}
-                  disabled={isLoading || !input.trim()}
-                  className="bg-blue-700 p-2 text-white px-4 py-3 rounded-lg hover:bg-blue-800 transition disabled:opacity-50 flex items-center justify-center"
-                >
-                  {isLoading ? (
-                    <Loader2 size={18} className="animate-spin" />
-                  ) : (
-                    <Send size={18} />
-                  )}
-                </button>
               </div>
-            </footer>
+            ))}
+
+            {isLoading && (
+              <div className="flex justify-start">
+                <div className="flex items-center gap-3 px-4 py-3 bg-gray-100 rounded-xl border border-gray-200">
+                  <div className="p-1.5 rounded-full bg-blue-100">
+                    <Bot size={16} className="text-blue-600" />
+                  </div>
+                  <Loader2 size={16} className="animate-spin text-blue-500" />
+                </div>
+              </div>
+            )}
           </div>
 
-          {/* Conversations Sidebar */}
-          <div className={`
-            ${showChatSidebar ? 'translate-x-0' : 'translate-x-full'}
-            fixed md:relative md:translate-x-0
-            right-0 top-0 h-full w-72 bg-white border-l border-blue-100
-            transition-transform duration-300 ease-in-out z-20
-            shadow-lg md:shadow-none
-          `}>
-            <div className="p-4 h-full flex flex-col">
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-lg font-bold text-blue-900">Conversations</h2>
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={startNewChat}
-                    className="bg-blue-700 text-white p-2 rounded-lg hover:bg-blue-800 transition flex items-center gap-1 text-sm"
-                  >
-                    <Plus size={16} />
-                    <span className="hidden md:inline">New</span>
-                  </button>
-                  <button 
-                    onClick={() => setShowChatSidebar(false)}
-                    className="md:hidden text-blue-500 hover:text-blue-700"
-                    aria-label="Close sidebar"
-                  >
-                    <ChevronLeft size={20} />
-                  </button>
-                </div>
-              </div>
-              
-              <div className="overflow-y-auto flex-1">
-                {conversations.length === 0 && (
-                  <div className="text-center text-blue-500 py-4">
-                    <p>No conversations yet</p>
-                  </div>
+          {/* Input */}
+          <footer className="bg-white border-t border-gray-300 p-4">
+            <div className="max-w-3xl mx-auto flex gap-2">
+              <input
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
+                placeholder="Type your message..."
+                className="flex-1 px-4 py-3 rounded-md bg-white text-black border border-gray-300 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-700"
+              />
+              <button
+                onClick={handleSendMessage}
+                disabled={isLoading || !input.trim()}
+                className="bg-blue-700 p-2 text-white px-4 py-3 rounded-md hover:bg-blue-700 transition disabled:opacity-50"
+              >
+                {isLoading ? (
+                  <Loader2 size={18} className="animate-spin" />
+                ) : (
+                  <Send size={18} />
                 )}
-                {conversations.map((conv) => (
-                  <div
-                    key={conv.id}
-                    onClick={() => loadConversation(conv.id)}
-                    className={`group cursor-pointer flex justify-between items-center px-3 py-3 rounded-lg mb-1 ${
-                      conversationId === conv.id
-                        ? 'bg-blue-100 text-blue-800 font-medium border border-blue-200'
-                        : 'hover:bg-blue-50'
-                    }`}
-                  >
-                    <div className="flex items-center gap-2 truncate w-full">
-                      <MessageSquare size={16} className="text-blue-500 shrink-0" />
-                      {editingTitleId === conv.id ? (
-                        <input
-                          type="text"
-                          value={editedTitle}
-                          onChange={(e) => setEditedTitle(e.target.value)}
-                          onBlur={() => {
+              </button>
+            </div>
+          </footer>
+        </div>
+
+        {/* 3. Chat Sidebar (right sidebar) */}
+        <div className={`
+          ${showChatSidebar ? 'translate-x-0' : 'translate-x-full'}
+          fixed right-0 top-0 h-full w-72 bg-white border-l border-gray-300 shadow-lg
+          transition-transform duration-300 ease-in-out z-20
+          md:relative md:translate-x-0
+        `}>
+          <div className="p-4 h-full flex flex-col gap-2">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-lg font-bold text-gray-700">Conversations</h2>
+              <div className="flex items-center ">
+                <button
+                  onClick={startNewChat}
+                  className="bg-blue-700 text-white p-2 rounded-md hover:bg-indigo-700 flex items-center gap-1 text-xs"
+                >
+                  <Plus size={16} />
+                  New
+                </button>
+                <button 
+                  onClick={() => setShowChatSidebar(false)}
+                  className="md:hidden text-gray-500 hover:text-red-600"
+                  aria-label="Close sidebar"
+                >
+                  <Menu size={18} />
+                </button>
+              </div>
+            </div>
+            <div className="overflow-y-auto flex-1 ">
+              {conversations.map((conv) => (
+                <div
+                  key={conv.id}
+                  onClick={() => loadConversation(conv.id)}
+                  className={`group cursor-pointer flex justify-between items-center px-3 py-2 rounded-lg mb-1 ${
+                    conversationId === conv.id
+                      ? 'bg-gray-100 shadow-md text-indigo-700 font-medium'
+                      : 'hover:bg-gray-100'
+                  }`}
+                >
+                  <div className="flex items-center gap-2 truncate w-full">
+                    <MessageSquare size={16} className="text-gray-500 shrink-0" />
+                    {editingTitleId === conv.id ? (
+                      <input
+                        type="text"
+                        value={editedTitle}
+                        onChange={(e) => setEditedTitle(e.target.value)}
+                        onBlur={() => {
+                          setConversationTitle(conv.id, editedTitle);
+                          setEditingTitleId(null);
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') {
                             setConversationTitle(conv.id, editedTitle);
                             setEditingTitleId(null);
-                          }}
-                          onKeyDown={(e) => {
-                            if (e.key === 'Enter') {
-                              setConversationTitle(conv.id, editedTitle);
-                              setEditingTitleId(null);
-                            }
-                          }}
-                          autoFocus
-                          className="text-sm px-2 py-1 rounded border bg-white text-blue-900 border-blue-300 focus:outline-none w-full"
-                        />
-                      ) : (
-                        <span
-                          onDoubleClick={() => {
-                            setEditingTitleId(conv.id);
-                            setEditedTitle(getConversationTitle(conv.id));
-                          }}
-                          className="truncate cursor-pointer hover:underline w-full"
-                          title="Double-click to rename"
-                        >
-                          {getConversationTitle(conv.id)}
-                        </span>
-                      )}
-                    </div>
-                    <Trash2
-                      size={14}
-                      onClick={(e) => deleteConversationApi(conv.id, e)}
-                      className="text-blue-400 hover:text-red-500 hidden group-hover:block shrink-0"
-                    />
+                          }
+                        }}
+                        autoFocus
+                        className="text-sm px-2 py-1 rounded border bg-white text-black border-gray-300 focus:outline-none w-full"
+                      />
+                    ) : (
+                      <span
+                        onDoubleClick={() => {
+                          setEditingTitleId(conv.id);
+                          setEditedTitle(getConversationTitle(conv.id));
+                        }}
+                        className="truncate cursor-pointer hover:underline w-full"
+                        title="Double-click to rename"
+                      >
+                        {getConversationTitle(conv.id)}
+                      </span>
+                    )}
                   </div>
-                ))}
-              </div>
+                  <Trash2
+                    size={14}
+                    onClick={(e) => deleteConversationApi(conv.id, e)}
+                    className="text-gray-400 hover:text-red-500 hidden group-hover:block shrink-0"
+                  />
+                </div>
+              ))}
             </div>
           </div>
         </div>

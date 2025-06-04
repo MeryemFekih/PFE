@@ -1,9 +1,11 @@
+// app/layout.tsx
 import type { Metadata } from "next";
 import "./globals.css";
-import AppBar from "./components/ui/appbar";
 import { Inter } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 import { getSession } from "@/lib/session";
+import AppBarConditionalRender from './components/layout/AppBarConditionalRender';
+
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
@@ -19,16 +21,16 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await getSession();
+  const session = await getSession(); // getSession still runs on the server
+
+  // No more path detection logic here. It moves to the client component.
+  // console.log('Server-side RootLayout session:', session); // You can keep this if helpful
 
   return (
     <html lang="en">
       <body className={`${inter.variable} antialiased`}>
-        {session && (
-          <div className="flex-1/4">
-            <AppBar />
-          </div>
-        )}
+        {/* Render the Client Component here, passing the session prop */}
+        <AppBarConditionalRender session={session} />
         {children}
         <Toaster position="bottom-right" reverseOrder={false} />
       </body>

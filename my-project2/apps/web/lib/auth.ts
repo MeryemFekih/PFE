@@ -43,7 +43,7 @@ export async function signUp(data: Inputs): Promise<FormState> {
     if (response.ok) {
       redirect("/auth/signIn");
     } else {
-      const errorText = await response.text(); // 👈 get full error message
+      const errorText = await response.text(); 
       console.error("Signup failed:", response.status, errorText); // 👈 log it
       return {
         message: response.status === 409

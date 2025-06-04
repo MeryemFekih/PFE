@@ -1,4 +1,4 @@
-import { NEXT_PUBLIC_BACKEND_URL } from './constants';
+import { NEXT_PUBLIC_BACKEND_URL } from "./constants";
 import { Session } from './session';
 
 export const STATUS = ['To do', 'In progress', 'Done'];
@@ -55,7 +55,7 @@ export const getStatusIcon = (status: string) => {
 export const fetchTasks = async (userId: number, accessToken: string) => {
   if (!userId) throw new Error('Invalid userId passed to fetchTasks');
 
-  const res = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/tasks/${userId}`, {
+  const res = await fetch(`http://localhost:4000/tasks/${userId}`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
       'Content-Type': 'application/json',
@@ -78,7 +78,7 @@ export const fetchTasks = async (userId: number, accessToken: string) => {
 };
 
 export const fetchEvents = async (userId: number, accessToken: string) => {
-  const res = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/events/${userId}`, {
+  const res = await fetch(`http://localhost:4000/events/${userId}`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
       'Content-Type': 'application/json',
@@ -96,7 +96,7 @@ export const createTask = async (
   accessToken: string,
   newTask: any
 ) => {
-  const res = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/tasks/${userId}`, {
+  const res = await fetch(`http://localhost:4000/tasks/${userId}`, {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -113,7 +113,7 @@ export const createEvent = async (
   accessToken: string,
   newEvent: any
 ) => {
-  const res = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/events/${userId}`, {
+  const res = await fetch(`http://localhost:4000/events/${userId}`, {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -141,7 +141,7 @@ export const moveTask = async (
     'Done': 'COMPLETED',
   };
 
-  await fetch(`${NEXT_PUBLIC_BACKEND_URL}/tasks/${taskId}`, {
+  await fetch(`http://localhost:4000/tasks/${taskId}`, {
     method: 'PATCH',
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -151,7 +151,7 @@ export const moveTask = async (
   });
 };
 export const deleteTask = async (taskId: string, accessToken: string) => {
-    const res = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/tasks/${taskId}`, {
+    const res = await fetch(`http://localhost:4000/tasks/${taskId}`, {
       method: 'DELETE',
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -193,7 +193,7 @@ export async function sendReminderSMS({
   time: Date;
 }) {
   try {
-    await fetch(`${NEXT_PUBLIC_BACKEND_URL}/notifications/sms`, {
+    await fetch(`http://localhost:4000/notifications/sms`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -211,7 +211,7 @@ export const deleteEvent = async (
   eventId: string,
   accessToken: string
 ) => {
-  const res = await fetch(`${NEXT_PUBLIC_BACKEND_URL}events/${userId}/${eventId}`, {
+  const res = await fetch(`http://localhost:4000/events/${userId}/${eventId}`, {
     method: 'DELETE',
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -238,7 +238,7 @@ export const updateEvent = async (
   console.log('Cleaned payload:', payload); // ✅ Safe to send
   console.log("Updating event with payload:", payload);
 
-  const res = await fetch(`${NEXT_PUBLIC_BACKEND_URL}events/${userId}/${eventId}`, {
+  const res = await fetch(`http://localhost:4000/events/${userId}/${eventId}`, {
     method: 'PUT',
     headers: {
       Authorization: `Bearer ${accessToken}`,

@@ -90,6 +90,9 @@ function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
     router.push(path);
     if (onNavigate) onNavigate();
   };
+  const handleLogout = () => {
+    window.location.href = '/api/auth/signout';
+  };
 
   const isActive = (path: string) => {
     return pathname === path ||
@@ -184,7 +187,7 @@ function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
       {session?.user && (
         <div className="p-4">
           <a
-            href="/api/auth/signout"
+            onClick={handleLogout}
             className="flex items-center text-white hover:text-red-400 transition"
           >
             <LogOut className="mr-2 h-5 w-5" />

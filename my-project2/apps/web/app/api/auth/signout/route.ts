@@ -22,13 +22,13 @@ import { deleteSession } from "@/lib/session";
 // }
 
 import { authFetch } from "@/lib/authFetch";
-import { BACKEND_URL } from "@/lib/constants";
+import { NEXT_PUBLIC_BACKEND_URL } from "@/lib/constants";
 import { redirect, RedirectType } from "next/navigation";
 
 import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
-  const respone = await authFetch(`${BACKEND_URL}/auth/signout`, {
+  const respone = await authFetch(`${NEXT_PUBLIC_BACKEND_URL}/auth/signout`, {
     method: "POST",
   });
   if (respone.ok) { /* empty */ }
