@@ -169,10 +169,9 @@ export default function FacultyFeedPage({ posts, session }: FacultyFeedPageProps
   return (
     <div className="flex bg-gray-100 min-h-screen">
       {/* Desktop Sidebar - Hidden on mobile */}
-      <SidebarWrapper />
-
+      
       {/* Main Content */}
-      <div className="flex-1 w-full md:ml-56 md:mr-80 p-4 relative">
+      <div className="flex-1 w-full md:mr-79 p-4 relative">
         <div className="max-w-3xl  mx-auto">
           <h1 className="text-2xl text-center text-blue-900 font-bold ">Faculty Feed</h1>
           <h2 className='text-center text-gray-500 mb-6'> Where you can find everything you need for your dream university</h2>
@@ -314,7 +313,7 @@ export default function FacultyFeedPage({ posts, session }: FacultyFeedPageProps
       </div>
 
       {/* Desktop Right Sidebar - Hidden on mobile */}
-      <div className="hidden md:block w-90 h-full fixed right-0 top-0 bg-gray-100   p-5 z-20 overflow-y-auto">
+      <div className="hidden md:block w-85  fixed right-0 top-0 bg-gray-100  p-5 overflow-y-auto">
         <div className='bg-white  rounded-xl shadow-lg px-4 py-4 '>
           <div className="mb-4">
           <h2 className="text-xl font-bold text-gray-800 flex items-center">

@@ -1,59 +1,108 @@
-import { Brain, Home, LayoutDashboard } from 'lucide-react';
-import Link from 'next/link';
-import SignInButton from '../signInButton';
+'use client';
 
-const AppBar = () => {
+import { getSession } from '@/lib/session';
+import { useRouter, usePathname } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import {
+  FaUser, FaUniversity, FaRobot, FaCalendarAlt,
+  FaPeopleArrows, FaPersonBooth, FaTachometerAlt
+} from 'react-icons/fa';
+import { FiMenu, FiX } from 'react-icons/fi';
+
+export default function SidebarWrapper() {
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   return (
-    <header className="bg-white/80 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-50 w-full">
-      <div className="mx-auto px-4 sm:px-6 lg:px-8 w-full">
-        <div className="flex justify-between items-center h-16 w-full">
-          {/* Logo - Far left */}
-          <div className="flex-shrink-0">
-            <Link href="/" className="flex items-center" aria-label="Home">
-              <Brain className="h-8 w-8 text-blue-600" />
-              <span className="ml-2 text-xl font-bold text-gray-900 hidden sm:inline">
-                BrainWave
-              </span>
-            </Link>
-          </div>
+    <>
+      {isMobile && (
+        <button
+          onClick={() => setMobileSidebarOpen(true)}
+          className="fixed top-4 left-4 z-50 p-2 rounded-md bg-white shadow-md hover:bg-gray-100"
+        >
+          <FiMenu size={24} className="text-blue-950" />
+        </button>
+      )}
 
-          {/* Navigation and Auth Buttons - Far right */}
-          <div className="flex items-center space-x-6">
-            {/* Navigation Links */}
-            <nav className="hidden md:flex items-center space-x-6">
-              <Link
-                href="/"
-                className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium flex items-center"
-              >
-                <Home className="h-4 w-4 mr-2" />
-                Home
-              </Link>
-              <Link
-                href="/dashboard"
-                className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium flex items-center"
-              >
-                <LayoutDashboard className="h-4 w-4 mr-2" />
-                Dashboard
-              </Link>
-              <Link
-                href="/admin/dashboard"
-                className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium flex items-center"
-              >
-                <LayoutDashboard className="h-4 w-4 mr-2" />
-                Admin
-              </Link>
-              
-            </nav>
+      {!isMobile && (
+        <aside className="w-64 h-screen bg-blue-950 text-white fixed left-0 top-0">
+          <Sidebar />
+        </aside>
+      )}
 
-            {/* Auth Buttons */}
-            <div className="flex-shrink-0">
-              <SignInButton />
+      {isMobile && mobileSidebarOpen && (
+        <div className="fixed inset-0 z-40 flex">
+          <div className="w-64 h-full bg-blue-950 text-white shadow-lg relative z-50">
+            <div className="p-4 flex justify-end">
+              <button
+                onClick={() => setMobileSidebarOpen(false)}
+                className="p-1 rounded-full hover:bg-gray-100"
+              >
+                <FiX size={24} className="text-white" />
+              </button>
             </div>
+            <Sidebar onNavigate={() => setMobileSidebarOpen(false)} />
           </div>
+          <div
+            className="flex-1 bg-black opacity-50"
+            onClick={() => setMobileSidebarOpen(false)}
+          />
         </div>
-      </div>
-    </header>
+      )}
+    </>
   );
-};
+}
 
-export default AppBar;
+function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const [session, setSession] = useState<any>(null);
+
+  useEffect(() => {
+    getSession().then(setSession);
+  }, []);
+
+  const navigate = (path: string) => {
+    router.push(path);
+    if (onNavigate) onNavigate();
+  };
+
+  const isActive = (path: string) =>
+    pathname === path || pathname.startsWith(path);
+
+  const menuItems = [
+    { name: 'Profile', icon: <FaUser />, path: '/profile' },
+    { name: 'Dashboard', icon: <FaTachometerAlt />, path: '/dashboard', show: session?.user?.role !== 'PUBLIC' },
+    { name: 'Admin', icon: <FaTachometerAlt />, path: '/admin/dashboard', show: session?.user?.role === 'ADMIN' },
+    { name: 'Planner', icon: <FaCalendarAlt />, path: '/planner' },
+    { name: 'University', icon: <FaUniversity />, path: '/university' },
+    { name: 'AI', icon: <FaRobot />, path: '/chatbot' },
+    { name: 'Collaborative Space', icon: <FaPeopleArrows />, path: '/coworking' },
+    { name: 'Focus Mode', icon: <FaPersonBooth />, path: '/soloStuding' }
+  ];
+
+  return (
+    <div className="flex flex-col h-full">
+      <div className="p-6 text-2xl font-bold">BrainWave</div>
+      <nav className="flex-1 px-4 space-y-2">
+        {menuItems.filter(item => item.show !== false).map(item => (
+          <div
+            key={item.name}
+            onClick={() => navigate(item.path)}
+            className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer ${isActive(item.path) ? 'bg-blue-900' : 'hover:bg-blue-800'}`}
+          >
+            {item.icon}
+            <span>{item.name}</span>
+          </div>
+        ))}
+      </nav>
+    </div>
+  );
+}

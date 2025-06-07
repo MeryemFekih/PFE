@@ -528,10 +528,6 @@
     bottom: calc(var(--spacing) * 6);
   }
 
-  .bottom-14 {
-    bottom: calc(var(--spacing) * 14);
-  }
-
   .bottom-16 {
     bottom: calc(var(--spacing) * 16);
   }
@@ -891,10 +887,6 @@
     height: calc(var(--spacing) * 35);
   }
 
-  .h-36 {
-    height: calc(var(--spacing) * 36);
-  }
-
   .h-40 {
     height: calc(var(--spacing) * 40);
   }
@@ -905,10 +897,6 @@
 
   .h-65 {
     height: calc(var(--spacing) * 65);
-  }
-
-  .h-93 {
-    height: calc(var(--spacing) * 93);
   }
 
   .h-\[60vh\] {
@@ -949,6 +937,10 @@
 
   .h-screen {
     height: 100vh;
+  }
+
+  .max-h-40 {
+    max-height: calc(var(--spacing) * 40);
   }
 
   .max-h-60 {
@@ -1250,6 +1242,10 @@
 
   .cursor-default {
     cursor: default;
+  }
+
+  .cursor-not-allowed {
+    cursor: not-allowed;
   }
 
   .cursor-pointer {
@@ -2106,6 +2102,10 @@
     padding: 3px;
   }
 
+  .px-0 {
+    padding-inline: calc(var(--spacing) * 0);
+  }
+
   .px-1 {
     padding-inline: calc(var(--spacing) * 1);
   }
@@ -2264,10 +2264,6 @@
 
   .pl-5 {
     padding-left: calc(var(--spacing) * 5);
-  }
-
-  .pl-50 {
-    padding-left: calc(var(--spacing) * 50);
   }
 
   .text-center {
@@ -3136,19 +3132,6 @@
     @supports (color: color-mix(in lab, red, red)) {
       .hover\:to-blue-700\/90:hover {
         --tw-gradient-to: color-mix(in oklab, var(--color-blue-700) 90%, transparent);
-      }
-    }
-  }
-
-  @media (hover: hover) {
-    .hover\:to-blue-800\/90:hover {
-      --tw-gradient-to: #193cb8e6;
-      --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
-    }
-
-    @supports (color: color-mix(in lab, red, red)) {
-      .hover\:to-blue-800\/90:hover {
-        --tw-gradient-to: color-mix(in oklab, var(--color-blue-800) 90%, transparent);
       }
     }
   }

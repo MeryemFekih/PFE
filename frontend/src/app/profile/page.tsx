@@ -330,25 +330,24 @@ const toggleSidebar = () => {
   };
 
   // Loading state
-  if (!user || !selectedTab) {
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        <div className="animate-pulse text-gray-500">Loading profile...</div>
-      </div>
-    );
-  }
+if (!user || !selectedTab) {
+  return (
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-white">
+      <img
+        src="/images/logo.png"
+        alt="Loading..."
+        className="w-30 h-30 bg-blue-800 rounded-full p-4 animate-spin"
+      />
+    </div>
+  );
+}
+
 
   return (
-    <div className="min-h-screen bg-gray-100 flex">
-      {/* Sidebar */}
-
-      <SidebarWrapper />
-      
-      
-
+    <div className="min-h-screen bg-gray-100  ">
       {/* Main Content */}
-      <main className="flex-1 overflow-auto py-8 sm:px-4 lg:px-4">
-        <div className="max-w-4xl flex flex-col gap-6 mx-auto">
+      <main className="  overflow-auto py-8 flex  ">
+        <div className=" flex-1/3 flex flex-col gap-6 mx-15">
           {/* Header */}
           <div className="bg-white rounded-xl shadow-md overflow-hidden">
             <div className="p-6 sm:p-8">
@@ -693,7 +692,9 @@ const toggleSidebar = () => {
             )}
           </div>
         </div>
-
+            <aside className='w-22  lg:w-1/6 xl:w-1/6 bg-white rounded-xl shadow-md p-6 hidden md:block'>
+              your followers 
+            </aside>
         {/* Modals - Only render for non-public users */}
         {!isPublicUser && (
           <>

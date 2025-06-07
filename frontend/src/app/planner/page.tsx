@@ -205,10 +205,7 @@ const filteredEvents = eventViewMode === 'week'
   return (
 
     <div className="flex h-full bg-gray-100">
-      <div className="flex-1/4 ">
-        <SidebarWrapper />
-      </div>
-      <main className="flex-3/2 mx-auto bg-gray-100 rounded-r-3xl  ">
+      <main className="  bg-gray-100   ">
       
       <div className="flex flex-col p-5 min-h-screen gap-3">
         <div className=" flex justify-evenly  bg-white text-gray-900 rounded-xl shadow pt-6 pb-5 ">

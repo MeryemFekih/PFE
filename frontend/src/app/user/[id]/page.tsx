@@ -14,8 +14,7 @@ import PostCard from '@/components/post-card';
 
 import { Session } from '@/lib/session';
 import { checkIfFollowing, getUserProfileWithPosts, toggleFollow } from '@/lib/user-action';
-import { useRouter } from 'next/navigation';
-import { useParams } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import { getOrCreateConversation } from '@/lib/firebase-chat';
 import { ChatBox } from '@/components/ChatBox';
 
@@ -39,33 +38,35 @@ interface Post {
   comments: any[];
 }
 
+interface UserProfile {
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  role?: string;
+  profilePicture?: string;
+  university?: string;
+  formation?: string;
+  degree?: string;
+  graduationYear?: string;
+  occupation?: string;
+  subject?: string;
+  rank?: string;
+  interests?: string[];
+  canMessage?: boolean;
+  canFollow?: boolean;
+  posts?: Post[];
+}
+
 export default function UserPage() {
   const [session, setSession] = useState<Session | null>(null);
-  interface UserProfile {
-    id: number;
-    firstName: string;
-    lastName: string;
-    email: string;
-    role?: string;
-    profilePicture?: string;
-    university?: string;
-    formation?: string;
-    degree?: string;
-    graduationYear?: string;
-    occupation?: string;
-    subject?: string;
-    rank?: string;
-    interests?: string[];
-    canMessage?: boolean;
-    canFollow?: boolean;
-    posts?: Post[];
-  }
   const [user, setUser] = useState<UserProfile | null>(null);
   const [posts, setPosts] = useState<Post[]>([]);
   const [selectedTab, setSelectedTab] = useState<'posts' | 'saved'>('posts');
   const [isFollowing, setIsFollowing] = useState<boolean>(false);
   const [showChat, setShowChat] = useState(false);
   const [convoId, setConvoId] = useState<string | null>(null);
+  const [recipientId, setRecipientId] = useState<number | null>(null);
   const [isMobile, setIsMobile] = useState(false);
   const router = useRouter();
   const urlParams = useParams();
@@ -109,13 +110,23 @@ export default function UserPage() {
   async function handleMessage() {
     if (!user) return;
     const sessionRes = await fetch('/api/session');
-    const { user: me } = await sessionRes.json();
-    if (!session) return;
+    const sessionData = await sessionRes.json();
+    setSession(sessionData);
+    if (!sessionData) return;
 
-    const convoId = await getOrCreateConversation(session.user.id, user.id);
-    setConvoId(convoId);
+    const conversationId = await getOrCreateConversation(sessionData.user.id, user.id);
+    setConvoId(conversationId);
+    setRecipientId(user.id);
     setShowChat(true);
   }
+
+  const handleToggleSave = (postId: number) => {
+    console.log(`Toggle save for post ${postId}`);
+  };
+
+  const handleDeletePost = (postId: number) => {
+    console.log(`Delete post ${postId}`);
+  };
 
   const getRoleIcon = () => {
     if (!user?.role) return <FaUserCircle />;
@@ -137,38 +148,10 @@ export default function UserPage() {
     }
   };
 
-  const handleToggleSave = (postId: number) => {
-    console.log(`Toggle save for post ${postId}`);
-  };
-
-  const handleDeletePost = (postId: number) => {
-    console.log(`Delete post ${postId}`);
-  };
-
   if (!user) {
     return (
       <div className="flex justify-center items-center min-h-screen">
         <div className="animate-pulse text-gray-500">Loading profile...</div>
-      </div>
-    );
-  }
-
-  // Mobile chat view
-  if (isMobile && showChat && convoId && session) {
-    return (
-      <div className="fixed inset-0 bg-white z-50 flex flex-col">
-        <div className="bg-blue-600 text-white p-4 flex items-center">
-          <button 
-            onClick={() => setShowChat(false)}
-            className="mr-4 text-white"
-          >
-            <FaArrowLeft size={20} />
-          </button>
-          <h2 className="text-lg font-semibold">Chat with {user.firstName}</h2>
-        </div>
-        <div className="flex-1 overflow-hidden">
-          <ChatBox convoId={convoId} currentUserId={session.user.id} fullScreen />
-        </div>
       </div>
     );
   }
@@ -445,19 +428,31 @@ export default function UserPage() {
             )}
 
             {/* Chat box - desktop view */}
+           {isMobile && showChat && convoId && session && (
+              <div className="fixed inset-0 bg-white z-50 flex flex-col">
+                <div className="bg-blue-600 text-white p-4 flex items-center">
+                  <button onClick={() => setShowChat(false)} className="mr-4 text-white">
+                    <FaArrowLeft size={20} />
+                  </button>
+                  <h2 className="text-lg font-semibold">Chat with {user.firstName}</h2>
+                </div>
+                <div className="flex-1 overflow-hidden">
+                  <ChatBox convoId={convoId} currentUserId={session.user.id} recipientId={recipientId} fullScreen />
+                </div>
+              </div>
+            )}
+
             {!isMobile && showChat && convoId && session && (
               <div className="mt-6 border-t pt-4">
                 <div className="flex justify-between items-center mb-4">
                   <h3 className="text-lg font-semibold">Chat with {user.firstName}</h3>
-                  <button 
-                    onClick={() => setShowChat(false)}
-                    className="text-gray-500 hover:text-gray-700"
-                  >
+                  <button onClick={() => setShowChat(false)} className="text-gray-500 hover:text-gray-700">
                     <FaTimes />
                   </button>
                 </div>
-                <ChatBox convoId={convoId} currentUserId={session.user.id} />
+                <ChatBox convoId={convoId} currentUserId={session.user.id}  recipientId={recipientId}/>
               </div>
+          
             )}
           </div>
         </div>

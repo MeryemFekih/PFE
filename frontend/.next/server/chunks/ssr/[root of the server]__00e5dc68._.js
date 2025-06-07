@@ -13,15 +13,19 @@ module.exports = mod;
 
 var { g: global, __dirname } = __turbopack_context__;
 {
-/* __next_internal_action_entry_do_not_use__ {"602c042cc8f42b700a8529d0052e8678c3d483f03a":"signIn","60efe8ddb026281682d020a4cfd43c8c2049fee7c4":"signUp","7f10754dd25f845e2a5b835dc1170072c663f96694":"refreshToken"} */ __turbopack_context__.s({
+/* __next_internal_action_entry_do_not_use__ {"40580d1531194622f46eb2b4a663a20c9e06d2bb35":"forgotPassword","40efe8ddb026281682d020a4cfd43c8c2049fee7c4":"signUp","602c042cc8f42b700a8529d0052e8678c3d483f03a":"signIn","701e1396a4ac797ca64a946f53d72db2ea942520d3":"resetPassword","7f10754dd25f845e2a5b835dc1170072c663f96694":"refreshToken"} */ __turbopack_context__.s({
+    "forgotPassword": (()=>forgotPassword),
     "refreshToken": (()=>refreshToken),
+    "resetPassword": (()=>resetPassword),
     "signIn": (()=>signIn),
     "signUp": (()=>signUp)
 });
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$action$2d$client$2d$wrapper$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/build/webpack/loaders/next-flight-loader/action-client-wrapper.js [app-ssr] (ecmascript)");
 ;
-var signUp = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$action$2d$client$2d$wrapper$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["createServerReference"])("60efe8ddb026281682d020a4cfd43c8c2049fee7c4", __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$action$2d$client$2d$wrapper$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["callServer"], void 0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$action$2d$client$2d$wrapper$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["findSourceMapURL"], "signUp");
+var signUp = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$action$2d$client$2d$wrapper$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["createServerReference"])("40efe8ddb026281682d020a4cfd43c8c2049fee7c4", __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$action$2d$client$2d$wrapper$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["callServer"], void 0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$action$2d$client$2d$wrapper$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["findSourceMapURL"], "signUp");
 var signIn = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$action$2d$client$2d$wrapper$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["createServerReference"])("602c042cc8f42b700a8529d0052e8678c3d483f03a", __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$action$2d$client$2d$wrapper$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["callServer"], void 0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$action$2d$client$2d$wrapper$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["findSourceMapURL"], "signIn");
+var resetPassword = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$action$2d$client$2d$wrapper$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["createServerReference"])("701e1396a4ac797ca64a946f53d72db2ea942520d3", __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$action$2d$client$2d$wrapper$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["callServer"], void 0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$action$2d$client$2d$wrapper$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["findSourceMapURL"], "resetPassword");
+var forgotPassword = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$action$2d$client$2d$wrapper$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["createServerReference"])("40580d1531194622f46eb2b4a663a20c9e06d2bb35", __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$action$2d$client$2d$wrapper$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["callServer"], void 0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$action$2d$client$2d$wrapper$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["findSourceMapURL"], "forgotPassword");
 var refreshToken = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$action$2d$client$2d$wrapper$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["createServerReference"])("7f10754dd25f845e2a5b835dc1170072c663f96694", __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$action$2d$client$2d$wrapper$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["callServer"], void 0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$action$2d$client$2d$wrapper$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["findSourceMapURL"], "refreshToken");
 }}),
 "[project]/src/lib/utils.ts [app-ssr] (ecmascript)": ((__turbopack_context__) => {
@@ -278,44 +282,32 @@ const SignInPage = ()=>{
                     className: "flex flex-col md:flex-row",
                     children: [
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "hidden md:flex w-full md:w-2/5 bg-customBlue/5 items-center justify-center p-8    bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48Y2lyY2xlIGN4PSIzMCIgY3k9IjMwIiByPSI1IiBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMCwgMTIzLCAyNTUsIDAuMDgpIiBzdHJva2Utd2lkdGg9IjIiLz48L3N2Zz4=')]",
+                            className: "hidden md:flex w-full md:w-1/2 items-center justify-center p-8    bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48Y2lyY2xlIGN4PSIzMCIgY3k9IjMwIiByPSI1IiBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMCwgMTIzLCAyNTUsIDAuMDgpIiBzdHJva2Utd2lkdGg9IjIiLz48L3N2Zz4=')]",
                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "text-center space-y-4",
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: "w-24 h-24 rounded-full bg-customBlue/10 flex items-center justify-center mx-auto    shadow-inner border border-customBlue/20",
-                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
-                                            xmlns: "http://www.w3.org/2000/svg",
-                                            className: "h-12 w-12 text-customBlue",
-                                            fill: "none",
-                                            viewBox: "0 0 24 24",
-                                            stroke: "currentColor",
-                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                                                strokeLinecap: "round",
-                                                strokeLinejoin: "round",
-                                                strokeWidth: 1.5,
-                                                d: "M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4"
-                                            }, void 0, false, {
-                                                fileName: "[project]/src/app/auth/signIn/page.tsx",
-                                                lineNumber: 26,
-                                                columnNumber: 21
-                                            }, this)
+                                        className: "w-30 h-30 rounded-full bg-gradient-to-r from-blue-500 to-indigo-900 flex items-center justify-center mx-auto    shadow-inner ",
+                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
+                                            src: "/images/logo.png",
+                                            alt: "BrainWave Logo",
+                                            className: "h-35 w-30 object-contain"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/auth/signIn/page.tsx",
-                                            lineNumber: 25,
+                                            lineNumber: 24,
                                             columnNumber: 19
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/auth/signIn/page.tsx",
-                                        lineNumber: 23,
+                                        lineNumber: 22,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
-                                        className: "text-3xl font-bold text-gray-800 bg-clip-text bg-gradient-to-r from-customBlue to-blue-600 text-transparent",
+                                        className: "text-3xl font-bold  bg-clip-text bg-gradient-to-r from-blue-400 to-blue-900 text-transparent",
                                         children: "BrainWave"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/auth/signIn/page.tsx",
-                                        lineNumber: 29,
+                                        lineNumber: 28,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -323,32 +315,32 @@ const SignInPage = ()=>{
                                         children: "Join our growing community"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/auth/signIn/page.tsx",
-                                        lineNumber: 32,
+                                        lineNumber: 31,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/auth/signIn/page.tsx",
-                                lineNumber: 22,
+                                lineNumber: 21,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/app/auth/signIn/page.tsx",
-                            lineNumber: 20,
+                            lineNumber: 19,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "w-full md:w-3/5",
+                            className: "w-full md:w-4/5",
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardHeader"], {
-                                    className: "p-10 pb-6 border-b",
+                                    className: " p-10 pb-2 ",
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardTitle"], {
                                             className: "text-3xl font-bold text-gray-800",
                                             children: "Welcome Back"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/auth/signIn/page.tsx",
-                                            lineNumber: 39,
+                                            lineNumber: 38,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -356,13 +348,13 @@ const SignInPage = ()=>{
                                             children: "Sign in to continue your journey"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/auth/signIn/page.tsx",
-                                            lineNumber: 40,
+                                            lineNumber: 39,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/auth/signIn/page.tsx",
-                                    lineNumber: 38,
+                                    lineNumber: 37,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -373,7 +365,7 @@ const SignInPage = ()=>{
                                             children: state.message
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/auth/signIn/page.tsx",
-                                            lineNumber: 45,
+                                            lineNumber: 44,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -387,7 +379,7 @@ const SignInPage = ()=>{
                                                             children: "Email Address"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/auth/signIn/page.tsx",
-                                                            lineNumber: 52,
+                                                            lineNumber: 51,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
@@ -398,10 +390,10 @@ const SignInPage = ()=>{
                                                             value: email,
                                                             onChange: (e)=>setEmail(e.target.value),
                                                             required: true,
-                                                            className: "focus:ring-2 focus:ring-customBlue focus:border-customBlue h-12 text-lg px-4 py-3"
+                                                            className: "focus:border-2 bg-gray-100 focus:border-blue-800 h-12 text-lg px-4 py-3"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/auth/signIn/page.tsx",
-                                                            lineNumber: 55,
+                                                            lineNumber: 54,
                                                             columnNumber: 21
                                                         }, this),
                                                         state?.error?.email && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -417,25 +409,25 @@ const SignInPage = ()=>{
                                                                         clipRule: "evenodd"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/auth/signIn/page.tsx",
-                                                                        lineNumber: 68,
+                                                                        lineNumber: 67,
                                                                         columnNumber: 27
                                                                     }, this)
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/auth/signIn/page.tsx",
-                                                                    lineNumber: 67,
+                                                                    lineNumber: 66,
                                                                     columnNumber: 25
                                                                 }, this),
                                                                 state.error.email
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/auth/signIn/page.tsx",
-                                                            lineNumber: 66,
+                                                            lineNumber: 65,
                                                             columnNumber: 23
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/auth/signIn/page.tsx",
-                                                    lineNumber: 51,
+                                                    lineNumber: 50,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -446,7 +438,7 @@ const SignInPage = ()=>{
                                                             children: "Password"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/auth/signIn/page.tsx",
-                                                            lineNumber: 76,
+                                                            lineNumber: 75,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
@@ -457,10 +449,10 @@ const SignInPage = ()=>{
                                                             value: password,
                                                             onChange: (e)=>setPassword(e.target.value),
                                                             required: true,
-                                                            className: "focus:ring-2 focus:ring-customBlue focus:border-customBlue h-12 text-lg px-4 py-3"
+                                                            className: "focus:border-2 bg-gray-100 focus:border-blue-800 h-12 text-lg px-4 py-3"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/auth/signIn/page.tsx",
-                                                            lineNumber: 79,
+                                                            lineNumber: 78,
                                                             columnNumber: 21
                                                         }, this),
                                                         state?.error?.password && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -476,29 +468,29 @@ const SignInPage = ()=>{
                                                                         clipRule: "evenodd"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/auth/signIn/page.tsx",
-                                                                        lineNumber: 92,
+                                                                        lineNumber: 91,
                                                                         columnNumber: 27
                                                                     }, this)
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/auth/signIn/page.tsx",
-                                                                    lineNumber: 91,
+                                                                    lineNumber: 90,
                                                                     columnNumber: 25
                                                                 }, this),
                                                                 state.error.password
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/auth/signIn/page.tsx",
-                                                            lineNumber: 90,
+                                                            lineNumber: 89,
                                                             columnNumber: 23
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/auth/signIn/page.tsx",
-                                                    lineNumber: 75,
+                                                    lineNumber: 74,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                    className: "flex items-center justify-between",
+                                                    className: "flex gap-5 items-center justify-between",
                                                     children: [
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                             className: "flex items-center",
@@ -507,50 +499,50 @@ const SignInPage = ()=>{
                                                                     id: "remember-me",
                                                                     name: "remember-me",
                                                                     type: "checkbox",
-                                                                    className: "h-5 w-5 text-customBlue focus:ring-customBlue border-gray-300 rounded"
+                                                                    className: "h-5 w-5 rounded-full bg-blue-100"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/auth/signIn/page.tsx",
-                                                                    lineNumber: 101,
+                                                                    lineNumber: 100,
                                                                     columnNumber: 23
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
                                                                     htmlFor: "remember-me",
-                                                                    className: "ml-3 block text-md text-gray-700",
+                                                                    className: "ml-1 block text-md text-gray-700",
                                                                     children: "Remember this device"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/auth/signIn/page.tsx",
-                                                                    lineNumber: 107,
+                                                                    lineNumber: 106,
                                                                     columnNumber: 23
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/auth/signIn/page.tsx",
-                                                            lineNumber: 100,
+                                                            lineNumber: 99,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
-                                                            href: "#",
+                                                            href: "/auth/forgot-password",
                                                             className: "text-md font-medium text-customBlue hover:underline hover:text-customBlue/80 transition-colors",
                                                             children: "Forgot password?"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/auth/signIn/page.tsx",
-                                                            lineNumber: 112,
+                                                            lineNumber: 111,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/auth/signIn/page.tsx",
-                                                    lineNumber: 99,
+                                                    lineNumber: 98,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$submitButton$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
-                                                    className: "w-full bg-gradient-to-r from-customBlue to-blue-600 hover:from-customBlue/90 hover:to-blue-600/90    text-white py-3.5 px-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300    text-lg font-semibold h-12 flex items-center justify-center",
+                                                    className: "w-full bg-gradient-to-r from-blue-500 to-indigo-900 hover:from-blue-900/90 hover:to-blue-700/90    text-white py-3.5 px-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300    text-lg font-semibold h-12 flex items-center justify-center",
                                                     children: [
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                             children: "Sign In"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/auth/signIn/page.tsx",
-                                                            lineNumber: 120,
+                                                            lineNumber: 119,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
@@ -565,56 +557,56 @@ const SignInPage = ()=>{
                                                                 d: "M14 5l7 7m0 0l-7 7m7-7H3"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/auth/signIn/page.tsx",
-                                                                lineNumber: 122,
+                                                                lineNumber: 121,
                                                                 columnNumber: 23
                                                             }, this)
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/auth/signIn/page.tsx",
-                                                            lineNumber: 121,
+                                                            lineNumber: 120,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/auth/signIn/page.tsx",
-                                                    lineNumber: 117,
+                                                    lineNumber: 116,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/auth/signIn/page.tsx",
-                                            lineNumber: 50,
+                                            lineNumber: 49,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: "mt-8 text-center text-lg text-gray-600",
+                                            className: "mt-8 text-center text-md text-gray-600",
                                             children: [
                                                 "New to our platform?",
                                                 ' ',
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
-                                                    href: "/auth/signup",
+                                                    href: "/auth/signUp",
                                                     className: "font-semibold text-customBlue hover:underline hover:text-customBlue/80 transition-colors",
                                                     children: "Create an account"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/auth/signIn/page.tsx",
-                                                    lineNumber: 129,
+                                                    lineNumber: 128,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/auth/signIn/page.tsx",
-                                            lineNumber: 127,
+                                            lineNumber: 126,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/auth/signIn/page.tsx",
-                                    lineNumber: 43,
+                                    lineNumber: 42,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/auth/signIn/page.tsx",
-                            lineNumber: 37,
+                            lineNumber: 36,
                             columnNumber: 13
                         }, this)
                     ]

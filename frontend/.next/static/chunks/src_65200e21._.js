@@ -81,7 +81,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$emoji$2d$m
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fa$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/react-icons/fa/index.mjs [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$post$2d$action$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/lib/post-action.ts [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$comment$2d$action$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/lib/comment-action.ts [app-client] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$date$2d$fns$2f$format$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$locals$3e$__ = __turbopack_context__.i("[project]/node_modules/date-fns/format.js [app-client] (ecmascript) <locals>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$date$2d$fns$2f$esm$2f$format$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__format$3e$__ = __turbopack_context__.i("[project]/node_modules/date-fns/esm/format/index.js [app-client] (ecmascript) <export default as format>");
 ;
 var _s = __turbopack_context__.k.signature();
 'use client';
@@ -179,7 +179,7 @@ function PostCard({ post, session, isPending, saved, onToggleSave, onDelete }) {
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                         className: "text-sm text-gray-500",
-                                        children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$date$2d$fns$2f$format$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$locals$3e$__["format"])(new Date(post.createdAt), 'dd/MM/yyyy HH:mm:ss')
+                                        children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$date$2d$fns$2f$esm$2f$format$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__format$3e$__["format"])(new Date(post.createdAt), 'dd/MM/yyyy HH:mm:ss')
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/post-card.tsx",
                                         lineNumber: 148,
@@ -1298,6 +1298,7 @@ __turbopack_context__.s({
     "default": (()=>SidebarWrapper)
 });
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$session$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/lib/session.ts [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/navigation.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fa$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/react-icons/fa/index.mjs [app-client] (ecmascript)");
@@ -1305,6 +1306,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$ico
 ;
 var _s = __turbopack_context__.k.signature(), _s1 = __turbopack_context__.k.signature();
 'use client';
+;
 ;
 ;
 ;
@@ -1336,24 +1338,24 @@ function SidebarWrapper() {
                     className: "text-blue-950"
                 }, void 0, false, {
                     fileName: "[project]/src/components/sidebar.tsx",
-                    lineNumber: 32,
+                    lineNumber: 34,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/sidebar.tsx",
-                lineNumber: 27,
+                lineNumber: 29,
                 columnNumber: 9
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: `hidden md:block fixed left-0 top-0 h-full z-30 transition-all duration-300 ${mobileSidebarOpen ? 'translate-x-0' : ''}`,
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Sidebar, {}, void 0, false, {
                     fileName: "[project]/src/components/sidebar.tsx",
-                    lineNumber: 38,
+                    lineNumber: 40,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/sidebar.tsx",
-                lineNumber: 37,
+                lineNumber: 39,
                 columnNumber: 7
             }, this),
             isMobile && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1364,7 +1366,7 @@ function SidebarWrapper() {
                         onClick: ()=>setMobileSidebarOpen(false)
                     }, void 0, false, {
                         fileName: "[project]/src/components/sidebar.tsx",
-                        lineNumber: 46,
+                        lineNumber: 48,
                         columnNumber: 13
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1381,36 +1383,36 @@ function SidebarWrapper() {
                                         className: "text-blue-950"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/sidebar.tsx",
-                                        lineNumber: 60,
+                                        lineNumber: 62,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/sidebar.tsx",
-                                    lineNumber: 55,
+                                    lineNumber: 57,
                                     columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/components/sidebar.tsx",
-                                lineNumber: 54,
+                                lineNumber: 56,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Sidebar, {
                                 onNavigate: ()=>setMobileSidebarOpen(false)
                             }, void 0, false, {
                                 fileName: "[project]/src/components/sidebar.tsx",
-                                lineNumber: 63,
+                                lineNumber: 65,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/sidebar.tsx",
-                        lineNumber: 53,
+                        lineNumber: 55,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/sidebar.tsx",
-                lineNumber: 43,
+                lineNumber: 45,
                 columnNumber: 9
             }, this)
         ]
@@ -1423,38 +1425,50 @@ function Sidebar({ onNavigate }) {
     const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"])();
     const pathname = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["usePathname"])();
     const [darkMode, setDarkMode] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [session, setSession] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "Sidebar.useEffect": ()=>{
+            const loadSession = {
+                "Sidebar.useEffect.loadSession": async ()=>{
+                    const sess = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$session$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getSession"])();
+                    setSession(sess);
+                }
+            }["Sidebar.useEffect.loadSession"];
+            loadSession();
+        }
+    }["Sidebar.useEffect"], []);
     const menuItems = [
-        ...session?.user?.role === 'ADMIN' ? [
-            {
-                name: 'Dashboard',
-                icon: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(DashboardIcon, {
-                    className: "text-lg"
-                }, void 0, false, {
-                    fileName: "[project]/src/components/sidebar.tsx",
-                    lineNumber: 79,
-                    columnNumber: 13
-                }, this),
-                path: '/dashboard'
-            }
-        ] : [],
         {
             name: 'Profile',
             icon: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fa$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FaUser"], {
                 className: "text-lg"
             }, void 0, false, {
                 fileName: "[project]/src/components/sidebar.tsx",
-                lineNumber: 84,
+                lineNumber: 88,
                 columnNumber: 13
             }, this),
             path: '/profile'
         },
+        ...session?.user?.role === 'ADMIN' ? [
+            {
+                name: 'Dashboard',
+                icon: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fa$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FaTachometerAlt"], {
+                    className: "text-lg"
+                }, void 0, false, {
+                    fileName: "[project]/src/components/sidebar.tsx",
+                    lineNumber: 93,
+                    columnNumber: 13
+                }, this),
+                path: 'admin/dashboard'
+            }
+        ] : [],
         {
             name: 'Planner',
             icon: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fa$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FaCalendarAlt"], {
                 className: "text-lg"
             }, void 0, false, {
                 fileName: "[project]/src/components/sidebar.tsx",
-                lineNumber: 89,
+                lineNumber: 98,
                 columnNumber: 13
             }, this),
             path: '/planner'
@@ -1465,7 +1479,7 @@ function Sidebar({ onNavigate }) {
                 className: "text-lg"
             }, void 0, false, {
                 fileName: "[project]/src/components/sidebar.tsx",
-                lineNumber: 94,
+                lineNumber: 103,
                 columnNumber: 13
             }, this),
             path: '/university'
@@ -1476,7 +1490,7 @@ function Sidebar({ onNavigate }) {
                 className: "text-lg"
             }, void 0, false, {
                 fileName: "[project]/src/components/sidebar.tsx",
-                lineNumber: 99,
+                lineNumber: 108,
                 columnNumber: 13
             }, this),
             path: '/chatbot'
@@ -1487,7 +1501,7 @@ function Sidebar({ onNavigate }) {
                 className: "text-lg"
             }, void 0, false, {
                 fileName: "[project]/src/components/sidebar.tsx",
-                lineNumber: 104,
+                lineNumber: 113,
                 columnNumber: 13
             }, this),
             path: '/coworking'
@@ -1498,10 +1512,10 @@ function Sidebar({ onNavigate }) {
                 className: "text-lg"
             }, void 0, false, {
                 fileName: "[project]/src/components/sidebar.tsx",
-                lineNumber: 109,
+                lineNumber: 118,
                 columnNumber: 13
             }, this),
-            path: '/solostudying'
+            path: '/soloStuding'
         }
     ];
     const navigate = (path)=>{
@@ -1517,13 +1531,20 @@ function Sidebar({ onNavigate }) {
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "flex items-center pt-6 px-4",
                 children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
-                        src: "/images/logo.png",
-                        alt: "BrainWave",
-                        className: "h-16 w-16 object-contain"
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
+                        href: "/",
+                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
+                            src: "/images/logo.png",
+                            alt: "BrainWave",
+                            className: "h-16 w-16 object-contain"
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/sidebar.tsx",
+                            lineNumber: 138,
+                            columnNumber: 21
+                        }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/sidebar.tsx",
-                        lineNumber: 129,
+                        lineNumber: 138,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
@@ -1531,22 +1552,22 @@ function Sidebar({ onNavigate }) {
                         children: "BrainWave"
                     }, void 0, false, {
                         fileName: "[project]/src/components/sidebar.tsx",
-                        lineNumber: 130,
+                        lineNumber: 139,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/sidebar.tsx",
-                lineNumber: 128,
+                lineNumber: 137,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("nav", {
                 className: "mt-5 flex-1 overflow-y-auto",
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
-                    className: "flex flex-col space-y-6 px-6",
+                    className: "flex flex-col space-y-4 px-3",
                     children: menuItems.map((item)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: `flex items-center justify-between py-4 px-4 rounded-lg cursor-pointer transition-all ${isActive(item.path) ? 'bg-blue-900 shadow-md shadow-gray-500 text-white' : 'hover:bg-blue-900 hover:text-white'}`,
+                                className: `flex items-center justify-between py-4  pl-4 rounded-lg cursor-pointer transition-all ${isActive(item.path) ? 'bg-blue-900 shadow-md shadow-gray-500 text-white' : 'hover:bg-blue-900 hover:text-white'}`,
                                 onClick: ()=>navigate(item.path),
                                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                     className: "flex items-center space-x-3",
@@ -1556,33 +1577,33 @@ function Sidebar({ onNavigate }) {
                                             children: item.name
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/sidebar.tsx",
-                                            lineNumber: 148,
+                                            lineNumber: 157,
                                             columnNumber: 19
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/sidebar.tsx",
-                                    lineNumber: 146,
+                                    lineNumber: 155,
                                     columnNumber: 17
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/components/sidebar.tsx",
-                                lineNumber: 138,
+                                lineNumber: 147,
                                 columnNumber: 15
                             }, this)
                         }, item.name, false, {
                             fileName: "[project]/src/components/sidebar.tsx",
-                            lineNumber: 137,
+                            lineNumber: 146,
                             columnNumber: 13
                         }, this))
                 }, void 0, false, {
                     fileName: "[project]/src/components/sidebar.tsx",
-                    lineNumber: 135,
+                    lineNumber: 144,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/sidebar.tsx",
-                lineNumber: 134,
+                lineNumber: 143,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1595,33 +1616,33 @@ function Sidebar({ onNavigate }) {
                         className: "text-yellow-300 text-lg"
                     }, void 0, false, {
                         fileName: "[project]/src/components/sidebar.tsx",
-                        lineNumber: 164,
+                        lineNumber: 173,
                         columnNumber: 13
                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fa$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FaMoon"], {
                         className: "text-white text-lg"
                     }, void 0, false, {
                         fileName: "[project]/src/components/sidebar.tsx",
-                        lineNumber: 166,
+                        lineNumber: 175,
                         columnNumber: 13
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/src/components/sidebar.tsx",
-                    lineNumber: 158,
+                    lineNumber: 167,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/sidebar.tsx",
-                lineNumber: 157,
+                lineNumber: 166,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/sidebar.tsx",
-        lineNumber: 126,
+        lineNumber: 135,
         columnNumber: 5
     }, this);
 }
-_s1(Sidebar, "aIQi3R39MFZ/Txt2TxC9DMIusWI=", false, function() {
+_s1(Sidebar, "mM1VDscPKtS4+JDC0lcTwrlxdA4=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"],
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["usePathname"]
@@ -1740,7 +1761,7 @@ function SuggestedEventList({ session }) {
                 columnNumber: 7
             }, this),
             selectedEvent && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50",
+                className: "fixed inset-0 z-50 flex  items-center justify-center backdrop-blur-md border-2 border-gray-400 shadow-2xl   bg-opacity-50",
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                     className: "max-w-2xl w-full p-4 bg-white rounded-lg overflow-y-auto max-h-[90vh]",
                     children: [
@@ -2750,152 +2771,39 @@ function FacultyFeedPage({ posts, session }) {
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "p-4 space-y-6",
-                        children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
+                                className: "p-6",
                                 children: [
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
-                                        className: "text-lg font-bold text-blue-800",
-                                        children: "Events matching your interests"
-                                    }, void 0, false, {
-                                        fileName: "[project]/src/app/university/faculty-page.tsx",
-                                        lineNumber: 419,
-                                        columnNumber: 19
-                                    }, this),
-                                    suggestedPosts.events.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                        className: "text-sm text-gray-500",
-                                        children: "No event suggestions found."
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
+                                        className: "text-xl font-bold mb-4",
+                                        children: "🎯 Suggested Events"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/university/faculty-page.tsx",
                                         lineNumber: 421,
                                         columnNumber: 21
-                                    }, this) : suggestedPosts.events.map((post)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: "p-2 border-b",
-                                            children: [
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                    className: "font-medium",
-                                                    children: post.title
-                                                }, void 0, false, {
-                                                    fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                    lineNumber: 425,
-                                                    columnNumber: 25
-                                                }, this),
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                    className: "text-sm text-gray-500",
-                                                    children: post.subject
-                                                }, void 0, false, {
-                                                    fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                    lineNumber: 426,
-                                                    columnNumber: 25
-                                                }, this)
-                                            ]
-                                        }, post.id, true, {
-                                            fileName: "[project]/src/app/university/faculty-page.tsx",
-                                            lineNumber: 424,
-                                            columnNumber: 23
-                                        }, this)),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
-                                        className: "p-6",
-                                        children: [
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
-                                                className: "text-xl font-bold mb-4",
-                                                children: "🎯 Suggested Events"
-                                            }, void 0, false, {
-                                                fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                lineNumber: 431,
-                                                columnNumber: 21
-                                            }, this),
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$SuggestedEventList$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                                                session: session
-                                            }, void 0, false, {
-                                                fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                lineNumber: 432,
-                                                columnNumber: 21
-                                            }, this)
-                                        ]
-                                    }, void 0, true, {
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$SuggestedEventList$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                        session: session
+                                    }, void 0, false, {
                                         fileName: "[project]/src/app/university/faculty-page.tsx",
-                                        lineNumber: 430,
-                                        columnNumber: 19
+                                        lineNumber: 422,
+                                        columnNumber: 21
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/university/faculty-page.tsx",
-                                lineNumber: 418,
-                                columnNumber: 8
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                children: [
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
-                                        className: "text-lg font-bold text-indigo-800",
-                                        children: "Recent posts from people you follow"
-                                    }, void 0, false, {
-                                        fileName: "[project]/src/app/university/faculty-page.tsx",
-                                        lineNumber: 438,
-                                        columnNumber: 9
-                                    }, this),
-                                    "        ",
-                                    !suggestedPosts?.followedPosts?.length ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                        className: "text-sm text-gray-500",
-                                        children: "No posts from followed users yet."
-                                    }, void 0, false, {
-                                        fileName: "[project]/src/app/university/faculty-page.tsx",
-                                        lineNumber: 439,
-                                        columnNumber: 11
-                                    }, this) : suggestedPosts.followedPosts.map((post)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: "p-2 border-b",
-                                            children: [
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                    className: "font-medium",
-                                                    children: post.title
-                                                }, void 0, false, {
-                                                    fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                    lineNumber: 443,
-                                                    columnNumber: 15
-                                                }, this),
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                    className: "text-sm text-gray-500",
-                                                    children: [
-                                                        "By ",
-                                                        post.author.firstName,
-                                                        " ",
-                                                        post.author.lastName
-                                                    ]
-                                                }, void 0, true, {
-                                                    fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                    lineNumber: 444,
-                                                    columnNumber: 15
-                                                }, this)
-                                            ]
-                                        }, post.id, true, {
-                                            fileName: "[project]/src/app/university/faculty-page.tsx",
-                                            lineNumber: 442,
-                                            columnNumber: 13
-                                        }, this))
-                                ]
-                            }, void 0, true, {
-                                fileName: "[project]/src/app/university/faculty-page.tsx",
-                                lineNumber: 437,
-                                columnNumber: 7
+                                lineNumber: 420,
+                                columnNumber: 19
                             }, this)
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/src/app/university/faculty-page.tsx",
-                        lineNumber: 416,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "pt-4 border-t border-gray-200",
-                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                            className: "text-sm text-gray-500",
-                            children: "Advertising (optional)"
                         }, void 0, false, {
                             fileName: "[project]/src/app/university/faculty-page.tsx",
-                            lineNumber: 455,
-                            columnNumber: 11
+                            lineNumber: 418,
+                            columnNumber: 8
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/app/university/faculty-page.tsx",
-                        lineNumber: 454,
+                        lineNumber: 416,
                         columnNumber: 9
                     }, this)
                 ]

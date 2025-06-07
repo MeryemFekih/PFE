@@ -2,18 +2,21 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { faCopy } from '@fortawesome/free-solid-svg-icons';
-import { db } from '@/lib/firebase';
-import {addDoc,collection,serverTimestamp,query,getDocs} from 'firebase/firestore';
-import { v4 as uuidv4 } from 'uuid';
-import {faMicrophone,faMicrophoneSlash,faVideo,faVideoSlash,} from '@fortawesome/free-solid-svg-icons';
+import { faCopy, faMicrophone, faMicrophoneSlash, faVideo, faVideoSlash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import SidebarWrapper from '@/components/sidebar';
+import { db } from '@/lib/firebase';
+import { addDoc, collection, serverTimestamp, query, getDocs } from 'firebase/firestore';
+import { v4 as uuidv4 } from 'uuid';
 
-export default function RoomPage() {
+interface RoomPageProps {
+  onRoomCreated: (roomId: string) => void;
+}
+
+export default function RoomPage({ onRoomCreated }: RoomPageProps) {
   const router = useRouter();
   const videoRef = useRef<HTMLVideoElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
+
   const [visibility, setVisibility] = useState<'public' | 'private'>('public');
   const [participantEmails, setParticipantEmails] = useState<string[]>(['']);
   const [limit, setLimit] = useState<number | null>(null);
@@ -26,21 +29,36 @@ export default function RoomPage() {
   const [selectedRoomId, setSelectedRoomId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [pastedLink, setPastedLink] = useState('');
-const [userId, setUserId] = useState<string | null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
-useEffect(() => {
+  // 🟡 Get session
+ useEffect(() => {
   const getSessionInfo = async () => {
     try {
       const res = await fetch('/api/session');
-      if (!res.ok) throw new Error('Unauthorized');
       const data = await res.json();
-      setUserId(data.userId);
+      console.log("✅ Session user:", data);
+
+      // ✅ FIXED: Get ID from data.user
+      if (data.user?.id) {
+        setUserId(data.user.id.toString());
+      } else {
+        console.error("❌ user.id is missing from session");
+        setError("Session is invalid");
+      }
     } catch (err) {
-      console.error('Failed to fetch session info', err);
+      console.error("❌ Failed to fetch session", err);
+      setError("Could not fetch session");
+    } finally {
+      setLoading(false);
     }
   };
   getSessionInfo();
 }, []);
+
+
+  // 🔁 Generate room link when roomName changes
   useEffect(() => {
     if (!roomName) {
       setRoomLink(null);
@@ -49,27 +67,24 @@ useEffect(() => {
     const generateRandomRoomName = (): string => {
       const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
       let result = '';
-      const length = 5;
-      for (let i = 0; i < length; i++) {
+      for (let i = 0; i < 5; i++) {
         const randomIndex = Math.floor(Math.random() * characters.length);
         result += characters[randomIndex];
       }
       return result;
     };
     const randomName = generateRandomRoomName();
-
-    const tempRoomId = `${roomName.toLowerCase().replace(/\s+/g, '-')}-{randomName}`;
+    const tempRoomId = `${roomName.toLowerCase().replace(/\s+/g, '-')}-${randomName}`;
     const tempLink = `${window.location.origin}/join/${tempRoomId}`;
     setRoomLink(tempLink);
   }, [roomName]);
 
+  // 🎥 Stream camera/mic
   useEffect(() => {
     const manageStream = async () => {
       if (!micOn && !cameraOn) {
-        if (streamRef.current) {
-          streamRef.current.getTracks().forEach((track) => track.stop());
-          streamRef.current = null;
-        }
+        streamRef.current?.getTracks().forEach((track) => track.stop());
+        streamRef.current = null;
         if (videoRef.current) videoRef.current.srcObject = null;
         return;
       }
@@ -79,11 +94,7 @@ useEffect(() => {
           video: cameraOn,
           audio: micOn,
         });
-
-        if (streamRef.current) {
-          streamRef.current.getTracks().forEach((track) => track.stop());
-        }
-
+        streamRef.current?.getTracks().forEach((track) => track.stop());
         streamRef.current = stream;
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
@@ -96,39 +107,37 @@ useEffect(() => {
     manageStream();
 
     return () => {
-      if (streamRef.current) {
-        streamRef.current.getTracks().forEach((track) => track.stop());
-        streamRef.current = null;
-      }
+      streamRef.current?.getTracks().forEach((track) => track.stop());
+      streamRef.current = null;
     };
   }, [micOn, cameraOn]);
 
-  // Fetch existing rooms
+  // 🔄 Fetch existing rooms
   useEffect(() => {
-  const fetchRooms = async () => {
-    if (!userId) return; // Replace with actual logic to retrieve userId
-    if (!userId) return;
+    const fetchRooms = async () => {
+      if (!userId) return;
+      const q = query(collection(db, 'rooms'));
+      const querySnapshot = await getDocs(q);
+      const rooms: any[] = [];
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        if (data.userId === userId) {
+          rooms.push({ id: doc.id, name: data.name });
+        }
+      });
+      setExistingRooms(rooms);
+    };
+    fetchRooms();
+  }, [userId]);
 
-    const q = query(collection(db, 'rooms'));
-    const querySnapshot = await getDocs(q);
-    const rooms: any[] = [];
-
-    querySnapshot.forEach((doc) => {
-      const data = doc.data();
-      // ✅ Only include rooms created by the current user
-      if (data.userId === userId) {
-        rooms.push({ id: doc.id, name: data.name });
-      }
-    });
-
-    setExistingRooms(rooms);
-  };
-
-  fetchRooms();
-}, [userId]); // ✅ Runs only when userId is loaded
-
+  // 🟢 Create room
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!userId) {
+      setError("Please wait for session to load.");
+      return;
+    }
 
     if (!roomName || !objective) {
       setError('Room name and objective are required.');
@@ -138,7 +147,7 @@ useEffect(() => {
     const roomId = `${roomName.toLowerCase().replace(/\s+/g, '-')}-${uuidv4().substring(0, 5)}`;
 
     try {
-      const docRef = await addDoc(collection(db, 'rooms'), {
+      await addDoc(collection(db, 'rooms'), {
         id: roomId,
         name: roomName,
         limit: limit || null,
@@ -152,6 +161,7 @@ useEffect(() => {
       });
 
       setRoomLink(`${window.location.origin}/join/${roomId}`);
+      onRoomCreated(roomId);
       router.push(`/coworking/${roomId}?mic=${micOn ? 'on' : 'off'}&camera=${cameraOn ? 'on' : 'off'}`);
     } catch (error) {
       console.error('Error creating room:', error);
@@ -159,18 +169,21 @@ useEffect(() => {
     }
   };
 
-  const handleJoinRoom = async () => {
-    if (!selectedRoomId) return;
-    router.push(`/coworking/${selectedRoomId}?mic=${micOn ? 'on' : 'off'}&camera=${cameraOn ? 'on' : 'off'}`);
+  const handleJoinRoom = () => {
+    const roomIdFromLink = pastedLink?.split('/join/')[1];
+    const finalRoomId = roomIdFromLink || selectedRoomId;
+    if (finalRoomId) {
+      router.push(`/coworking/${finalRoomId}?mic=${micOn ? 'on' : 'off'}&camera=${cameraOn ? 'on' : 'off'}`);
+    }
   };
+
+  // 🕓 Show loading until session is ready
+  if (loading) {
+    return <div className="text-center mt-10 text-gray-600">Loading session...</div>;
+  }
+
   return (
-    <div>
-      <div>
-        <SidebarWrapper />
-      </div>
-    
-    <div className="flex h-screen pt-5 p-20 pl-50 ml-20  bg-gray-200 text-black">
-      
+    <div className="flex h-screen pt-5 p-20 bg-gray-200 text-black">
       <div className="flex-1 flex-col ml-20 bg-gray-100 m-10 rounded-2xl shadow-lg">
         <video
           ref={videoRef}
@@ -185,71 +198,48 @@ useEffect(() => {
           </div>
         )}
         <div className="flex justify-center rounded-b-2xl space-x-6 bg-gray-100 p-5">
-          <button
-            onClick={() => setMicOn((prev) => !prev)}
-            className="p-4 w-15 rounded-full bg-gray-500 text-white hover:bg-gray-600"
-          >
+          <button onClick={() => setMicOn(!micOn)} className="p-4 rounded-full bg-gray-500 text-white hover:bg-gray-600">
             <FontAwesomeIcon icon={micOn ? faMicrophone : faMicrophoneSlash} />
           </button>
-          <button
-            onClick={() => setCameraOn((prev) => !prev)}
-            className="p-4 w-15 rounded-full bg-gray-500 text-white hover:bg-gray-600"
-          >
+          <button onClick={() => setCameraOn(!cameraOn)} className="p-4 rounded-full bg-gray-500 text-white hover:bg-gray-600">
             <FontAwesomeIcon icon={cameraOn ? faVideo : faVideoSlash} />
           </button>
         </div>
       </div>
-  
-      <div className="flex-1 space-y-4 bg-gray-100 rounded-2xl p-5  mt-10 mr-50 h-full">
-        {/* Join existing room */}
+
+      <div className="flex-1 space-y-4 bg-gray-100 rounded-2xl p-5 mt-10 mr-50 h-full">
         <h2 className="text-lg text-center font-bold">Join an Existing Room</h2>
         <select
           value={selectedRoomId || ''}
           onChange={(e) => setSelectedRoomId(e.target.value)}
           className="w-full p-2 border rounded"
         >
-          <option value="" >Select an existing Room</option>
+          <option value="">Select an existing Room</option>
           {existingRooms.map((room) => (
             <option key={room.id} value={room.id}>
               {room.name}
             </option>
           ))}
         </select>
-        <div className="space-y-2">
-          <input
-            type="text"
-            placeholder="Or paste a room link:"
-            value={pastedLink}
-            onChange={(e) => setPastedLink(e.target.value)}
-            className="w-full p-2 border rounded"
-          />
-        </div>
+        <input
+          type="text"
+          placeholder="Or paste a room link:"
+          value={pastedLink}
+          onChange={(e) => setPastedLink(e.target.value)}
+          className="w-full p-2 border rounded"
+        />
         <button
-            onClick={() => {
-              if (pastedLink) {
-                const roomId = pastedLink.split('/room/')[1];
-                if (roomId) {
-                  setSelectedRoomId(roomId);
-                  handleJoinRoom();
-                  return;
-                }
-              }
-              if (selectedRoomId) {
-                handleJoinRoom();
-              }
-            }}
-            disabled={!selectedRoomId && !pastedLink}
-            className="w-full bg-blue-800 text-white py-2 rounded disabled:bg-gray-400"
-          >
-            Join Room
+          onClick={handleJoinRoom}
+          disabled={!selectedRoomId && !pastedLink}
+          className="w-full bg-blue-800 text-white py-2 rounded disabled:bg-gray-400"
+        >
+          Join Room
         </button>
-         
         {error && <p className="text-red-600">{error}</p>}
-  
-        {/* Create new room */}
+
         <form onSubmit={handleSubmit} className="space-y-4">
           <h2 className="text-lg text-center font-bold">Create a New Room</h2>
-  
+
           <input
             type="text"
             placeholder="Room Name"
@@ -262,7 +252,7 @@ useEffect(() => {
             required
             className="w-full p-2 border rounded"
           />
-  
+
           <input
             type="text"
             placeholder="Objective (e.g., Study, Meeting)"
@@ -271,7 +261,7 @@ useEffect(() => {
             required
             className="w-full p-2 border rounded"
           />
-  
+
           <select
             value={visibility}
             onChange={(e) => setVisibility(e.target.value as 'public' | 'private')}
@@ -280,7 +270,7 @@ useEffect(() => {
             <option value="public">Public</option>
             <option value="private">Private</option>
           </select>
-  
+
           {visibility === 'private' && (
             <>
               <input
@@ -290,7 +280,6 @@ useEffect(() => {
                 onChange={(e) => setLimit(Number(e.target.value))}
                 className="w-full p-2 border rounded"
               />
-  
               <div className="space-y-2">
                 <label className="block font-medium">Participant Emails</label>
                 {participantEmails.map((email, index) => (
@@ -330,31 +319,33 @@ useEffect(() => {
               </div>
             </>
           )}
-  
+
           {roomLink && (
-            <div className="bg-white  rounded border text-sm text-center relative">
+            <div className="bg-white rounded border text-sm text-center relative">
               <div className="flex font-medium">
-                <p className='flex-1 pt-2'>Copy link : <span className=" break-all">{roomLink}</span></p>
+                <p className="flex-1 pt-2">Copy link: <span className=" break-all">{roomLink}</span></p>
                 <button
                   type="button"
                   onClick={() => navigator.clipboard.writeText(roomLink)}
-                  className=" px-4 py-2 bg-green-600 text-white hover:bg-green-700 rounded "
+                  className="px-4 py-2 bg-green-600 text-white hover:bg-green-700 rounded"
                 >
-                  <FontAwesomeIcon icon={faCopy}  />
+                  <FontAwesomeIcon icon={faCopy} />
                 </button>
               </div>
             </div>
           )}
-  
-          <button type="submit" className="bg-gradient-to-r from-blue-600 w-full to-blue-950 hover:from-customBlue/90 hover:to-blue-800/90 
-                                        text-white  rounded text-lg font-semibold h-12 justify-center">
+
+          <button
+            type="submit"
+            disabled={!userId}
+            className={`bg-gradient-to-r from-blue-600 to-blue-950 text-white rounded text-lg font-semibold h-12 w-full ${
+              !userId ? 'opacity-50 cursor-not-allowed' : ''
+            }`}
+          >
             Create Room
           </button>
-          
-
         </form>
       </div>
     </div>
-    </div>
   );
-}  
+}

@@ -292,7 +292,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$emoji$2d$m
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fa$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/react-icons/fa/index.mjs [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$post$2d$action$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/lib/post-action.ts [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$comment$2d$action$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/lib/comment-action.ts [app-client] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$date$2d$fns$2f$format$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$locals$3e$__ = __turbopack_context__.i("[project]/node_modules/date-fns/format.js [app-client] (ecmascript) <locals>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$date$2d$fns$2f$esm$2f$format$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__format$3e$__ = __turbopack_context__.i("[project]/node_modules/date-fns/esm/format/index.js [app-client] (ecmascript) <export default as format>");
 ;
 var _s = __turbopack_context__.k.signature();
 'use client';
@@ -390,7 +390,7 @@ function PostCard({ post, session, isPending, saved, onToggleSave, onDelete }) {
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                         className: "text-sm text-gray-500",
-                                        children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$date$2d$fns$2f$format$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$locals$3e$__["format"])(new Date(post.createdAt), 'dd/MM/yyyy HH:mm:ss')
+                                        children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$date$2d$fns$2f$esm$2f$format$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__format$3e$__["format"])(new Date(post.createdAt), 'dd/MM/yyyy HH:mm:ss')
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/post-card.tsx",
                                         lineNumber: 148,
@@ -2210,6 +2210,7 @@ __turbopack_context__.s({
     "default": (()=>SidebarWrapper)
 });
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$session$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/lib/session.ts [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/navigation.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fa$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/react-icons/fa/index.mjs [app-client] (ecmascript)");
@@ -2217,6 +2218,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$ico
 ;
 var _s = __turbopack_context__.k.signature(), _s1 = __turbopack_context__.k.signature();
 'use client';
+;
 ;
 ;
 ;
@@ -2248,24 +2250,24 @@ function SidebarWrapper() {
                     className: "text-blue-950"
                 }, void 0, false, {
                     fileName: "[project]/src/components/sidebar.tsx",
-                    lineNumber: 32,
+                    lineNumber: 34,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/sidebar.tsx",
-                lineNumber: 27,
+                lineNumber: 29,
                 columnNumber: 9
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: `hidden md:block fixed left-0 top-0 h-full z-30 transition-all duration-300 ${mobileSidebarOpen ? 'translate-x-0' : ''}`,
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Sidebar, {}, void 0, false, {
                     fileName: "[project]/src/components/sidebar.tsx",
-                    lineNumber: 38,
+                    lineNumber: 40,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/sidebar.tsx",
-                lineNumber: 37,
+                lineNumber: 39,
                 columnNumber: 7
             }, this),
             isMobile && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2276,7 +2278,7 @@ function SidebarWrapper() {
                         onClick: ()=>setMobileSidebarOpen(false)
                     }, void 0, false, {
                         fileName: "[project]/src/components/sidebar.tsx",
-                        lineNumber: 46,
+                        lineNumber: 48,
                         columnNumber: 13
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2293,36 +2295,36 @@ function SidebarWrapper() {
                                         className: "text-blue-950"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/sidebar.tsx",
-                                        lineNumber: 60,
+                                        lineNumber: 62,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/sidebar.tsx",
-                                    lineNumber: 55,
+                                    lineNumber: 57,
                                     columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/components/sidebar.tsx",
-                                lineNumber: 54,
+                                lineNumber: 56,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Sidebar, {
                                 onNavigate: ()=>setMobileSidebarOpen(false)
                             }, void 0, false, {
                                 fileName: "[project]/src/components/sidebar.tsx",
-                                lineNumber: 63,
+                                lineNumber: 65,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/sidebar.tsx",
-                        lineNumber: 53,
+                        lineNumber: 55,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/sidebar.tsx",
-                lineNumber: 43,
+                lineNumber: 45,
                 columnNumber: 9
             }, this)
         ]
@@ -2340,7 +2342,7 @@ function Sidebar({ onNavigate }) {
         "Sidebar.useEffect": ()=>{
             const loadSession = {
                 "Sidebar.useEffect.loadSession": async ()=>{
-                    const sess = await getSession();
+                    const sess = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$session$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getSession"])();
                     setSession(sess);
                 }
             }["Sidebar.useEffect.loadSession"];
@@ -2348,37 +2350,37 @@ function Sidebar({ onNavigate }) {
         }
     }["Sidebar.useEffect"], []);
     const menuItems = [
-        ...session?.user?.role === 'ADMIN' ? [
-            {
-                name: 'Dashboard',
-                icon: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(DashboardIcon, {
-                    className: "text-lg"
-                }, void 0, false, {
-                    fileName: "[project]/src/components/sidebar.tsx",
-                    lineNumber: 86,
-                    columnNumber: 13
-                }, this),
-                path: '/dashboard'
-            }
-        ] : [],
         {
             name: 'Profile',
             icon: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fa$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FaUser"], {
                 className: "text-lg"
             }, void 0, false, {
                 fileName: "[project]/src/components/sidebar.tsx",
-                lineNumber: 91,
+                lineNumber: 88,
                 columnNumber: 13
             }, this),
             path: '/profile'
         },
+        ...session?.user?.role === 'ADMIN' ? [
+            {
+                name: 'Dashboard',
+                icon: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fa$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FaTachometerAlt"], {
+                    className: "text-lg"
+                }, void 0, false, {
+                    fileName: "[project]/src/components/sidebar.tsx",
+                    lineNumber: 93,
+                    columnNumber: 13
+                }, this),
+                path: 'admin/dashboard'
+            }
+        ] : [],
         {
             name: 'Planner',
             icon: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fa$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FaCalendarAlt"], {
                 className: "text-lg"
             }, void 0, false, {
                 fileName: "[project]/src/components/sidebar.tsx",
-                lineNumber: 96,
+                lineNumber: 98,
                 columnNumber: 13
             }, this),
             path: '/planner'
@@ -2389,7 +2391,7 @@ function Sidebar({ onNavigate }) {
                 className: "text-lg"
             }, void 0, false, {
                 fileName: "[project]/src/components/sidebar.tsx",
-                lineNumber: 101,
+                lineNumber: 103,
                 columnNumber: 13
             }, this),
             path: '/university'
@@ -2400,7 +2402,7 @@ function Sidebar({ onNavigate }) {
                 className: "text-lg"
             }, void 0, false, {
                 fileName: "[project]/src/components/sidebar.tsx",
-                lineNumber: 106,
+                lineNumber: 108,
                 columnNumber: 13
             }, this),
             path: '/chatbot'
@@ -2411,7 +2413,7 @@ function Sidebar({ onNavigate }) {
                 className: "text-lg"
             }, void 0, false, {
                 fileName: "[project]/src/components/sidebar.tsx",
-                lineNumber: 111,
+                lineNumber: 113,
                 columnNumber: 13
             }, this),
             path: '/coworking'
@@ -2422,10 +2424,10 @@ function Sidebar({ onNavigate }) {
                 className: "text-lg"
             }, void 0, false, {
                 fileName: "[project]/src/components/sidebar.tsx",
-                lineNumber: 116,
+                lineNumber: 118,
                 columnNumber: 13
             }, this),
-            path: '/solostudying'
+            path: '/soloStuding'
         }
     ];
     const navigate = (path)=>{
@@ -2441,13 +2443,20 @@ function Sidebar({ onNavigate }) {
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "flex items-center pt-6 px-4",
                 children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
-                        src: "/images/logo.png",
-                        alt: "BrainWave",
-                        className: "h-16 w-16 object-contain"
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
+                        href: "/",
+                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
+                            src: "/images/logo.png",
+                            alt: "BrainWave",
+                            className: "h-16 w-16 object-contain"
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/sidebar.tsx",
+                            lineNumber: 138,
+                            columnNumber: 21
+                        }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/sidebar.tsx",
-                        lineNumber: 136,
+                        lineNumber: 138,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
@@ -2455,22 +2464,22 @@ function Sidebar({ onNavigate }) {
                         children: "BrainWave"
                     }, void 0, false, {
                         fileName: "[project]/src/components/sidebar.tsx",
-                        lineNumber: 137,
+                        lineNumber: 139,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/sidebar.tsx",
-                lineNumber: 135,
+                lineNumber: 137,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("nav", {
                 className: "mt-5 flex-1 overflow-y-auto",
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
-                    className: "flex flex-col space-y-6 px-6",
+                    className: "flex flex-col space-y-4 px-3",
                     children: menuItems.map((item)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: `flex items-center justify-between py-4 px-4 rounded-lg cursor-pointer transition-all ${isActive(item.path) ? 'bg-blue-900 shadow-md shadow-gray-500 text-white' : 'hover:bg-blue-900 hover:text-white'}`,
+                                className: `flex items-center justify-between py-4  pl-4 rounded-lg cursor-pointer transition-all ${isActive(item.path) ? 'bg-blue-900 shadow-md shadow-gray-500 text-white' : 'hover:bg-blue-900 hover:text-white'}`,
                                 onClick: ()=>navigate(item.path),
                                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                     className: "flex items-center space-x-3",
@@ -2480,33 +2489,33 @@ function Sidebar({ onNavigate }) {
                                             children: item.name
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/sidebar.tsx",
-                                            lineNumber: 155,
+                                            lineNumber: 157,
                                             columnNumber: 19
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/sidebar.tsx",
-                                    lineNumber: 153,
+                                    lineNumber: 155,
                                     columnNumber: 17
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/components/sidebar.tsx",
-                                lineNumber: 145,
+                                lineNumber: 147,
                                 columnNumber: 15
                             }, this)
                         }, item.name, false, {
                             fileName: "[project]/src/components/sidebar.tsx",
-                            lineNumber: 144,
+                            lineNumber: 146,
                             columnNumber: 13
                         }, this))
                 }, void 0, false, {
                     fileName: "[project]/src/components/sidebar.tsx",
-                    lineNumber: 142,
+                    lineNumber: 144,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/sidebar.tsx",
-                lineNumber: 141,
+                lineNumber: 143,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2519,29 +2528,29 @@ function Sidebar({ onNavigate }) {
                         className: "text-yellow-300 text-lg"
                     }, void 0, false, {
                         fileName: "[project]/src/components/sidebar.tsx",
-                        lineNumber: 171,
+                        lineNumber: 173,
                         columnNumber: 13
                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fa$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FaMoon"], {
                         className: "text-white text-lg"
                     }, void 0, false, {
                         fileName: "[project]/src/components/sidebar.tsx",
-                        lineNumber: 173,
+                        lineNumber: 175,
                         columnNumber: 13
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/src/components/sidebar.tsx",
-                    lineNumber: 165,
+                    lineNumber: 167,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/sidebar.tsx",
-                lineNumber: 164,
+                lineNumber: 166,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/sidebar.tsx",
-        lineNumber: 133,
+        lineNumber: 135,
         columnNumber: 5
     }, this);
 }
