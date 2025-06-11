@@ -217,30 +217,13 @@ export default function LandingPage() {
           ))}
         </div>
       </div>
+
     </div>
   );
 })}
 
         </div>
       </section>
-
-
-      {/* CTA Section <section className="py-20 bg-gray-100 text-black text-center relative overflow-hidden">
-        <div className="container mx-auto px-6">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 fade-in">Get in touch with us!</h2>
-          <p className="mb-8 fade-in">We'd love to hear from you. Send us a message.</p>
-        </div>
-        <div className="container max-w-md mx-auto px-6">
-          <form className="bg-white p-6 rounded-lg shadow-lg">
-            <input type="text" placeholder="Your Name" className="w-full mb-4 px-4 py-2 bg-gray-200 rounded-lg" />
-            <input type="email" placeholder="Your Email" className="w-full mb-4 px-4 py-2 bg-gray-200 rounded-lg" />
-            <textarea placeholder="Your Message" rows={4} className="w-full mb-4 px-4 py-2 bg-gray-200 rounded-lg" />
-            <button type="submit" className="w-full bg-blue-800 text-white py-2 rounded-lg hover:bg-blue-950 transition">Send Message</button>
-          </form>
-        </div>
-      </section>*/}
-      
-
       {/* Footer */}
       <footer className="bg-gradient-to-b from-indigo-900 to-blue-800 text-white py-16">
         <div className="container mx-auto px-6 grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-10">

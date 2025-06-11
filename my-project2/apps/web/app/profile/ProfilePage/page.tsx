@@ -12,7 +12,10 @@ import {
   FaChalkboardTeacher,
   FaBookmark,
   FaTimes,
-  FaBriefcase
+  FaBriefcase,
+  FaLinkedin,
+  FaFacebook,
+  FaTwitter
 } from 'react-icons/fa';
 import { MdEmail, MdInterests, MdSchool } from 'react-icons/md';
 import {
@@ -23,12 +26,19 @@ import {
 import PostCard from '../../components/post-card';
 import { Session } from '@/lib/session';
 import { deletePost } from '@/lib/post-action';
+
 interface ProfilePageProps {
   session: Session;
 }
 
+interface BioData {
+  bio: string;
+  linkedin: string;
+  facebook: string;
+  twitter: string;
+}
 
-export default function ProfilePage({  session }: ProfilePageProps) {
+export default function ProfilePage({ session }: ProfilePageProps) {
   const [user, setUser] = useState<UserProfile | null>(null);
   const [posts, setPosts] = useState<any[]>([]);
   const [isEditing, setIsEditing] = useState(false);
@@ -40,16 +50,16 @@ export default function ProfilePage({  session }: ProfilePageProps) {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const handleDeletePost = (postId: number) => {
-    startTransition(() => {
-      deletePost(postId);
-      setPosts(prev => prev.filter(p => p.id !== postId));
-    });
-  };
-
+  const [bioData, setBioData] = useState<BioData>({
+    bio: '',
+    linkedin: '',
+    facebook: '',
+    twitter: ''
+  });
+  const [isBioEditing, setIsBioEditing] = useState(false);
+  
   useEffect(() => {
-    (async () => {
+    const fetchData = async () => {
       const { profile, posts } = await getUserProfileAndPosts();
       if (profile) {
         setUser(profile);
@@ -58,10 +68,25 @@ export default function ProfilePage({  session }: ProfilePageProps) {
           lastName: profile.lastName || '',
           university: profile.university || ''
         });
+        
+        // Initialize bio data from localStorage only
+        const savedBio = localStorage.getItem('userBio');
+        if (savedBio) {
+          setBioData(JSON.parse(savedBio));
+        }
       }
       setPosts(posts);
-    })();
+    };
+    
+    fetchData();
   }, []);
+
+  const handleDeletePost = (postId: number) => {
+    startTransition(() => {
+      deletePost(postId);
+      setPosts(prev => prev.filter(p => p.id !== postId));
+    });
+  };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -109,6 +134,36 @@ export default function ProfilePage({  session }: ProfilePageProps) {
     }
   };
 
+  const saveBio = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    
+    const updatedBio: BioData = {
+      bio: formData.get('bio') as string,
+      linkedin: formData.get('linkedin') as string,
+      facebook: formData.get('facebook') as string,
+      twitter: formData.get('twitter') as string
+    };
+    
+    // Validate and format URLs
+    const formatUrl = (url: string) => {
+      if (!url) return '';
+      if (!url.startsWith('http://') && !url.startsWith('https://')) {
+        return `https://${url}`;
+      }
+      return url;
+    };
+    
+    updatedBio.linkedin = formatUrl(updatedBio.linkedin);
+    updatedBio.facebook = formatUrl(updatedBio.facebook);
+    updatedBio.twitter = formatUrl(updatedBio.twitter);
+    
+    setBioData(updatedBio);
+    localStorage.setItem('userBio', JSON.stringify(updatedBio));
+    setIsBioEditing(false);
+  };
+
   const handleLogout = () => {
     window.location.href = '/api/auth/signout';
   };
@@ -146,11 +201,11 @@ export default function ProfilePage({  session }: ProfilePageProps) {
 
   return (
     <div className="min-h-screen bg-gray-50 flex-1 w-full md:ml-14 md:mr-5 p-2 relative">
-      {/* Enhanced Profile Header */}
+      {/* Profile Header */}
       <div className="bg-white shadow-md">
         <div className="max-w-4xl mx-auto px-4 sm:px-7 lg:px-6">
           <div className="py-8 flex flex-col items-center text-center md:flex-row md:text-left gap-8">
-            {/* Profile Picture Section */}
+            {/* Profile Picture */}
             <div className="relative shrink-0">
               <div className="relative h-40 w-40 rounded-full overflow-hidden border-4 border-white shadow-xl">
                 {user.profilePicture ? (
@@ -176,7 +231,7 @@ export default function ProfilePage({  session }: ProfilePageProps) {
               </div>
             </div>
 
-            {/* Profile Info Section */}
+            {/* Profile Info */}
             <div className="flex-1 space-y-6">
               <div className="space-y-2">
                 <h1 className="text-3xl font-bold text-gray-900 tracking-tight">
@@ -208,9 +263,74 @@ export default function ProfilePage({  session }: ProfilePageProps) {
         </div>
       </div>
 
-      {/* Profile Details Section */}
+      {/* Profile Details */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Bio Card */}
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow lg:col-span-3">
+            <div className="p-6 relative">
+              <div className="flex justify-between items-start mb-4">
+                <div className="flex items-center">
+                  <div className="p-2 bg-blue-50 rounded-lg">
+                    <FaUserCircle className="text-blue-600 text-xl" />
+                  </div>
+                  <h2 className="text-xl font-semibold text-gray-900 ml-3">About</h2>
+                </div>
+                <button
+                  onClick={() => setIsBioEditing(true)}
+                  className="text-sm px-3 py-1 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition flex items-center gap-1"
+                >
+                  <FaEdit size={14} /> Edit
+                </button>
+              </div>
+              
+              <div className="space-y-4">
+                {bioData.bio ? (
+                  <p className="text-gray-700 whitespace-pre-wrap leading-relaxed">
+                    {bioData.bio}
+                  </p>
+                ) : (
+                  <p className="text-gray-500 italic">No bio added yet. Tell others about yourself!</p>
+                )}
+                
+                {(bioData.linkedin || bioData.facebook || bioData.twitter) && (
+                  <div className="flex flex-wrap gap-4 mt-4">
+                    {bioData.linkedin && (
+                      <a 
+                        href={bioData.linkedin} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="flex items-center text-blue-600 hover:text-blue-800 transition-colors"
+                      >
+                        <FaLinkedin className="mr-2" /> LinkedIn
+                      </a>
+                    )}
+                    {bioData.facebook && (
+                      <a 
+                        href={bioData.facebook} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="flex items-center text-blue-600 hover:text-blue-800 transition-colors"
+                      >
+                        <FaFacebook className="mr-2" /> Facebook
+                      </a>
+                    )}
+                    {bioData.twitter && (
+                      <a 
+                        href={bioData.twitter} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="flex items-center text-blue-400 hover:text-blue-600 transition-colors"
+                      >
+                        <FaTwitter className="mr-2" /> Twitter
+                      </a>
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
           {/* Education Card */}
           {(user.formation || user.graduationYear || user.degree) && (
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow">
@@ -341,35 +461,34 @@ export default function ProfilePage({  session }: ProfilePageProps) {
         <div className="mt-6">
           {selectedTab === 'posts' ? (
             <div className="space-y-6">
-            {posts.length > 0 ? (
+              {posts.length > 0 ? (
                 posts
                   .filter(post => post.status === 'APPROVED')
                   .map(post => (
                     <PostCard
-                    key={post.id}
-                    post={post}
-                    currentUserId={session.user.id}
-                    onDelete={handleDeletePost}
-                    session= {session}
+                      key={post.id}
+                      post={post}
+                      currentUserId={session.user.id}
+                      onDelete={handleDeletePost}
+                      session={session}
                     />
                   ))
-              )  : (
-              <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 text-center">
-                <div className="mx-auto w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-                  <FaGraduationCap className="text-gray-400 text-3xl" />
+              ) : (
+                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 text-center">
+                  <div className="mx-auto w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+                    <FaGraduationCap className="text-gray-400 text-3xl" />
+                  </div>
+                  <h3 className="text-xl font-medium text-gray-900 mb-2">No posts yet</h3>
+                  <p className="text-gray-500 mb-4">Share your thoughts and ideas with the community</p>
+                  <button 
+                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                  >
+                    Create your first post
+                  </button>
                 </div>
-                <h3 className="text-xl font-medium text-gray-900 mb-2">No posts yet</h3>
-                <p className="text-gray-500 mb-4">Share your thoughts and ideas with the community</p>
-                <button 
-                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-                  onClick={() => {/* Add your create post handler here */}}
-                >
-                  Create your first post
-                </button>
-              </div>
-            )}
-          </div>
-        ) : (
+              )}
+            </div>
+          ) : (
             <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-8 text-center">
               <div className="mx-auto w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-4">
                 <FaBookmark className="text-gray-400 text-3xl" />
@@ -383,7 +502,7 @@ export default function ProfilePage({  session }: ProfilePageProps) {
         </div>
       </div>
 
-      {/* Edit Profile Modal - Enhanced */}
+      {/* Edit Profile Modal */}
       {isEditing && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
@@ -509,6 +628,96 @@ export default function ProfilePage({  session }: ProfilePageProps) {
                 </div>
               </form>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Bio Edit Modal */}
+      {isBioEditing && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm px-4">
+          <div className="bg-white w-full max-w-xl rounded-2xl shadow-lg p-6 relative">
+            <button
+              onClick={() => setIsBioEditing(false)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
+            >
+              <FaTimes size={20} />
+            </button>
+            <h2 className="text-xl font-bold text-gray-800 mb-6">Edit Your Bio</h2>
+            <form onSubmit={saveBio} className="space-y-5">
+              <div>
+                <label htmlFor="bio" className="block text-sm font-medium text-gray-700 mb-1">
+                  Bio
+                  <span className="text-gray-500 text-xs ml-1">(Max 500 characters)</span>
+                </label>
+                <textarea
+                  name="bio"
+                  id="bio"
+                  defaultValue={bioData.bio}
+                  maxLength={500}
+                  rows={6}
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                  placeholder="Tell us about yourself..."
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  {bioData.bio.length || 0}/500 characters
+                </p>
+              </div>
+              
+              <div className="space-y-3">
+                <h3 className="text-sm font-medium text-gray-700">Social Links</h3>
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3">
+                    <FaLinkedin className="text-blue-700 text-xl" />
+                    <input
+                      type="url"
+                      name="linkedin"
+                      id="linkedin"
+                      defaultValue={bioData.linkedin}
+                      placeholder="linkedin.com/in/yourname"
+                      className="w-full px-4 py-2.5 border border-gray-300 rounded-lg bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                    />
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <FaFacebook className="text-blue-600 text-xl" />
+                    <input
+                      type="url"
+                      name="facebook"
+                      id="facebook"
+                      defaultValue={bioData.facebook}
+                      placeholder="facebook.com/yourname"
+                      className="w-full px-4 py-2.5 border border-gray-300 rounded-lg bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                    />
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <FaTwitter className="text-blue-400 text-xl" />
+                    <input
+                      type="url"
+                      name="twitter"
+                      id="twitter"
+                      defaultValue={bioData.twitter}
+                      placeholder="twitter.com/yourname"
+                      className="w-full px-4 py-2.5 border border-gray-300 rounded-lg bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex justify-end gap-3 pt-4">
+                <button
+                  type="button"
+                  onClick={() => setIsBioEditing(false)}
+                  className="px-5 py-2.5 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-5 py-2.5 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow-sm hover:shadow-md transition"
+                >
+                  Save Bio
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}
