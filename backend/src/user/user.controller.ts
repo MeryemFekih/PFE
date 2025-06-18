@@ -1,58 +1,24 @@
 import {
   Controller, Get, Patch, Body, Req, UseGuards,
   Param, Post, Delete,
-  Query,
-  UseInterceptors,
-  UploadedFile,
-  Request
+  Query
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth/jwt-auth.guard';
 import { UserService } from './user.service';
-import { Roles } from 'src/auth/decorators/roles.decorator';
-import { FileInterceptor } from '@nestjs/platform-express';
-import { extname } from 'path';
-import { diskStorage } from 'multer';
 
 @Controller('user')
 @UseGuards(JwtAuthGuard)
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
- @Patch('update-profile')
-  @UseInterceptors(
-    FileInterceptor('profilePicture', {
-      storage: diskStorage({
-        destination: './uploads/profile-pictures',
-        filename: (req, file, cb) => {
-          const uniqueSuffix =
-            Date.now() + '-' + Math.round(Math.random() * 1e9);
-          cb(null, `profile-${uniqueSuffix}${extname(file.originalname)}`);
-        },
-      }),
-    }),
-  )
-  async updateProfile(
-    @Req() req,
-    @Body()
-    updateData: { firstName: string; lastName: string; university: string },
-    @UploadedFile() file: Express.Multer.File,
-  ) {
-    const userId = req.user.id;
-    let profilePictureUrl: string | undefined;
-
-    if (file) {
-      profilePictureUrl = `/profile-pictures/${file.filename}`;
-    }
-
-    return this.userService.updateProfile(userId, {
-      ...updateData,
-      profilePicture: profilePictureUrl,
-    });
+  @Get('profile')
+  getOwnProfile(@Req() req) {
+    return this.userService.getProfile(req.user.id);
   }
-  @Roles('ALUMNI', 'ADMIN', 'STUDENT', 'PROFESSOR', 'PUBLIC')
-  @Get('protected')
-  getFullProfile(@Request() req) {
-    return req.user; // ✅ This returns full user object (id, role, email, etc.)
+
+  @Patch('profile')
+  updateOwnProfile(@Req() req, @Body() body: Partial<any>) {
+    return this.userService.updateProfile(req.user.id, body);
   }
 
   @Get('shared-interests')
