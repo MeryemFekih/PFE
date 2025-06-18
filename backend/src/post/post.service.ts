@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
+import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
 
 @Injectable()
 export class PostService {
@@ -19,6 +19,7 @@ export class PostService {
       location,
       speakerId,
       visibility,
+      participantLimit,
     } = createPostDto;
 
     return this.prisma.post.create({
@@ -28,6 +29,7 @@ export class PostService {
         type,
         eventType,
         subject,
+        participantLimit,
         visibility,
         startDate: startDate ? new Date(startDate) : undefined,
         endDate: endDate ? new Date(endDate) : undefined,
@@ -279,5 +281,86 @@ async getSuggestedEvents(userId: number) {
   console.log(`✅ Found ${results.length} suggested events`);
   return results;
 }
+async participateInPost(postId: number, userId: number) {
+  const post = await this.prisma.post.findUnique({
+    where: { id: postId },
+    include: { participants: true },
+  });
+
+  if (!post) throw new Error('Post not found');
+  if (post.participantLimit && post.participants.length >= post.participantLimit) {
+    throw new Error('This event has reached its participant limit');
+  }
+
+  // Prevent double participation
+  const existing = await this.prisma.participation.findFirst({
+    where: { postId, userId }
+  });
+
+  if (existing) throw new Error('You already participated in this event');
+
+  return this.prisma.participation.create({
+    data: {
+      postId,
+      userId,
+      name: '', // optional, from session if needed
+    },
+  });
+}
+// post.service.ts
+// GET /posts/:id/participants
+async getPostParticipants(postId: number, requesterId: number) {
+  const post = await this.prisma.post.findUnique({
+    where: { id: postId },
+    select: {
+      authorId: true,
+      type: true,
+    },
+  });
+
+  if (!post) throw new NotFoundException('Post not found');
+
+  if (!['EVENT', 'FORMATION'].includes(post.type)) {
+    throw new ForbiddenException('Participants only visible for events or formations');
+  }
+
+  if (post.authorId !== requesterId) {
+    throw new ForbiddenException('Only the post owner can view participants');
+  }
+
+  return this.prisma.participation.findMany({
+    where: { postId },
+    include: { user: true },
+  });
+}
+
+
+
+async requestParticipantRemoval(
+  participationId: number,
+  requesterId: number,
+  reason: string,
+) {
+  const participation = await this.prisma.participation.findUnique({
+    where: { id: participationId },
+    include: { post: true },
+  });
+
+  if (!participation) throw new NotFoundException('Participation not found');
+
+  if (participation.post.authorId !== requesterId) {
+    throw new ForbiddenException('Only the post owner can request removal');
+  }
+
+  return this.prisma.participation.update({
+    where: { id: participationId },
+    data: {
+      removalStatus: 'PENDING',
+      removalReason: reason,
+      removalRequestedById: requesterId,
+    },
+  });
+}
+
 
 }

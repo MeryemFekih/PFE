@@ -90,9 +90,23 @@ model Participation {
   motivation String?  @db.Text
   createdAt  DateTime @default(now())
 
+  // New fields for removal request
+  removalRequestedById Int?
+  removalReason        String?  @db.Text
+  removalStatus        String   @default("NONE") @db.VarChar(20)
+  reviewedById         Int?
+  reviewedAt           DateTime?
+
+  // Relations
   post Post  @relation(fields: [postId], references: [id], onDelete: Cascade)
   user user? @relation(fields: [userId], references: [id], onDelete: Cascade)
+  removalRequestedBy user? @relation("RemovalRequestedBy", fields: [removalRequestedById], references: [id])
+  reviewedBy         user? @relation("ReviewedBy", fields: [reviewedById], references: [id])
+
+  @@unique([postId, userId])
 }
+
+
 
 model Post {
   id       Int     @id @default(autoincrement())
@@ -101,12 +115,12 @@ model Post {
   mediaUrl String? @db.VarChar(255)
   subject  String? @db.VarChar(100)
 
-  type      PostType   @default(GENERAL)
-  eventType EventType?
-
-  startDate DateTime?
-  endDate   DateTime?
-  location  String?
+  type             PostType   @default(GENERAL)
+  eventType        EventType?
+  participantLimit Int?
+  startDate        DateTime?
+  endDate          DateTime?
+  location         String?
 
   speakerId Int?
   speaker   user? @relation("PostSpeaker", fields: [speakerId], references: [id])
@@ -117,7 +131,7 @@ model Post {
   visibility Visibility @default(PRIVATE)
 
   authorId Int
-  author   user @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  author   user   @relation(fields: [authorId], references: [id], onDelete: Cascade)
   savedBy  user[] @relation("SavedPosts")
 
   participants Participation[]
@@ -158,6 +172,7 @@ model Event {
 
   @@map("Event")
 }
+
 model Conversation {
   id        Int       @id @default(autoincrement())
   userId    Int
@@ -170,7 +185,7 @@ model Message {
   id             Int          @id @default(autoincrement())
   conversationId Int
   conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
-  role           String       // 'user' or 'assistant'
+  role           String // 'user' or 'assistant'
   content        String
   createdAt      DateTime     @default(now())
 
@@ -232,12 +247,13 @@ model user {
   approvedUsers  user[]          @relation("UserApprovals")
   Comment        Comment[]
   participations Participation[] // ← reverse relation for Participation.user
+  removalRequestsMade  Participation[] @relation("RemovalRequestedBy")
+  reviewedRequests      Participation[] @relation("ReviewedBy")
   speakerPosts   Post[]          @relation("PostSpeaker") // ← reverse relation for Post.speaker
-  savedPosts Post[] @relation("SavedPosts")
-  conversations Conversation[]
-  following user[] @relation("UserFollows")
-  followers user[] @relation("UserFollows")
-
+  savedPosts     Post[]          @relation("SavedPosts")
+  conversations  Conversation[]
+  following      user[]          @relation("UserFollows")
+  followers      user[]          @relation("UserFollows")
 
   // Indexes
   @@index([status])

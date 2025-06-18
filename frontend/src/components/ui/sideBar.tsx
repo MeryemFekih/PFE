@@ -6,7 +6,8 @@ import { getSession } from '@/lib/session';
 import {
   FaSun, FaMoon, FaUser,
   FaUniversity, FaRobot, FaCalendarAlt,
-  FaPeopleArrows, FaPersonBooth, FaTachometerAlt
+  FaPeopleArrows, FaPersonBooth, FaTachometerAlt,
+  FaSignOutAlt
 } from 'react-icons/fa';
 import { FiMenu, FiX } from 'react-icons/fi';
 import Link from 'next/link';
@@ -96,20 +97,28 @@ function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
     { name: 'Collaborative Space', icon: <FaPeopleArrows className="text-lg" />, path: '/coworking' },
     { name: 'Focus Mode', icon: <FaPersonBooth className="text-lg" />, path: '/soloStuding' }
   ];
+ const handleLogout = async () => {
+    try {
+      await fetch('/api/auth/logout', { method: 'POST' });
+      router.push('/auth/signIn');
+    } catch (error) {
+      console.error('Error logging out:', error);
+    }
+  };
 
   return (
     <aside className="w-max h-full bg-blue-950 text-white flex flex-col">
       {/* Logo */}
-      <div className="flex items-center pt-6 px-4">
+      <div className="flex items-center pt-6 ">
         <Link href="/">
           <img src="/images/logo.png" alt="BrainWave" className="h-16 w-16 object-contain" />
         </Link>
-        <h2 className="text-xl font-bold ml-2">BrainWave</h2>
+        <h2 className="text-xl font-bold ">BrainWave</h2>
       </div>
 
       {/* Navigation */}
       <nav className="mt-5 flex-1 overflow-y-auto">
-        <ul className="flex flex-col space-y-4 px-2">
+        <ul className="flex flex-col space-y-3 px-2">
           {menuItems.map((item) => (
             <li key={item.name}>
               <div
@@ -126,24 +135,27 @@ function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
                 </div>
               </div>
             </li>
+
           ))}
+          
         </ul>
       </nav>
 
-      {/* Dark Mode Toggle */}
-      <div className="p-4 flex justify-center">
-        <button
-          onClick={() => setDarkMode(!darkMode)}
-          className="p-2 rounded-full bg-blue-800 hover:bg-blue-700 transition-colors"
-          aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
-        >
-          {darkMode ? (
-            <FaSun className="text-yellow-300 text-lg" />
-          ) : (
-            <FaMoon className="text-white text-lg" />
-          )}
-        </button>
-      </div>
+        <div className="flex items-center justify-center mx-8 py-8 ">
+           <button
+              onClick={handleLogout}
+              className="group flex items-center text-center w-11 h-11 bg-red-900/90 border-2 border-red-800 rounded-full cursor-pointer relative overflow-hidden transition-all duration-200 shadow-md hover:shadow-gray-600 hover:w-full hover:rounded-full active:translate-x-1 active:translate-y-1"
+            >
+              <div className="flex items-center justify-center w-full transition-all duration-300 group-hover:justify-start group-hover:px-3">
+                <FaSignOutAlt className="w-4 h-4 text-white" />
+              </div>
+              <div className="absolute left-10 transform  translate-x-full opacity-0 text-white text-md font-medium transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100">
+                Sign Out
+              </div>
+            </button>
+        </div>
+          
+      
     </aside>
   );
 }

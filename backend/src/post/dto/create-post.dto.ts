@@ -27,6 +27,7 @@ export class CreatePostDto {
   @IsOptional()
   @IsString()
   subject?: string;
+  participantLimit?: number;
 
   @IsOptional()
   @IsEnum(Visibility)
@@ -46,4 +47,5 @@ export class CreatePostDto {
 
   @IsOptional()
   speakerId?: number;
+
 }

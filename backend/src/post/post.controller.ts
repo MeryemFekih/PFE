@@ -26,9 +26,13 @@ import { RolesGuard } from 'src/auth/guards/roles/roles.guard';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { Response } from 'express';
 import { createReadStream } from 'fs';
+import { PrismaService } from '../prisma/prisma.service';
 @Controller('post')
 export class PostController {
-  constructor(private readonly postService: PostService) {}
+  constructor(
+    private readonly postService: PostService,
+    private readonly prisma: PrismaService
+  ) {}
 
   @HttpPost()
   @UseGuards(JwtAuthGuard, RolesGuard)
@@ -176,6 +180,35 @@ async getSuggestedEvents(@Req() req) {
   return this.postService.getSuggestedEvents(userId);
 }
 
+@HttpPost(':id/participate')
+@UseGuards(JwtAuthGuard)
+async participate(@Param('id') postId: number, @Req() req) {
+  return this.postService.participateInPost(postId, req.user.id);
+}
+@UseGuards(JwtAuthGuard)
+@Get(':id/participants')
+getParticipants(@Param('id') postId: number, @Req() req: any) {
+  const user = req.user as any;
+  const requesterId = user?.id;
+
+  return this.postService.getPostParticipants(+postId, requesterId);
+}
+
+// PATCH /participants/:id/request-removal
+@Patch(':id/request-removal')
+requestRemoval(
+  @Param('id') id: number,
+  @Body() body: { reason: string; userId: number },
+) {
+  return this.prisma.participation.update({
+    where: { id: +id },
+    data: {
+      removalStatus: 'PENDING',
+      removalReason: body.reason,
+      removalRequestedById: body.userId,
+    },
+  });
+}
 
 
 }

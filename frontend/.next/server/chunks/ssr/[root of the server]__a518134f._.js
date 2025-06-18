@@ -38,15 +38,18 @@ const CHATBOT_API_KEY = process.env.CHATBOT_API_KEY;
 
 var { g: global, __dirname } = __turbopack_context__;
 {
-/* __next_internal_action_entry_do_not_use__ {"0048ac9409408413134cd3b20b877dfe2ed2e8b610":"getApprovedPosts","009e6f18c84f9d17b84e29d26aed5b7a33c271beba":"fetchSavedPostsMap","00e433008ff16ae54814c71bf4497a7f669762825c":"getSuggestedEvents","00f1bd19af7f3fe35d1d06e2940ff60a72410032ad":"getPostsByUser","4006fed6d871d6804baeda5542876b8aac7c0632a1":"getPostById","404a2f01d34c2a949328e743a689f590c21c6b3074":"savePost","4086c580a6ebb9e07e0c31d1acc1c8f2e4b37dfe9b":"deletePost","40a07c72c4ab1d0f9fc9b6b3456c685acbc94285c1":"addPostEventToPlanner","40b31c2c2b257ff859de7511994494dc716ad44ba9":"createPost","40c123de786de505d91123917b85f10026a06a9f65":"unsavePost","6014c1d7d0c09cc22aeaa9205e8008b2d23f8f8ea1":"toggleSavePost"} */ __turbopack_context__.s({
+/* __next_internal_action_entry_do_not_use__ {"0048ac9409408413134cd3b20b877dfe2ed2e8b610":"getApprovedPosts","009e6f18c84f9d17b84e29d26aed5b7a33c271beba":"fetchSavedPostsMap","00e433008ff16ae54814c71bf4497a7f669762825c":"getSuggestedEvents","00f1bd19af7f3fe35d1d06e2940ff60a72410032ad":"getPostsByUser","4006fed6d871d6804baeda5542876b8aac7c0632a1":"getPostById","402bc24d24ead01607c639311380afe64b07c281ee":"participateInPost","404a2f01d34c2a949328e743a689f590c21c6b3074":"savePost","4086c580a6ebb9e07e0c31d1acc1c8f2e4b37dfe9b":"deletePost","40a07c72c4ab1d0f9fc9b6b3456c685acbc94285c1":"addPostEventToPlanner","40b31c2c2b257ff859de7511994494dc716ad44ba9":"createPost","40c123de786de505d91123917b85f10026a06a9f65":"unsavePost","6014c1d7d0c09cc22aeaa9205e8008b2d23f8f8ea1":"toggleSavePost","60736e632678ae35a972a93957949c50e9ce954d05":"getPostParticipants","60c4aef1472bf6282bdb35f4f944bbdbff3fcbae1e":"requestParticipantRemoval"} */ __turbopack_context__.s({
     "addPostEventToPlanner": (()=>addPostEventToPlanner),
     "createPost": (()=>createPost),
     "deletePost": (()=>deletePost),
     "fetchSavedPostsMap": (()=>fetchSavedPostsMap),
     "getApprovedPosts": (()=>getApprovedPosts),
     "getPostById": (()=>getPostById),
+    "getPostParticipants": (()=>getPostParticipants),
     "getPostsByUser": (()=>getPostsByUser),
     "getSuggestedEvents": (()=>getSuggestedEvents),
+    "participateInPost": (()=>participateInPost),
+    "requestParticipantRemoval": (()=>requestParticipantRemoval),
     "savePost": (()=>savePost),
     "toggleSavePost": (()=>toggleSavePost),
     "unsavePost": (()=>unsavePost)
@@ -113,10 +116,12 @@ async function /*#__TURBOPACK_DISABLE_EXPORT_MERGING__*/ createPost(formData) {
             body: formData
         });
         if (!res.ok) {
-            const errorBody = await res.text(); // capture raw response text
+            const errorBody = await res.text(); // raw error message
             console.error('Backend responded with:', res.status, errorBody);
             throw new Error('Post creation failed');
         }
+        // ✅ FIX: return the result so the frontend gets confirmation
+        return await res.json();
     } catch (err) {
         console.error('Error creating post:', err);
         return null;
@@ -305,6 +310,49 @@ async function /*#__TURBOPACK_DISABLE_EXPORT_MERGING__*/ getSuggestedEvents() {
         return [];
     }
 }
+async function /*#__TURBOPACK_DISABLE_EXPORT_MERGING__*/ participateInPost(postId) {
+    const session = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$session$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getSession"])();
+    if (!session?.accessToken) throw new Error('Not authenticated');
+    try {
+        const res = await fetch(`${__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$constants$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["BACKEND_URL"]}/post/${postId}/participate`, {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${session.accessToken}`,
+                'Content-Type': 'application/json'
+            }
+        });
+        if (!res.ok) {
+            const errorText = await res.text();
+            throw new Error(errorText || 'Could not participate');
+        }
+        return await res.json(); // You can return success message or participation info
+    } catch (err) {
+        console.error('❌ Error participating in post:', err);
+        throw err;
+    }
+}
+async function /*#__TURBOPACK_DISABLE_EXPORT_MERGING__*/ getPostParticipants(postId, token) {
+    const res = await fetch(`${__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$constants$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["BACKEND_URL"]}/post/${postId}/participants`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
+    if (!res.ok) throw new Error('Failed to fetch participants');
+    return res.json();
+}
+async function /*#__TURBOPACK_DISABLE_EXPORT_MERGING__*/ requestParticipantRemoval(participationId, reason) {
+    const res = await fetch(`${__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$constants$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["BACKEND_URL"]}/post/${participationId}/request-removal`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            reason
+        })
+    });
+    if (!res.ok) throw new Error('Failed to request removal');
+    return res.json();
+}
 ;
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$action$2d$validate$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["ensureServerEntryExports"])([
     getApprovedPosts,
@@ -317,7 +365,10 @@ async function /*#__TURBOPACK_DISABLE_EXPORT_MERGING__*/ getSuggestedEvents() {
     toggleSavePost,
     fetchSavedPostsMap,
     addPostEventToPlanner,
-    getSuggestedEvents
+    getSuggestedEvents,
+    participateInPost,
+    getPostParticipants,
+    requestParticipantRemoval
 ]);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(getApprovedPosts, "0048ac9409408413134cd3b20b877dfe2ed2e8b610", null);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(getPostById, "4006fed6d871d6804baeda5542876b8aac7c0632a1", null);
@@ -330,6 +381,9 @@ async function /*#__TURBOPACK_DISABLE_EXPORT_MERGING__*/ getSuggestedEvents() {
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(fetchSavedPostsMap, "009e6f18c84f9d17b84e29d26aed5b7a33c271beba", null);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(addPostEventToPlanner, "40a07c72c4ab1d0f9fc9b6b3456c685acbc94285c1", null);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(getSuggestedEvents, "00e433008ff16ae54814c71bf4497a7f669762825c", null);
+(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(participateInPost, "402bc24d24ead01607c639311380afe64b07c281ee", null);
+(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(getPostParticipants, "60736e632678ae35a972a93957949c50e9ce954d05", null);
+(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(requestParticipantRemoval, "60c4aef1472bf6282bdb35f4f944bbdbff3fcbae1e", null);
 }}),
 "[project]/src/lib/comment-action.ts [app-rsc] (ecmascript)": ((__turbopack_context__) => {
 "use strict";
@@ -399,10 +453,12 @@ async function /*#__TURBOPACK_DISABLE_EXPORT_MERGING__*/ createComment(postId, t
 
 var { g: global, __dirname } = __turbopack_context__;
 {
-/* __next_internal_action_entry_do_not_use__ {"007e22d8ca451bd1b2fc40b0c18470fa3ea5d50e15":"getSuggestedUsers","4053c9815823913aba1288cf8a8d670299a252d769":"getUserProfileWithPosts","4054fa3fddeb9314acd84490c8fd2b94e13af3ba4b":"checkIfFollowing","605cde22bc8c3c677762a0b9b73016ce18fa27544b":"toggleFollow"} */ __turbopack_context__.s({
+/* __next_internal_action_entry_do_not_use__ {"007e22d8ca451bd1b2fc40b0c18470fa3ea5d50e15":"getSuggestedUsers","4053c9815823913aba1288cf8a8d670299a252d769":"getUserProfileWithPosts","4054fa3fddeb9314acd84490c8fd2b94e13af3ba4b":"checkIfFollowing","406389f79bf1bd2cbec02679755919d153e6a162b8":"getFollowDetails","40837c385fffb01fcb5877507e225861babdee0cd5":"searchUsers","605cde22bc8c3c677762a0b9b73016ce18fa27544b":"toggleFollow"} */ __turbopack_context__.s({
     "checkIfFollowing": (()=>checkIfFollowing),
+    "getFollowDetails": (()=>getFollowDetails),
     "getSuggestedUsers": (()=>getSuggestedUsers),
     "getUserProfileWithPosts": (()=>getUserProfileWithPosts),
+    "searchUsers": (()=>searchUsers),
     "toggleFollow": (()=>toggleFollow)
 });
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/build/webpack/loaders/next-flight-loader/server-reference.js [app-rsc] (ecmascript)");
@@ -503,17 +559,60 @@ async function /*#__TURBOPACK_DISABLE_EXPORT_MERGING__*/ toggleFollow(targetUser
     }
     return !isCurrentlyFollowing;
 }
+async function /*#__TURBOPACK_DISABLE_EXPORT_MERGING__*/ searchUsers(query) {
+    const session = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$session$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getSession"])();
+    if (!session?.accessToken) throw new Error('Not authenticated');
+    try {
+        console.log("🔑 Session in search:", session);
+        console.log("🔁 FETCHING FROM:", ("TURBOPACK compile-time value", "http://localhost:4000"));
+        console.log("🛡️ Access Token:", session?.accessToken);
+        const res = await fetch(`${process.env.BACKEND_URL}/user/search?query=${encodeURIComponent(query)}`, {
+            headers: {
+                Authorization: `Bearer ${session.accessToken}`
+            }
+        });
+        if (!res.ok) {
+            throw new Error('Failed to search users');
+        }
+        return await res.json();
+    } catch (err) {
+        console.error('❌ User search error:', err);
+        return [];
+    }
+}
+async function /*#__TURBOPACK_DISABLE_EXPORT_MERGING__*/ getFollowDetails(accessToken) {
+    try {
+        const res = await fetch(`${process.env.BACKEND_URL}/user/follow-details`, {
+            method: 'GET',
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            },
+            cache: 'no-store'
+        });
+        if (!res.ok) {
+            throw new Error('Failed to fetch follow details');
+        }
+        return await res.json(); // returns { followersCount, followingCount, followers, following }
+    } catch (error) {
+        console.error('❌ Follow details error:', error);
+        return null;
+    }
+}
 ;
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$action$2d$validate$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["ensureServerEntryExports"])([
     getSuggestedUsers,
     getUserProfileWithPosts,
     checkIfFollowing,
-    toggleFollow
+    toggleFollow,
+    searchUsers,
+    getFollowDetails
 ]);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(getSuggestedUsers, "007e22d8ca451bd1b2fc40b0c18470fa3ea5d50e15", null);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(getUserProfileWithPosts, "4053c9815823913aba1288cf8a8d670299a252d769", null);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(checkIfFollowing, "4054fa3fddeb9314acd84490c8fd2b94e13af3ba4b", null);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(toggleFollow, "605cde22bc8c3c677762a0b9b73016ce18fa27544b", null);
+(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(searchUsers, "40837c385fffb01fcb5877507e225861babdee0cd5", null);
+(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(getFollowDetails, "406389f79bf1bd2cbec02679755919d153e6a162b8", null);
 }}),
 "[project]/src/lib/event-action.ts [app-rsc] (ecmascript)": ((__turbopack_context__) => {
 "use strict";
@@ -578,6 +677,11 @@ __turbopack_context__.s({});
 ;
 ;
 ;
+;
+;
+;
+;
+;
 }}),
 "[project]/.next-internal/server/app/university/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/lib/post-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/lib/comment-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/lib/user-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/src/lib/event-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript) <module evaluation>": ((__turbopack_context__) => {
 "use strict";
@@ -607,10 +711,13 @@ __turbopack_context__.s({
     "00f1bd19af7f3fe35d1d06e2940ff60a72410032ad": (()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$post$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getPostsByUser"]),
     "4006fed6d871d6804baeda5542876b8aac7c0632a1": (()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$post$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getPostById"]),
     "400daa95f65e69493bea74ad0186404f8e43d7fabd": (()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$session$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["createSession"]),
+    "402bc24d24ead01607c639311380afe64b07c281ee": (()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$post$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["participateInPost"]),
     "40484940d33e7877f3371e9172f81505c929c2e772": (()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$comment$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getComments"]),
     "404a2f01d34c2a949328e743a689f590c21c6b3074": (()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$post$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["savePost"]),
     "4053c9815823913aba1288cf8a8d670299a252d769": (()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$user$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getUserProfileWithPosts"]),
     "4054fa3fddeb9314acd84490c8fd2b94e13af3ba4b": (()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$user$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["checkIfFollowing"]),
+    "406389f79bf1bd2cbec02679755919d153e6a162b8": (()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$user$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getFollowDetails"]),
+    "40837c385fffb01fcb5877507e225861babdee0cd5": (()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$user$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["searchUsers"]),
     "4086c580a6ebb9e07e0c31d1acc1c8f2e4b37dfe9b": (()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$post$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["deletePost"]),
     "40a07c72c4ab1d0f9fc9b6b3456c685acbc94285c1": (()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$post$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["addPostEventToPlanner"]),
     "40b31c2c2b257ff859de7511994494dc716ad44ba9": (()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$post$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["createPost"]),
@@ -619,7 +726,9 @@ __turbopack_context__.s({
     "40fcff674d29c57bde0e7e36d166b7cfbc5716b8dc": (()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$session$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["updateTokens"]),
     "6014c1d7d0c09cc22aeaa9205e8008b2d23f8f8ea1": (()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$post$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["toggleSavePost"]),
     "6027510579779897a7ffa457a925f316c0dbec5165": (()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$comment$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["createComment"]),
-    "605cde22bc8c3c677762a0b9b73016ce18fa27544b": (()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$user$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["toggleFollow"])
+    "605cde22bc8c3c677762a0b9b73016ce18fa27544b": (()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$user$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["toggleFollow"]),
+    "60736e632678ae35a972a93957949c50e9ce954d05": (()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$post$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getPostParticipants"]),
+    "60c4aef1472bf6282bdb35f4f944bbdbff3fcbae1e": (()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$post$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["requestParticipantRemoval"])
 });
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$session$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/lib/session.ts [app-rsc] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$post$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/lib/post-action.ts [app-rsc] (ecmascript)");
@@ -643,10 +752,13 @@ __turbopack_context__.s({
     "00f1bd19af7f3fe35d1d06e2940ff60a72410032ad": (()=>__TURBOPACK__imported__module__$5b$project$5d2f2e$next$2d$internal$2f$server$2f$app$2f$university$2f$page$2f$actions$2e$js__$7b$__ACTIONS_MODULE0__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$session$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE1__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$post$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE2__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$comment$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE3__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$user$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE4__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$event$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$2922$__$7d$__$5b$app$2d$rsc$5d$__$28$server__actions__loader$2c$__ecmascript$29$__$3c$exports$3e$__["00f1bd19af7f3fe35d1d06e2940ff60a72410032ad"]),
     "4006fed6d871d6804baeda5542876b8aac7c0632a1": (()=>__TURBOPACK__imported__module__$5b$project$5d2f2e$next$2d$internal$2f$server$2f$app$2f$university$2f$page$2f$actions$2e$js__$7b$__ACTIONS_MODULE0__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$session$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE1__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$post$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE2__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$comment$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE3__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$user$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE4__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$event$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$2922$__$7d$__$5b$app$2d$rsc$5d$__$28$server__actions__loader$2c$__ecmascript$29$__$3c$exports$3e$__["4006fed6d871d6804baeda5542876b8aac7c0632a1"]),
     "400daa95f65e69493bea74ad0186404f8e43d7fabd": (()=>__TURBOPACK__imported__module__$5b$project$5d2f2e$next$2d$internal$2f$server$2f$app$2f$university$2f$page$2f$actions$2e$js__$7b$__ACTIONS_MODULE0__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$session$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE1__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$post$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE2__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$comment$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE3__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$user$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE4__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$event$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$2922$__$7d$__$5b$app$2d$rsc$5d$__$28$server__actions__loader$2c$__ecmascript$29$__$3c$exports$3e$__["400daa95f65e69493bea74ad0186404f8e43d7fabd"]),
+    "402bc24d24ead01607c639311380afe64b07c281ee": (()=>__TURBOPACK__imported__module__$5b$project$5d2f2e$next$2d$internal$2f$server$2f$app$2f$university$2f$page$2f$actions$2e$js__$7b$__ACTIONS_MODULE0__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$session$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE1__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$post$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE2__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$comment$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE3__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$user$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE4__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$event$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$2922$__$7d$__$5b$app$2d$rsc$5d$__$28$server__actions__loader$2c$__ecmascript$29$__$3c$exports$3e$__["402bc24d24ead01607c639311380afe64b07c281ee"]),
     "40484940d33e7877f3371e9172f81505c929c2e772": (()=>__TURBOPACK__imported__module__$5b$project$5d2f2e$next$2d$internal$2f$server$2f$app$2f$university$2f$page$2f$actions$2e$js__$7b$__ACTIONS_MODULE0__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$session$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE1__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$post$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE2__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$comment$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE3__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$user$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE4__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$event$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$2922$__$7d$__$5b$app$2d$rsc$5d$__$28$server__actions__loader$2c$__ecmascript$29$__$3c$exports$3e$__["40484940d33e7877f3371e9172f81505c929c2e772"]),
     "404a2f01d34c2a949328e743a689f590c21c6b3074": (()=>__TURBOPACK__imported__module__$5b$project$5d2f2e$next$2d$internal$2f$server$2f$app$2f$university$2f$page$2f$actions$2e$js__$7b$__ACTIONS_MODULE0__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$session$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE1__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$post$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE2__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$comment$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE3__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$user$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE4__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$event$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$2922$__$7d$__$5b$app$2d$rsc$5d$__$28$server__actions__loader$2c$__ecmascript$29$__$3c$exports$3e$__["404a2f01d34c2a949328e743a689f590c21c6b3074"]),
     "4053c9815823913aba1288cf8a8d670299a252d769": (()=>__TURBOPACK__imported__module__$5b$project$5d2f2e$next$2d$internal$2f$server$2f$app$2f$university$2f$page$2f$actions$2e$js__$7b$__ACTIONS_MODULE0__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$session$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE1__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$post$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE2__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$comment$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE3__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$user$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE4__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$event$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$2922$__$7d$__$5b$app$2d$rsc$5d$__$28$server__actions__loader$2c$__ecmascript$29$__$3c$exports$3e$__["4053c9815823913aba1288cf8a8d670299a252d769"]),
     "4054fa3fddeb9314acd84490c8fd2b94e13af3ba4b": (()=>__TURBOPACK__imported__module__$5b$project$5d2f2e$next$2d$internal$2f$server$2f$app$2f$university$2f$page$2f$actions$2e$js__$7b$__ACTIONS_MODULE0__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$session$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE1__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$post$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE2__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$comment$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE3__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$user$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE4__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$event$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$2922$__$7d$__$5b$app$2d$rsc$5d$__$28$server__actions__loader$2c$__ecmascript$29$__$3c$exports$3e$__["4054fa3fddeb9314acd84490c8fd2b94e13af3ba4b"]),
+    "406389f79bf1bd2cbec02679755919d153e6a162b8": (()=>__TURBOPACK__imported__module__$5b$project$5d2f2e$next$2d$internal$2f$server$2f$app$2f$university$2f$page$2f$actions$2e$js__$7b$__ACTIONS_MODULE0__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$session$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE1__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$post$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE2__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$comment$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE3__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$user$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE4__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$event$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$2922$__$7d$__$5b$app$2d$rsc$5d$__$28$server__actions__loader$2c$__ecmascript$29$__$3c$exports$3e$__["406389f79bf1bd2cbec02679755919d153e6a162b8"]),
+    "40837c385fffb01fcb5877507e225861babdee0cd5": (()=>__TURBOPACK__imported__module__$5b$project$5d2f2e$next$2d$internal$2f$server$2f$app$2f$university$2f$page$2f$actions$2e$js__$7b$__ACTIONS_MODULE0__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$session$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE1__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$post$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE2__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$comment$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE3__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$user$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE4__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$event$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$2922$__$7d$__$5b$app$2d$rsc$5d$__$28$server__actions__loader$2c$__ecmascript$29$__$3c$exports$3e$__["40837c385fffb01fcb5877507e225861babdee0cd5"]),
     "4086c580a6ebb9e07e0c31d1acc1c8f2e4b37dfe9b": (()=>__TURBOPACK__imported__module__$5b$project$5d2f2e$next$2d$internal$2f$server$2f$app$2f$university$2f$page$2f$actions$2e$js__$7b$__ACTIONS_MODULE0__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$session$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE1__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$post$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE2__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$comment$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE3__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$user$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE4__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$event$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$2922$__$7d$__$5b$app$2d$rsc$5d$__$28$server__actions__loader$2c$__ecmascript$29$__$3c$exports$3e$__["4086c580a6ebb9e07e0c31d1acc1c8f2e4b37dfe9b"]),
     "40a07c72c4ab1d0f9fc9b6b3456c685acbc94285c1": (()=>__TURBOPACK__imported__module__$5b$project$5d2f2e$next$2d$internal$2f$server$2f$app$2f$university$2f$page$2f$actions$2e$js__$7b$__ACTIONS_MODULE0__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$session$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE1__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$post$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE2__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$comment$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE3__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$user$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE4__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$event$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$2922$__$7d$__$5b$app$2d$rsc$5d$__$28$server__actions__loader$2c$__ecmascript$29$__$3c$exports$3e$__["40a07c72c4ab1d0f9fc9b6b3456c685acbc94285c1"]),
     "40b31c2c2b257ff859de7511994494dc716ad44ba9": (()=>__TURBOPACK__imported__module__$5b$project$5d2f2e$next$2d$internal$2f$server$2f$app$2f$university$2f$page$2f$actions$2e$js__$7b$__ACTIONS_MODULE0__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$session$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE1__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$post$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE2__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$comment$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE3__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$user$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE4__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$event$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$2922$__$7d$__$5b$app$2d$rsc$5d$__$28$server__actions__loader$2c$__ecmascript$29$__$3c$exports$3e$__["40b31c2c2b257ff859de7511994494dc716ad44ba9"]),
@@ -655,7 +767,9 @@ __turbopack_context__.s({
     "40fcff674d29c57bde0e7e36d166b7cfbc5716b8dc": (()=>__TURBOPACK__imported__module__$5b$project$5d2f2e$next$2d$internal$2f$server$2f$app$2f$university$2f$page$2f$actions$2e$js__$7b$__ACTIONS_MODULE0__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$session$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE1__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$post$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE2__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$comment$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE3__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$user$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE4__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$event$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$2922$__$7d$__$5b$app$2d$rsc$5d$__$28$server__actions__loader$2c$__ecmascript$29$__$3c$exports$3e$__["40fcff674d29c57bde0e7e36d166b7cfbc5716b8dc"]),
     "6014c1d7d0c09cc22aeaa9205e8008b2d23f8f8ea1": (()=>__TURBOPACK__imported__module__$5b$project$5d2f2e$next$2d$internal$2f$server$2f$app$2f$university$2f$page$2f$actions$2e$js__$7b$__ACTIONS_MODULE0__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$session$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE1__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$post$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE2__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$comment$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE3__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$user$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE4__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$event$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$2922$__$7d$__$5b$app$2d$rsc$5d$__$28$server__actions__loader$2c$__ecmascript$29$__$3c$exports$3e$__["6014c1d7d0c09cc22aeaa9205e8008b2d23f8f8ea1"]),
     "6027510579779897a7ffa457a925f316c0dbec5165": (()=>__TURBOPACK__imported__module__$5b$project$5d2f2e$next$2d$internal$2f$server$2f$app$2f$university$2f$page$2f$actions$2e$js__$7b$__ACTIONS_MODULE0__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$session$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE1__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$post$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE2__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$comment$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE3__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$user$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE4__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$event$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$2922$__$7d$__$5b$app$2d$rsc$5d$__$28$server__actions__loader$2c$__ecmascript$29$__$3c$exports$3e$__["6027510579779897a7ffa457a925f316c0dbec5165"]),
-    "605cde22bc8c3c677762a0b9b73016ce18fa27544b": (()=>__TURBOPACK__imported__module__$5b$project$5d2f2e$next$2d$internal$2f$server$2f$app$2f$university$2f$page$2f$actions$2e$js__$7b$__ACTIONS_MODULE0__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$session$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE1__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$post$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE2__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$comment$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE3__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$user$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE4__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$event$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$2922$__$7d$__$5b$app$2d$rsc$5d$__$28$server__actions__loader$2c$__ecmascript$29$__$3c$exports$3e$__["605cde22bc8c3c677762a0b9b73016ce18fa27544b"])
+    "605cde22bc8c3c677762a0b9b73016ce18fa27544b": (()=>__TURBOPACK__imported__module__$5b$project$5d2f2e$next$2d$internal$2f$server$2f$app$2f$university$2f$page$2f$actions$2e$js__$7b$__ACTIONS_MODULE0__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$session$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE1__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$post$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE2__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$comment$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE3__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$user$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE4__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$event$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$2922$__$7d$__$5b$app$2d$rsc$5d$__$28$server__actions__loader$2c$__ecmascript$29$__$3c$exports$3e$__["605cde22bc8c3c677762a0b9b73016ce18fa27544b"]),
+    "60736e632678ae35a972a93957949c50e9ce954d05": (()=>__TURBOPACK__imported__module__$5b$project$5d2f2e$next$2d$internal$2f$server$2f$app$2f$university$2f$page$2f$actions$2e$js__$7b$__ACTIONS_MODULE0__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$session$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE1__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$post$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE2__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$comment$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE3__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$user$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE4__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$event$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$2922$__$7d$__$5b$app$2d$rsc$5d$__$28$server__actions__loader$2c$__ecmascript$29$__$3c$exports$3e$__["60736e632678ae35a972a93957949c50e9ce954d05"]),
+    "60c4aef1472bf6282bdb35f4f944bbdbff3fcbae1e": (()=>__TURBOPACK__imported__module__$5b$project$5d2f2e$next$2d$internal$2f$server$2f$app$2f$university$2f$page$2f$actions$2e$js__$7b$__ACTIONS_MODULE0__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$session$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE1__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$post$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE2__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$comment$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE3__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$user$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE4__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$event$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$2922$__$7d$__$5b$app$2d$rsc$5d$__$28$server__actions__loader$2c$__ecmascript$29$__$3c$exports$3e$__["60c4aef1472bf6282bdb35f4f944bbdbff3fcbae1e"])
 });
 var __TURBOPACK__imported__module__$5b$project$5d2f2e$next$2d$internal$2f$server$2f$app$2f$university$2f$page$2f$actions$2e$js__$7b$__ACTIONS_MODULE0__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$session$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE1__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$post$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE2__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$comment$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE3__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$user$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE4__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$event$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$2922$__$7d$__$5b$app$2d$rsc$5d$__$28$server__actions__loader$2c$__ecmascript$29$__$3c$module__evaluation$3e$__ = __turbopack_context__.i('[project]/.next-internal/server/app/university/page/actions.js { ACTIONS_MODULE0 => "[project]/src/lib/session.ts [app-rsc] (ecmascript)", ACTIONS_MODULE1 => "[project]/src/lib/post-action.ts [app-rsc] (ecmascript)", ACTIONS_MODULE2 => "[project]/src/lib/comment-action.ts [app-rsc] (ecmascript)", ACTIONS_MODULE3 => "[project]/src/lib/user-action.ts [app-rsc] (ecmascript)", ACTIONS_MODULE4 => "[project]/src/lib/event-action.ts [app-rsc] (ecmascript)" } [app-rsc] (server actions loader, ecmascript) <module evaluation>');
 var __TURBOPACK__imported__module__$5b$project$5d2f2e$next$2d$internal$2f$server$2f$app$2f$university$2f$page$2f$actions$2e$js__$7b$__ACTIONS_MODULE0__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$session$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE1__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$post$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE2__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$comment$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE3__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$user$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE4__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$event$2d$action$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$2922$__$7d$__$5b$app$2d$rsc$5d$__$28$server__actions__loader$2c$__ecmascript$29$__$3c$exports$3e$__ = __turbopack_context__.i('[project]/.next-internal/server/app/university/page/actions.js { ACTIONS_MODULE0 => "[project]/src/lib/session.ts [app-rsc] (ecmascript)", ACTIONS_MODULE1 => "[project]/src/lib/post-action.ts [app-rsc] (ecmascript)", ACTIONS_MODULE2 => "[project]/src/lib/comment-action.ts [app-rsc] (ecmascript)", ACTIONS_MODULE3 => "[project]/src/lib/user-action.ts [app-rsc] (ecmascript)", ACTIONS_MODULE4 => "[project]/src/lib/event-action.ts [app-rsc] (ecmascript)" } [app-rsc] (server actions loader, ecmascript) <exports>');

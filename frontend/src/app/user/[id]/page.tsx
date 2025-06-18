@@ -5,9 +5,12 @@ import Image from 'next/image';
 import {
   FaUserCircle, FaGraduationCap, FaBriefcase, 
   FaChalkboardTeacher, FaUniversity, FaBookmark,
-  FaArrowLeft, FaPaperclip, FaTimes
+  FaArrowLeft, FaPaperclip, FaTimes, FaEllipsisV,
+  FaUsers, FaUserFriends,
+  FaUserPlus
 } from 'react-icons/fa';
 import { MdEmail, MdSchool, MdInterests } from 'react-icons/md';
+import { IoMdSend } from 'react-icons/io';
 
 import Sidebar from '@/components/sidebar';
 import PostCard from '@/components/post-card';
@@ -17,6 +20,9 @@ import { checkIfFollowing, getUserProfileWithPosts, toggleFollow } from '@/lib/u
 import { useRouter, useParams } from 'next/navigation';
 import { getOrCreateConversation } from '@/lib/firebase-chat';
 import { ChatBox } from '@/components/ChatBox';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Button } from '@/components/ui/button';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 
 interface Post {
   id: number;
@@ -56,6 +62,8 @@ interface UserProfile {
   canMessage?: boolean;
   canFollow?: boolean;
   posts?: Post[];
+  followersCount?: number;
+  followingCount?: number;
 }
 
 export default function UserPage() {
@@ -68,6 +76,8 @@ export default function UserPage() {
   const [convoId, setConvoId] = useState<string | null>(null);
   const [recipientId, setRecipientId] = useState<number | null>(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
   const urlParams = useParams();
   const id = Number(urlParams.id);
@@ -81,60 +91,71 @@ export default function UserPage() {
 
   useEffect(() => {
     const loadData = async () => {
-      const sessionRes = await fetch('/api/session');
-      if (sessionRes.ok) {
-        const sessionData = await sessionRes.json();
-        setSession(sessionData);
+      try {
+        setLoading(true);
+        setError(null);
+        
+        const [sessionRes, userData] = await Promise.all([
+          fetch('/api/session'),
+          getUserProfileWithPosts(id)
+        ]);
+
+        if (sessionRes.ok) {
+          const sessionData = await sessionRes.json();
+          setSession(sessionData);
+        }
+
+        setUser(userData);
+        setPosts(userData.posts || []);
+
+        const followStatus = await checkIfFollowing(id);
+        setIsFollowing(followStatus);
+      } catch (err) {
+        setError('Failed to load profile data');
+        console.error(err);
+      } finally {
+        setLoading(false);
       }
-
-      const userData = await getUserProfileWithPosts(id);
-      setUser(userData);
-      setPosts(userData.posts || []);
-    };
-
-    const loadFollowState = async () => {
-      const result = await checkIfFollowing(id);
-      setIsFollowing(result);
     };
 
     loadData();
-    loadFollowState();
   }, [id]);
 
   const handleFollow = async (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    const newStatus = await toggleFollow(id, isFollowing);
-    setIsFollowing(newStatus);
+    try {
+      const newStatus = await toggleFollow(id, isFollowing);
+      setIsFollowing(newStatus);
+    } catch (err) {
+      setError('Failed to update follow status');
+    }
   };
 
-  async function handleMessage() {
+  const handleMessage = async () => {
     if (!user) return;
-    const sessionRes = await fetch('/api/session');
-    const sessionData = await sessionRes.json();
-    setSession(sessionData);
-    if (!sessionData) return;
+    
+    try {
+      const sessionRes = await fetch('/api/session');
+      const sessionData = await sessionRes.json();
+      setSession(sessionData);
+      if (!sessionData) return;
 
-    const conversationId = await getOrCreateConversation(sessionData.user.id, user.id);
-    setConvoId(conversationId);
-    setRecipientId(user.id);
-    setShowChat(true);
-  }
-
-  const handleToggleSave = (postId: number) => {
-    console.log(`Toggle save for post ${postId}`);
-  };
-
-  const handleDeletePost = (postId: number) => {
-    console.log(`Delete post ${postId}`);
+      const conversationId = await getOrCreateConversation(sessionData.user.id, user.id);
+      setConvoId(conversationId);
+      setRecipientId(user.id);
+      setShowChat(true);
+    } catch (err) {
+      setError('Failed to start conversation');
+    }
   };
 
   const getRoleIcon = () => {
-    if (!user?.role) return <FaUserCircle />;
+    if (!user?.role) return <FaUserCircle className="text-gray-500" />;
     switch (user.role) {
       case 'STUDENT': return <MdSchool className="text-blue-500" />;
       case 'PROFESSOR': return <FaChalkboardTeacher className="text-purple-500" />;
       case 'ALUMNI': return <FaGraduationCap className="text-green-500" />;
-      default: return <FaUserCircle />;
+      default: return <FaUserCircle className="text-gray-500" />;
     }
   };
 
@@ -148,317 +169,440 @@ export default function UserPage() {
     }
   };
 
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex">
+        <div className="hidden md:block h-full fixed left-0 top-0 shadow z-30">
+          <Sidebar />
+        </div>
+        <main className="flex-1 py-8 px-4 sm:px-6 lg:px-8 md:ml-64">
+          <div className="max-w-6xl mx-auto">
+            <div className="flex flex-col gap-6">
+              {/* Profile Header Skeleton */}
+              <div className="bg-white rounded-xl shadow-md p-6">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
+                  <Skeleton className="w-[120px] h-[120px] rounded-full" />
+                  <div className="flex-1 space-y-4">
+                    <Skeleton className="h-8 w-64" />
+                    <Skeleton className="h-4 w-48" />
+                    <div className="flex gap-3">
+                      <Skeleton className="h-10 w-32" />
+                      <Skeleton className="h-10 w-24" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Profile Sections Skeleton */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <Skeleton className="h-48 rounded-xl" />
+                <Skeleton className="h-48 rounded-xl" />
+                <Skeleton className="h-48 rounded-xl" />
+              </div>
+              
+              {/* Posts Skeleton */}
+              <div className="space-y-6">
+                {[...Array(3)].map((_, i) => (
+                  <Skeleton key={i} className="h-48 rounded-lg" />
+                ))}
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-4">
+        <div className="bg-white rounded-xl shadow-md p-6 max-w-md w-full text-center">
+          <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100 mb-4">
+            <svg className="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+          </div>
+          <h3 className="text-lg font-medium text-gray-900 mb-2">{error}</h3>
+          <p className="text-gray-500 mb-4">Please try again later</p>
+          <Button onClick={() => window.location.reload()}>Retry</Button>
+        </div>
+      </div>
+    );
+  }
+
   if (!user) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
-        <div className="animate-pulse text-gray-500">Loading profile...</div>
+      <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-4">
+        <div className="bg-white rounded-xl shadow-md p-6 max-w-md w-full text-center">
+          <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-gray-100 mb-4">
+            <FaUserCircle className="h-6 w-6 text-gray-400" />
+          </div>
+          <h3 className="text-lg font-medium text-gray-900 mb-2">Profile Not Found</h3>
+          <p className="text-gray-500 mb-4">The user profile you're looking for doesn't exist</p>
+          <Button onClick={() => router.push('/')}>Go Home</Button>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 flex">
-      {/* Sidebar - hidden on mobile when chat is open */}
-      {(!isMobile || !showChat) && (
-        <div className="hidden md:block h-full fixed left-0 top-0 shadow z-30">
-          <Sidebar />
-        </div>
-      )}
+    <div className="min-h-screen bg-gray-50 flex">
+      {/* Sidebar */}
+      <div className="hidden md:block h-full fixed left-0 top-0 shadow z-30">
+        <Sidebar />
+      </div>
 
       {/* Main Content */}
-      <main className={`flex-1 py-8 px-4 sm:px-4 lg:px-8 transition-all duration-300 ${showChat && !isMobile ? 'md:ml-64' : ''}`}>
-        <div className="flex">
-          <div className="w-200 flex flex-col gap-6 mx-auto ">
-            {/* Profile content - hidden on mobile when chat is open */}
-            {(!isMobile || !showChat) && (
-              <>
-                {/* Header */}
-                <div className="bg-white rounded-xl shadow-md overflow-hidden">
-                  <div className="p-6 sm:p-8">
-                    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
-                      <div className="relative">
-                        {user.profilePicture ? (
-                          <Image
-                            src={user.profilePicture}
-                            alt="Profile"
-                            width={120}
-                            height={120}
-                            className="rounded-full object-cover border-4 border-white shadow-md"
-                          />
-                        ) : (
-                          <FaUserCircle className="w-[120px] h-[120px] text-gray-300" />
-                        )}
-                        <div className="absolute -bottom-2 -right-2 bg-white rounded-full p-1 shadow-md">
-                          <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${getRoleColor()}`}>
-                            {getRoleIcon()}
-                            <span className="ml-1">{user.role?.toLowerCase() || 'user'}</span>
-                          </span>
+      <div className={`flex-1 transition-all duration-300 ${showChat ? 'md:mr-80' : ''}`}>
+        <main className="py-8 px-4 sm:px-6 lg:px-8 md:ml-64">
+          <div className="max-w-4xl mx-auto">
+            <div className="flex flex-col gap-6">
+              {/* Profile Header */}
+              <div className="bg-white rounded-xl shadow-md overflow-hidden">
+                <div className="p-6 sm:p-8">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
+                    <div className="relative shrink-0">
+                      {user.profilePicture ? (
+                        <Image
+                          src={user.profilePicture}
+                          alt={`${user.firstName}'s profile`}
+                          width={120}
+                          height={120}
+                          className="rounded-full object-cover border-4 border-white shadow-md aspect-square"
+                          priority
+                        />
+                      ) : (
+                        <div className="w-[120px] h-[120px] rounded-full bg-gray-100 flex items-center justify-center">
+                          <FaUserCircle className="w-full h-full text-gray-300" />
                         </div>
+                      )}
+                      <div className="absolute -bottom-2 -right-2 bg-white rounded-full p-1 shadow-md">
+                        <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${getRoleColor()}`}>
+                          {getRoleIcon()}
+                          <span className="ml-1 capitalize">{user.role?.toLowerCase() || 'user'}</span>
+                        </span>
                       </div>
+                    </div>
 
-                      <div className="flex-1">
-                        <div className="flex justify-between items-start">
-                          <div className="flex flex-col justify-around">
-                            <h1 className="text-2xl font-bold text-gray-900">
-                              {user.firstName} {user.lastName || ''}
-                            </h1>
-                            
-                            <div className="flex items-center mt-1 text-gray-600">
-                              <MdEmail className="mr-2" />
-                              <span>{user.email}</span>
+                    <div className="flex-1 w-full">
+                      <div className="flex justify-between items-start">
+                        <div className="flex flex-col">
+                          <h1 className="text-2xl font-bold text-gray-900">
+                            {user.firstName} {user.lastName}
+                          </h1>
+                          
+                          <div className="flex items-center mt-1 text-gray-600">
+                            <MdEmail className="mr-2 shrink-0" />
+                            <span className="truncate">{user.email}</span>
+                          </div>
+
+                          {user.university && (
+                            <div className="mt-1 flex items-center text-gray-700">
+                              <FaUniversity className="mr-2 text-gray-500 shrink-0" />
+                              <span>{user.university}</span>
                             </div>
-                            {user.university && (
-                              <div className="mt-4 flex items-center text-gray-700">
-                                <FaUniversity className="mr-2 text-gray-500" />
-                                <span>{user.university}</span>
-                              </div>
-                            )}
+                          )}
+
+                          {/* Follow Counts */}
+                          <div className="flex gap-4 mt-3">
+                            <button 
+                              onClick={() => router.push(`/user/${id}/followers`)}
+                              className="flex items-center gap-1 hover:bg-gray-100 px-2 py-1 rounded transition-colors"
+                            >
+                              <span className="font-semibold text-gray-900">{user.followersCount || 0}</span>
+                              <span className="text-sm text-gray-500">Followers</span>
+                            </button>
+                            
+                            <button 
+                              onClick={() => router.push(`/user/${id}/following`)}
+                              className="flex items-center gap-1 hover:bg-gray-100 px-2 py-1 rounded transition-colors"
+                            >
+                              <span className="font-semibold text-gray-900">{user.followingCount || 0}</span>
+                              <span className="text-sm text-gray-500">Following</span>
+                            </button>
                           </div>
                         </div>
 
-                        {/* Action buttons */}
-                        <div className="flex items-center gap-3 mt-4 border-t border-gray-200 pt-4">
-                          {user.canMessage && (
-                            <button 
-                              className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-                              onClick={handleMessage}
-                            >
-                              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
-                                <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-                                <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-                              </svg>
-                              Message
-                            </button>
-                          )}
-                          
-                          {user.canFollow && (
-                            <button 
-                              className={`inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all ${
-                                isFollowing 
-                                  ? 'text-gray-700 bg-white border border-gray-300 hover:bg-gray-50 focus:ring-gray-500' 
-                                  : 'text-white bg-blue-600 hover:bg-blue-700 focus:ring-blue-500'
-                              }`}
-                              onClick={handleFollow}
-                            >
-                              {isFollowing ? (
-                                <>
-                                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                  </svg>
-                                  Following
-                                </>
-                              ) : (
-                                <>
-                                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
-                                  </svg>
-                                  Follow
-                                </>
-                              )}
-                            </button>
-                          )}
-                        </div>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="icon" className="text-gray-500 hover:text-gray-700">
+                              <FaEllipsisV className="h-4 w-4" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            <DropdownMenuItem onClick={() => navigator.clipboard.writeText(window.location.href)}>
+                              Copy profile link
+                            </DropdownMenuItem>
+                            {session?.user?.id === user.id && (
+                              <DropdownMenuItem onClick={() => router.push('/settings')}>
+                                Edit profile
+                              </DropdownMenuItem>
+                            )}
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </div>
+
+                      {/* Action buttons */}
+                      <div className="flex flex-wrap items-center gap-3 mt-4 border-t border-gray-200 pt-4">
+                        {user.canMessage && (
+                          <Button 
+                            variant="outline"
+                            className="gap-2"
+                            onClick={handleMessage}
+                          >
+                            <IoMdSend className="h-4 w-4" />
+                            Message
+                          </Button>
+                        )}
+                        
+                        {user.canFollow && (
+                          <Button 
+                            variant={isFollowing ? "outline" : "default"}
+                            className="gap-2"
+                            onClick={handleFollow}
+                          >
+                            {isFollowing ? (
+                              <>
+                                <FaUserFriends className="h-4 w-4" />
+                                Following
+                              </>
+                            ) : (
+                              <>
+                                <FaUserPlus className="h-4 w-4" />
+                                Follow
+                              </>
+                            )}
+                          </Button>
+                        )}
                       </div>
                     </div>
                   </div>
                 </div>
+              </div>
 
-                {/* Profile Sections */}
-                <div className="flex flex-col md:flex-row gap-6">
-                  {(user.formation || user.graduationYear || user.degree) && (
-                    <div className="flex-1 bg-white rounded-xl shadow-md overflow-hidden">
-                      <div className="p-6">
-                        <div className="flex items-center mb-4">
-                          <MdSchool className="text-blue-500 text-xl mr-2" />
-                          <h2 className="text-lg font-semibold text-gray-900">Education</h2>
-                        </div>
-                        <div className="space-y-3">
-                          {user.formation && (
-                            <div>
-                              <p className="text-sm text-gray-500">Formation</p>
-                              <p className="font-medium">{user.formation}</p>
-                            </div>
-                          )}
-                          {user.degree && (
-                            <div>
-                              <p className="text-sm text-gray-500">Degree</p>
-                              <p className="font-medium">{user.degree}</p>
-                            </div>
-                          )}
-                          {user.graduationYear && (
-                            <div>
-                              <p className="text-sm text-gray-500">Graduation Year</p>
-                              <p className="font-medium">{user.graduationYear?.slice(0, 10)}</p>
-                            </div>
-                          )}
-                        </div>
+              {/* Profile Sections */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {(user.formation || user.graduationYear || user.degree) && (
+                  <div className="bg-white rounded-xl shadow-md overflow-hidden h-full">
+                    <div className="p-6">
+                      <div className="flex items-center mb-4">
+                        <MdSchool className="text-blue-500 text-xl mr-2" />
+                        <h2 className="text-lg font-semibold text-gray-900">Education</h2>
+                      </div>
+                      <div className="space-y-4">
+                        {user.formation && (
+                          <div>
+                            <p className="text-sm text-gray-500">Formation</p>
+                            <p className="font-medium">{user.formation}</p>
+                          </div>
+                        )}
+                        {user.degree && (
+                          <div>
+                            <p className="text-sm text-gray-500">Degree</p>
+                            <p className="font-medium">{user.degree}</p>
+                          </div>
+                        )}
+                        {user.graduationYear && (
+                          <div>
+                            <p className="text-sm text-gray-500">Graduation Year</p>
+                            <p className="font-medium">{new Date(user.graduationYear).getFullYear()}</p>
+                          </div>
+                        )}
                       </div>
                     </div>
-                  )}
+                  </div>
+                )}
 
-                  {(user.occupation || user.subject || user.rank) && (
-                    <div className="flex-1 bg-white rounded-xl shadow-md overflow-hidden">
-                      <div className="p-6">
-                        <div className="flex items-center mb-4">
-                          <FaBriefcase className="text-purple-500 text-xl mr-2" />
-                          <h2 className="text-lg font-semibold text-gray-900">
-                            {user.role === 'PROFESSOR' ? 'Teaching' : 'Professional'} Information
-                          </h2>
-                        </div>
-                        <div className="space-y-3">
-                          {user.occupation && (
-                            <div>
-                              <p className="text-sm text-gray-500">Occupation</p>
-                              <p className="font-medium">{user.occupation}</p>
-                            </div>
-                          )}
-                          {user.subject && (
-                            <div>
-                              <p className="text-sm text-gray-500">Subject</p>
-                              <p className="font-medium">{user.subject}</p>
-                            </div>
-                          )}
-                          {user.rank && (
-                            <div>
-                              <p className="text-sm text-gray-500">Rank</p>
-                              <p className="font-medium">{user.rank}</p>
-                            </div>
-                          )}
-                        </div>
+                {(user.occupation || user.subject || user.rank) && (
+                  <div className="bg-white rounded-xl shadow-md overflow-hidden h-full">
+                    <div className="p-6">
+                      <div className="flex items-center mb-4">
+                        <FaBriefcase className="text-purple-500 text-xl mr-2" />
+                        <h2 className="text-lg font-semibold text-gray-900">
+                          {user.role === 'PROFESSOR' ? 'Teaching' : 'Professional'} Information
+                        </h2>
+                      </div>
+                      <div className="space-y-4">
+                        {user.occupation && (
+                          <div>
+                            <p className="text-sm text-gray-500">Occupation</p>
+                            <p className="font-medium">{user.occupation}</p>
+                          </div>
+                        )}
+                        {user.subject && (
+                          <div>
+                            <p className="text-sm text-gray-500">Subject</p>
+                            <p className="font-medium">{user.subject}</p>
+                          </div>
+                        )}
+                        {user.rank && (
+                          <div>
+                            <p className="text-sm text-gray-500">Rank</p>
+                            <p className="font-medium">{user.rank}</p>
+                          </div>
+                        )}
                       </div>
                     </div>
-                  )}
+                  </div>
+                )}
 
-                  {user.interests && user.interests.length > 0 && (
-                    <div className="flex-1 bg-white rounded-xl shadow-md overflow-hidden">
-                      <div className="p-6">
-                        <div className="flex items-center mb-4">
-                          <MdInterests className="text-green-500 text-xl mr-2" />
-                          <h2 className="text-lg font-semibold text-gray-900">Interests</h2>
-                        </div>
-                        <div className="flex flex-wrap gap-2">
-                          {user.interests.map((interest, index) => (
-                            <span
-                              key={index}
-                              className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800"
-                            >
-                              {interest}
-                            </span>
-                          ))}
-                        </div>
+                {user.interests && user.interests.length > 0 && (
+                  <div className="bg-white rounded-xl shadow-md overflow-hidden h-full">
+                    <div className="p-6">
+                      <div className="flex items-center mb-4">
+                        <MdInterests className="text-green-500 text-xl mr-2" />
+                        <h2 className="text-lg font-semibold text-gray-900">Interests</h2>
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        {user.interests.map((interest, index) => (
+                          <span
+                            key={index}
+                            className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800"
+                          >
+                            {interest}
+                          </span>
+                        ))}
                       </div>
                     </div>
-                  )}
-                </div>
+                  </div>
+                )}
+              </div>
 
-                {/* Posts Section */}
-                <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
-                  <div className="border-b border-gray-200 mb-6">
-                    <nav className="flex justify-around rounded-2xl bg-white p-3">
+              {/* Posts Section */}
+              <div className="bg-white rounded-xl shadow-md overflow-hidden">
+                <div className="border-b border-gray-200">
+                  <nav className="flex justify-around">
+                    <button
+                      onClick={() => setSelectedTab('posts')}
+                      className={`px-4 py-4 text-sm font-medium flex items-center gap-2 relative ${
+                        selectedTab === 'posts'
+                          ? 'text-blue-600'
+                          : 'text-gray-500 hover:text-gray-700'
+                      }`}
+                    >
+                      <FaGraduationCap className="text-lg" />
+                      <span>Posts</span>
+                      {selectedTab === 'posts' && (
+                        <span className="absolute bottom-0 left-0 right-0 h-1 bg-blue-600 rounded-t"></span>
+                      )}
+                    </button>
+                    {session?.user?.id === user.id && (
                       <button
-                        onClick={() => setSelectedTab('posts')}
-                        className={`px-1 border-b-2 font-medium text-sm flex gap-2 ${
-                          selectedTab === 'posts'
-                            ? 'border-blue-800 text-blue-800'
-                            : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                        onClick={() => setSelectedTab('saved')}
+                        className={`px-4 py-4 text-sm font-medium flex items-center gap-2 relative ${
+                          selectedTab === 'saved'
+                            ? 'text-blue-600'
+                            : 'text-gray-500 hover:text-gray-700'
                         }`}
                       >
-                        <FaGraduationCap className="text-lg" />
-                        <span>Posts</span>
-                      </button>
-                      {session?.user?.id === user.id && (
-                        <button
-                          onClick={() => setSelectedTab('saved')}
-                          className={`px-1 border-b-2 font-medium text-sm flex items-center gap-2 ${
-                            selectedTab === 'saved'
-                              ? 'border-blue-800 text-blue-800'
-                              : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                          }`}
-                        >
-                          <FaBookmark className="text-lg" />
-                          <span>Saved Posts</span>
-                        </button>
-                      )}
-                    </nav>
-                  </div>
-
-                  <div className="mt-6">
-                    {selectedTab === 'posts' ? (
-                      <div className="space-y-6">
-                        {posts.length > 0 ? (
-                          posts.map(post => session && (
-                            <PostCard
-                              key={post.id}
-                              post={post}
-                              session={session}
-                              isPending={false}
-                              saved={false}
-                              onToggleSave={handleToggleSave}
-                              onDelete={handleDeletePost}
-                            />
-                          ))
-                        ) : (
-                          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 text-center">
-                            <div className="mx-auto w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-                              <FaGraduationCap className="text-gray-400 text-3xl" />
-                            </div>
-                            <h3 className="text-xl font-medium text-gray-900 mb-2">No posts yet</h3>
-                            <p className="text-gray-500 mb-4">
-                              This user hasn't shared any posts yet
-                            </p>
-                          </div>
+                        <FaBookmark className="text-lg" />
+                        <span>Saved Posts</span>
+                        {selectedTab === 'saved' && (
+                          <span className="absolute bottom-0 left-0 right-0 h-1 bg-blue-600 rounded-t"></span>
                         )}
-                      </div>
-                    ) : (
-                      <div className="space-y-6">
-                        <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-8 text-center">
-                          <div className="mx-auto w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-                            <FaBookmark className="text-gray-400 text-3xl" />
-                          </div>
-                          <h3 className="text-lg font-medium text-gray-900">Saved posts are private</h3>
-                          <p className="mt-2 text-gray-500 max-w-md mx-auto">
-                            You can only view your own saved posts.
-                          </p>
-                        </div>
-                      </div>
+                      </button>
                     )}
-                  </div>
+                  </nav>
                 </div>
-              </>
-            )}
 
-            {/* Chat box - desktop view */}
-           {isMobile && showChat && convoId && session && (
-              <div className="fixed inset-0 bg-white z-50 flex flex-col">
-                <div className="bg-blue-600 text-white p-4 flex items-center">
-                  <button onClick={() => setShowChat(false)} className="mr-4 text-white">
-                    <FaArrowLeft size={20} />
-                  </button>
-                  <h2 className="text-lg font-semibold">Chat with {user.firstName}</h2>
-                </div>
-                <div className="flex-1 overflow-hidden">
-                  <ChatBox convoId={convoId} currentUserId={session.user.id} recipientId={recipientId} fullScreen />
+                <div className="p-6">
+                  {selectedTab === 'posts' ? (
+                    <div className="space-y-6">
+                      {posts.length > 0 ? (
+                        posts.map(post => session && (
+                          <PostCard
+                            key={post.id}
+                            post={post}
+                            session={session}
+                            isPending={false}
+                            saved={false}
+                            onToggleSave={() => {}}
+                            onDelete={() => {}}
+                          />
+                        ))
+                      ) : (
+                        <div className="text-center py-12">
+                          <div className="mx-auto w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+                            <FaGraduationCap className="text-gray-400 text-3xl" />
+                          </div>
+                          <h3 className="text-xl font-medium text-gray-900 mb-2">No posts yet</h3>
+                          <p className="text-gray-500">
+                            {session?.user?.id === user.id ? (
+                              "You haven't shared any posts yet"
+                            ) : (
+                              "This user hasn't shared any posts yet"
+                            )}
+                          </p>
+                          {session?.user?.id === user.id && (
+                            <Button className="mt-4" onClick={() => router.push('/create-post')}>
+                              Create your first post
+                            </Button>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <div className="text-center py-12">
+                      <div className="mx-auto w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+                        <FaBookmark className="text-gray-400 text-3xl" />
+                      </div>
+                      <h3 className="text-xl font-medium text-gray-900 mb-2">Saved posts</h3>
+                      <p className="text-gray-500 max-w-md mx-auto mb-4">
+                        Your saved posts appear here. Only you can see your saved items.
+                      </p>
+                      <Button variant="outline" onClick={() => setSelectedTab('posts')}>
+                        View your posts
+                      </Button>
+                    </div>
+                  )}
                 </div>
               </div>
-            )}
-
-            {!isMobile && showChat && convoId && session && (
-              <div className="mt-6 border-t pt-4">
-                <div className="flex justify-between items-center mb-4">
-                  <h3 className="text-lg font-semibold">Chat with {user.firstName}</h3>
-                  <button onClick={() => setShowChat(false)} className="text-gray-500 hover:text-gray-700">
-                    <FaTimes />
-                  </button>
-                </div>
-                <ChatBox convoId={convoId} currentUserId={session.user.id}  recipientId={recipientId}/>
-              </div>
-          
-            )}
+            </div>
           </div>
-        </div>
-      </main>
-    </div>
-  );
-}
+        </main>
+      </div>
 
-// Enhanced ChatBox component
+      {/* Chat Sidebar */}
+      {showChat && convoId && session && recipientId && (
+    <div className={`
+      fixed inset-0 bg-white z-50 
+      md:fixed md:right-0 md:top-0 md:bottom-0 md:w-80 md:left-auto
+      md:border-l md:shadow-lg 
+      ${isMobile ? '' : 'hidden md:block'}
+    `}>
+      {isMobile && (
+        <div className="bg-blue-600 text-white p-4 flex items-center">
+          <button 
+            onClick={() => setShowChat(false)} 
+            className="mr-4 text-white"
+          >
+            <FaArrowLeft size={20} />
+          </button>
+          <h2 className="text-lg font-semibold">Chat with {user.firstName}</h2>
+        </div>
+      )}
+      {!isMobile && (
+        <div className="p-4 border-b flex justify-between items-center">
+          <h2 className="text-lg font-semibold">Chat with {user.firstName}</h2>
+          <button 
+            onClick={() => setShowChat(false)} 
+            className="text-gray-500 hover:text-gray-700"
+          >
+            <FaTimes />
+          </button>
+        </div>
+      )}
+      <div className="h-full overflow-y-auto">
+        <ChatBox 
+          convoId={convoId} 
+          currentUserId={session.user.id}  
+          user={{ id: recipientId, firstName: user.firstName, lastName: user.lastName }}
+          fullScreen={isMobile}
+          onClose={() => setShowChat(false)}
+        />
+      </div>
+    </div>
+  )}
+</div>
+);
+}

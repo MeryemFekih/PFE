@@ -10,7 +10,7 @@ import {
   MaxLength,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { Role, UserStatus } from '@prisma/client';
+import { Role, UserStatus } from '.prisma/client';
 
 export class CreateUserDto {
   @IsString()
@@ -40,6 +40,11 @@ export class CreateUserDto {
 
   @IsString()
   @IsOptional()
+  @MaxLength(40)
+  identification?: string;
+
+  @IsString()
+  @IsOptional()
   @MaxLength(255)
   profilePicture?: string;
 
@@ -62,11 +67,6 @@ export class CreateUserDto {
   @IsOptional()
   @MaxLength(150)
   university?: string;
-
-  @IsString()
-  @IsOptional()
-  @MaxLength(40)
-  identification?: string;
 
   @IsString()
   @IsOptional()

@@ -1,53 +1,9 @@
 {
   "node": {
-    "007e22d8ca451bd1b2fc40b0c18470fa3ea5d50e15": {
-      "workers": {
-        "app/user/[id]/page": {
-          "moduleId": "[project]/.next-internal/server/app/user/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/user-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/lib/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/lib/post-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/lib/comment-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
-          "async": false
-        }
-      },
-      "layer": {
-        "app/user/[id]/page": "action-browser"
-      }
-    },
-    "4053c9815823913aba1288cf8a8d670299a252d769": {
-      "workers": {
-        "app/user/[id]/page": {
-          "moduleId": "[project]/.next-internal/server/app/user/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/user-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/lib/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/lib/post-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/lib/comment-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
-          "async": false
-        }
-      },
-      "layer": {
-        "app/user/[id]/page": "action-browser"
-      }
-    },
-    "4054fa3fddeb9314acd84490c8fd2b94e13af3ba4b": {
-      "workers": {
-        "app/user/[id]/page": {
-          "moduleId": "[project]/.next-internal/server/app/user/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/user-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/lib/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/lib/post-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/lib/comment-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
-          "async": false
-        }
-      },
-      "layer": {
-        "app/user/[id]/page": "action-browser"
-      }
-    },
-    "605cde22bc8c3c677762a0b9b73016ce18fa27544b": {
-      "workers": {
-        "app/user/[id]/page": {
-          "moduleId": "[project]/.next-internal/server/app/user/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/user-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/lib/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/lib/post-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/lib/comment-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
-          "async": false
-        }
-      },
-      "layer": {
-        "app/user/[id]/page": "action-browser"
-      }
-    },
     "004a1f2009fb4167eb02d3d49d686e954be8e445a0": {
       "workers": {
         "app/user/[id]/page": {
-          "moduleId": "[project]/.next-internal/server/app/user/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/user-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/lib/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/lib/post-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/lib/comment-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "moduleId": "[project]/.next-internal/server/app/user/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/lib/user-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/lib/post-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/lib/comment-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false
         }
       },
@@ -58,7 +14,7 @@
     "00d75c814791e0528916f64078a2e1baacf7af8683": {
       "workers": {
         "app/user/[id]/page": {
-          "moduleId": "[project]/.next-internal/server/app/user/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/user-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/lib/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/lib/post-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/lib/comment-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "moduleId": "[project]/.next-internal/server/app/user/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/lib/user-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/lib/post-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/lib/comment-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false
         }
       },
@@ -69,7 +25,7 @@
     "400daa95f65e69493bea74ad0186404f8e43d7fabd": {
       "workers": {
         "app/user/[id]/page": {
-          "moduleId": "[project]/.next-internal/server/app/user/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/user-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/lib/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/lib/post-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/lib/comment-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "moduleId": "[project]/.next-internal/server/app/user/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/lib/user-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/lib/post-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/lib/comment-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false
         }
       },
@@ -80,7 +36,73 @@
     "40fcff674d29c57bde0e7e36d166b7cfbc5716b8dc": {
       "workers": {
         "app/user/[id]/page": {
-          "moduleId": "[project]/.next-internal/server/app/user/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/user-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/lib/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/lib/post-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/lib/comment-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "moduleId": "[project]/.next-internal/server/app/user/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/lib/user-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/lib/post-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/lib/comment-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/user/[id]/page": "action-browser"
+      }
+    },
+    "007e22d8ca451bd1b2fc40b0c18470fa3ea5d50e15": {
+      "workers": {
+        "app/user/[id]/page": {
+          "moduleId": "[project]/.next-internal/server/app/user/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/lib/user-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/lib/post-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/lib/comment-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/user/[id]/page": "action-browser"
+      }
+    },
+    "4053c9815823913aba1288cf8a8d670299a252d769": {
+      "workers": {
+        "app/user/[id]/page": {
+          "moduleId": "[project]/.next-internal/server/app/user/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/lib/user-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/lib/post-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/lib/comment-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/user/[id]/page": "action-browser"
+      }
+    },
+    "4054fa3fddeb9314acd84490c8fd2b94e13af3ba4b": {
+      "workers": {
+        "app/user/[id]/page": {
+          "moduleId": "[project]/.next-internal/server/app/user/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/lib/user-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/lib/post-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/lib/comment-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/user/[id]/page": "action-browser"
+      }
+    },
+    "406389f79bf1bd2cbec02679755919d153e6a162b8": {
+      "workers": {
+        "app/user/[id]/page": {
+          "moduleId": "[project]/.next-internal/server/app/user/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/lib/user-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/lib/post-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/lib/comment-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/user/[id]/page": "action-browser"
+      }
+    },
+    "40837c385fffb01fcb5877507e225861babdee0cd5": {
+      "workers": {
+        "app/user/[id]/page": {
+          "moduleId": "[project]/.next-internal/server/app/user/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/lib/user-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/lib/post-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/lib/comment-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/user/[id]/page": "action-browser"
+      }
+    },
+    "605cde22bc8c3c677762a0b9b73016ce18fa27544b": {
+      "workers": {
+        "app/user/[id]/page": {
+          "moduleId": "[project]/.next-internal/server/app/user/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/lib/user-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/lib/post-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/lib/comment-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false
         }
       },
@@ -91,7 +113,7 @@
     "0048ac9409408413134cd3b20b877dfe2ed2e8b610": {
       "workers": {
         "app/user/[id]/page": {
-          "moduleId": "[project]/.next-internal/server/app/user/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/user-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/lib/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/lib/post-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/lib/comment-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "moduleId": "[project]/.next-internal/server/app/user/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/lib/user-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/lib/post-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/lib/comment-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false
         }
       },
@@ -102,7 +124,7 @@
     "009e6f18c84f9d17b84e29d26aed5b7a33c271beba": {
       "workers": {
         "app/user/[id]/page": {
-          "moduleId": "[project]/.next-internal/server/app/user/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/user-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/lib/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/lib/post-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/lib/comment-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "moduleId": "[project]/.next-internal/server/app/user/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/lib/user-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/lib/post-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/lib/comment-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false
         }
       },
@@ -113,7 +135,7 @@
     "00e433008ff16ae54814c71bf4497a7f669762825c": {
       "workers": {
         "app/user/[id]/page": {
-          "moduleId": "[project]/.next-internal/server/app/user/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/user-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/lib/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/lib/post-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/lib/comment-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "moduleId": "[project]/.next-internal/server/app/user/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/lib/user-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/lib/post-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/lib/comment-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false
         }
       },
@@ -124,7 +146,7 @@
     "00f1bd19af7f3fe35d1d06e2940ff60a72410032ad": {
       "workers": {
         "app/user/[id]/page": {
-          "moduleId": "[project]/.next-internal/server/app/user/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/user-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/lib/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/lib/post-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/lib/comment-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "moduleId": "[project]/.next-internal/server/app/user/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/lib/user-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/lib/post-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/lib/comment-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false
         }
       },
@@ -135,7 +157,18 @@
     "4006fed6d871d6804baeda5542876b8aac7c0632a1": {
       "workers": {
         "app/user/[id]/page": {
-          "moduleId": "[project]/.next-internal/server/app/user/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/user-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/lib/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/lib/post-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/lib/comment-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "moduleId": "[project]/.next-internal/server/app/user/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/lib/user-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/lib/post-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/lib/comment-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/user/[id]/page": "action-browser"
+      }
+    },
+    "402bc24d24ead01607c639311380afe64b07c281ee": {
+      "workers": {
+        "app/user/[id]/page": {
+          "moduleId": "[project]/.next-internal/server/app/user/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/lib/user-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/lib/post-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/lib/comment-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false
         }
       },
@@ -146,7 +179,7 @@
     "404a2f01d34c2a949328e743a689f590c21c6b3074": {
       "workers": {
         "app/user/[id]/page": {
-          "moduleId": "[project]/.next-internal/server/app/user/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/user-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/lib/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/lib/post-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/lib/comment-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "moduleId": "[project]/.next-internal/server/app/user/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/lib/user-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/lib/post-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/lib/comment-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false
         }
       },
@@ -157,7 +190,7 @@
     "4086c580a6ebb9e07e0c31d1acc1c8f2e4b37dfe9b": {
       "workers": {
         "app/user/[id]/page": {
-          "moduleId": "[project]/.next-internal/server/app/user/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/user-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/lib/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/lib/post-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/lib/comment-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "moduleId": "[project]/.next-internal/server/app/user/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/lib/user-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/lib/post-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/lib/comment-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false
         }
       },
@@ -168,7 +201,7 @@
     "40a07c72c4ab1d0f9fc9b6b3456c685acbc94285c1": {
       "workers": {
         "app/user/[id]/page": {
-          "moduleId": "[project]/.next-internal/server/app/user/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/user-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/lib/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/lib/post-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/lib/comment-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "moduleId": "[project]/.next-internal/server/app/user/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/lib/user-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/lib/post-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/lib/comment-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false
         }
       },
@@ -179,7 +212,7 @@
     "40b31c2c2b257ff859de7511994494dc716ad44ba9": {
       "workers": {
         "app/user/[id]/page": {
-          "moduleId": "[project]/.next-internal/server/app/user/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/user-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/lib/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/lib/post-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/lib/comment-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "moduleId": "[project]/.next-internal/server/app/user/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/lib/user-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/lib/post-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/lib/comment-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false
         }
       },
@@ -190,7 +223,7 @@
     "40c123de786de505d91123917b85f10026a06a9f65": {
       "workers": {
         "app/user/[id]/page": {
-          "moduleId": "[project]/.next-internal/server/app/user/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/user-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/lib/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/lib/post-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/lib/comment-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "moduleId": "[project]/.next-internal/server/app/user/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/lib/user-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/lib/post-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/lib/comment-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false
         }
       },
@@ -201,7 +234,29 @@
     "6014c1d7d0c09cc22aeaa9205e8008b2d23f8f8ea1": {
       "workers": {
         "app/user/[id]/page": {
-          "moduleId": "[project]/.next-internal/server/app/user/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/user-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/lib/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/lib/post-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/lib/comment-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "moduleId": "[project]/.next-internal/server/app/user/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/lib/user-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/lib/post-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/lib/comment-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/user/[id]/page": "action-browser"
+      }
+    },
+    "60736e632678ae35a972a93957949c50e9ce954d05": {
+      "workers": {
+        "app/user/[id]/page": {
+          "moduleId": "[project]/.next-internal/server/app/user/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/lib/user-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/lib/post-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/lib/comment-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/user/[id]/page": "action-browser"
+      }
+    },
+    "60c4aef1472bf6282bdb35f4f944bbdbff3fcbae1e": {
+      "workers": {
+        "app/user/[id]/page": {
+          "moduleId": "[project]/.next-internal/server/app/user/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/lib/user-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/lib/post-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/lib/comment-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false
         }
       },
@@ -212,7 +267,7 @@
     "40484940d33e7877f3371e9172f81505c929c2e772": {
       "workers": {
         "app/user/[id]/page": {
-          "moduleId": "[project]/.next-internal/server/app/user/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/user-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/lib/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/lib/post-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/lib/comment-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "moduleId": "[project]/.next-internal/server/app/user/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/lib/user-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/lib/post-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/lib/comment-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false
         }
       },
@@ -223,7 +278,7 @@
     "6027510579779897a7ffa457a925f316c0dbec5165": {
       "workers": {
         "app/user/[id]/page": {
-          "moduleId": "[project]/.next-internal/server/app/user/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/user-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/lib/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/lib/post-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/lib/comment-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "moduleId": "[project]/.next-internal/server/app/user/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/lib/user-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/lib/post-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/lib/comment-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false
         }
       },

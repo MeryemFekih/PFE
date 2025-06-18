@@ -46,29 +46,33 @@
     }
   }
 
-  export async function createPost(formData: FormData) {
-    const session = await getSession();
-    if (!session) redirect('/auth/signIn');
+ 
+export async function createPost(formData: FormData) {
+  const session = await getSession();
+  if (!session) redirect('/auth/signIn');
 
-    try {
-      const res = await fetch(`${BACKEND_URL}/post`, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${session.accessToken}`,
-        },
-        body: formData,
-      });
+  try {
+    const res = await fetch(`${BACKEND_URL}/post`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${session.accessToken}`,
+      },
+      body: formData,
+    });
 
-      if (!res.ok) {
-  const errorBody = await res.text(); // capture raw response text
-  console.error('Backend responded with:', res.status, errorBody);
-  throw new Error('Post creation failed');
-}
-    } catch (err) {
-      console.error('Error creating post:', err);
-      return null;
+    if (!res.ok) {
+      const errorBody = await res.text(); // raw error message
+      console.error('Backend responded with:', res.status, errorBody);
+      throw new Error('Post creation failed');
     }
+
+    // ✅ FIX: return the result so the frontend gets confirmation
+    return await res.json();
+  } catch (err) {
+    console.error('Error creating post:', err);
+    return null;
   }
+}
 
   export async function deletePost(postId: number) {
     const session = await getSession();
@@ -292,4 +296,50 @@ export async function getSuggestedEvents() {
     return [];
   }
 }
+export async function participateInPost(postId: number) {
+  const session = await getSession();
+  if (!session?.accessToken) throw new Error('Not authenticated');
 
+  try {
+    const res = await fetch(`${BACKEND_URL}/post/${postId}/participate`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${session.accessToken}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!res.ok) {
+      const errorText = await res.text();
+      throw new Error(errorText || 'Could not participate');
+    }
+
+    return await res.json(); // You can return success message or participation info
+  } catch (err) {
+    console.error('❌ Error participating in post:', err);
+    throw err;
+  }
+}
+
+export async function getPostParticipants(postId: number, token: string) {
+  const res = await fetch(`${BACKEND_URL}/post/${postId}/participants`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) throw new Error('Failed to fetch participants');
+  return res.json();
+}
+
+
+
+export async function requestParticipantRemoval(participationId: number, reason: string) {
+  const res = await fetch(`${BACKEND_URL}/post/${participationId}/request-removal`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ reason }),
+  });
+  if (!res.ok) throw new Error('Failed to request removal');
+  return res.json();
+}

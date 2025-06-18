@@ -8,10 +8,12 @@ interface ChatBoxProps {
   user?: {
     id: number;
     firstName: string;
+    
   };
   fullScreen?: boolean;
   onBack?: () => void;
   onMarkAsRead?: (convoId: string) => void;
+  onClose?: () => void;    
 }
 
 type MessageFilter = 'all' | 'unread' | 'read';
@@ -139,19 +141,7 @@ export function ChatBox({
 
   return (
     <div className={`${fullScreen ? 'h-full flex flex-col ' : 'border rounded-xl bg-white shadow-sm'}`}>
-      <div className="border-b border-gray-200 p-3 bg-gray-50 flex items-center rounded-t-xl justify-between">
-        <div className="flex items-center">
-          {onBack && (
-            <button onClick={onBack} className="mr-2 text-gray-600 hover:text-gray-800 p-1 rounded-full hover:bg-gray-200">
-              <FaArrowLeft className="h-5 w-5" />
-            </button>
-          )}
-          <div className="font-medium text-gray-800">
-            {user ? `Chat with ${user.firstName}` : 'Chat'}
-          </div>
-        </div>
-        
-      </div>
+      
 
       <div ref={messagesContainerRef} className={`flex-1 overflow-y-auto p-4 ${fullScreen ? 'h-[calc(100%-128px)]' : 'max-h-80'}`}>
         {filteredMsgs.length === 0 ? (
@@ -208,7 +198,7 @@ export function ChatBox({
 
       <div className=" p-3 bg-gray-50">
         <div className="flex items-center ">
-          <div  className="flex border border-gray-300 shadow-lg rounded-full">
+          <div  className="flex border w-full border-gray-300 shadow-lg rounded-full">
             <input type="file" ref={fileRef} className="hidden" onChange={handleFile} disabled={isSending} />
               <button
                 onClick={() => fileRef.current?.click()}
@@ -223,7 +213,7 @@ export function ChatBox({
                 onChange={(e) => setText(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder={`Message ${user?.firstName || ''}`}
-                className="flex-1   py-2   "
+                className="flex-1  py-2"
                 disabled={isSending}
               />
           </div>

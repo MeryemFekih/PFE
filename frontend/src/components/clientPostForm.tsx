@@ -7,6 +7,7 @@ import { FiImage, FiVideo, FiPaperclip, FiX, FiHash, FiAtSign, FiChevronDown, Fi
 import Image from 'next/image';
 import { usePostFormLogic } from '@/hooks/usePostFormLogic';
 import { PostType, EventType, Visibility } from '@/lib/enums';
+import toast from 'react-hot-toast';
 
 const INTERESTS = [
   'Artificial Intelligence',
@@ -35,12 +36,14 @@ export default function ClientPostFormFeed({ user }: { user: { profilePicture?: 
     startDate, setStartDate,
     location, setLocation,
     speakerId, setSpeakerId,
+    participantLimit, setParticipantLimit,
     fileInputRef,
     handleSubmit,
     resetForm
   } = usePostFormLogic();
 
   const [hasFile, setHasFile] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const uploadButtonRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = (file: File | null) => {
@@ -84,6 +87,24 @@ export default function ClientPostFormFeed({ user }: { user: { profilePicture?: 
       uploadButtonRef.current.click();
     }
   };
+const onSubmit = async () => {
+  try {
+    setIsSubmitting(true);
+    const result = await handleSubmit();
+    if (result?.success) {
+      toast.success("✅ Post created!");
+    } else {
+      toast.error("Failed to create post");
+    }
+  } catch (err) {
+    console.error(err);
+    toast.error("❌ An error occurred");
+  } finally {
+    setIsSubmitting(false);
+    resetForm();
+  }
+};
+
 
   return (
     <div className="bg-white p-4 rounded-xl shadow mb-6">
@@ -186,7 +207,15 @@ export default function ClientPostFormFeed({ user }: { user: { profilePicture?: 
                   onChange={(e) => setCustomSubject(e.target.value)}
                 />
               )}
-              
+              <input
+                type="number"
+                min={1}
+                placeholder="Max number of participants"
+                className="w-full text-sm py-1 px-2 shadow-md rounded-xl border border-gray-200"
+                value={participantLimit}
+                onChange={(e) => setParticipantLimit(Number(e.target.value))}
+              />
+
               <div className="flex flex-col justify-baseline sm:flex-row gap-2">
                 <label className='text-gray-600 text-sm mt-1' >Select Date</label>
                 <input
@@ -273,7 +302,7 @@ export default function ClientPostFormFeed({ user }: { user: { profilePicture?: 
             
             <button
               disabled={!title.trim() && !content.trim()}
-              onClick={handleSubmit}
+              onClick={onSubmit}
                         className="bg-blue-900 hover:bg-gray-100 hover:border-2 hover:border-blue-900 hover:text-blue-900 text-white px-3 h-10 rounded-lg font-semibold  flex items-center justify-center disabled:bg-gray-300"
             >
               Post

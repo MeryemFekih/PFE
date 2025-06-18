@@ -293,4 +293,60 @@ async findUsersByIds(ids: number[]) {
       }
     });
   }
+
+  async searchUsersByName(query: string) {
+  return this.prisma.user.findMany({
+    where: {
+      OR: [
+        { firstName: { contains: query, mode: 'insensitive' } },
+        { lastName: { contains: query, mode: 'insensitive' } },
+      ],
+    },
+    select: {
+      id: true,
+      firstName: true,
+      lastName: true,
+      email: true,
+      profilePicture: true,
+      role: true,
+    },
+  });
 }
+
+// user.service.ts
+async getFollowDetails(userId: number) {
+  const user = await this.prisma.user.findUnique({
+    where: { id: userId },
+    include: {
+      following: {
+        select: {
+          id: true,
+          firstName: true,
+          lastName: true,
+          profilePicture: true,
+          role: true,
+        },
+      },
+      followers: {
+        select: {
+          id: true,
+          firstName: true,
+          lastName: true,
+          profilePicture: true,
+          role: true,
+        },
+      },
+    },
+  });
+
+  if (!user) {
+    throw new Error('User not found');
+  }
+
+  return {
+    followingCount: user.following.length,
+    followersCount: user.followers.length,
+    following: user.following,
+    followers: user.followers,
+  };
+}}

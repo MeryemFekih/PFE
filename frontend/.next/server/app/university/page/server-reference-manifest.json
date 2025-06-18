@@ -99,6 +99,17 @@
         "app/university/page": "action-browser"
       }
     },
+    "402bc24d24ead01607c639311380afe64b07c281ee": {
+      "workers": {
+        "app/university/page": {
+          "moduleId": "[project]/.next-internal/server/app/university/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/lib/post-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/lib/comment-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/lib/user-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/src/lib/event-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/university/page": "action-browser"
+      }
+    },
     "404a2f01d34c2a949328e743a689f590c21c6b3074": {
       "workers": {
         "app/university/page": {
@@ -165,6 +176,28 @@
         "app/university/page": "action-browser"
       }
     },
+    "60736e632678ae35a972a93957949c50e9ce954d05": {
+      "workers": {
+        "app/university/page": {
+          "moduleId": "[project]/.next-internal/server/app/university/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/lib/post-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/lib/comment-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/lib/user-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/src/lib/event-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/university/page": "action-browser"
+      }
+    },
+    "60c4aef1472bf6282bdb35f4f944bbdbff3fcbae1e": {
+      "workers": {
+        "app/university/page": {
+          "moduleId": "[project]/.next-internal/server/app/university/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/lib/post-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/lib/comment-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/lib/user-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/src/lib/event-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/university/page": "action-browser"
+      }
+    },
     "40484940d33e7877f3371e9172f81505c929c2e772": {
       "workers": {
         "app/university/page": {
@@ -210,6 +243,28 @@
       }
     },
     "4054fa3fddeb9314acd84490c8fd2b94e13af3ba4b": {
+      "workers": {
+        "app/university/page": {
+          "moduleId": "[project]/.next-internal/server/app/university/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/lib/post-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/lib/comment-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/lib/user-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/src/lib/event-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/university/page": "action-browser"
+      }
+    },
+    "406389f79bf1bd2cbec02679755919d153e6a162b8": {
+      "workers": {
+        "app/university/page": {
+          "moduleId": "[project]/.next-internal/server/app/university/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/lib/post-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/lib/comment-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/lib/user-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/src/lib/event-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/university/page": "action-browser"
+      }
+    },
+    "40837c385fffb01fcb5877507e225861babdee0cd5": {
       "workers": {
         "app/university/page": {
           "moduleId": "[project]/.next-internal/server/app/university/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/lib/post-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/lib/comment-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/lib/user-action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/src/lib/event-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",

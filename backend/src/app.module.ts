@@ -34,6 +34,10 @@ import { ConversationModule } from './conversation/conversation.module';
       rootPath: join(__dirname, '..', 'uploads'), // 👈 should point to the actual uploads folder
       serveRoot: '/uploads', // 👈 matches the prefix you use in mediaUrl
     }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'uploads/profile-pictures'), // 👈 should point to the actual profile-pictures folder
+      serveRoot: '/profile-pictures', // 👈 matches the prefix you use in mediaUrl
+    }),
    
   ],
   controllers: [AppController],

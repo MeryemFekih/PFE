@@ -38,10 +38,12 @@ const CHATBOT_API_KEY = process.env.CHATBOT_API_KEY;
 
 var { g: global, __dirname } = __turbopack_context__;
 {
-/* __next_internal_action_entry_do_not_use__ {"00535245e955f19123a65d315da1f15f6e7fd16e6b":"getPendingPosts","00af6249933cee01b54cb778920254a725313890cd":"getPendingUsers","00fbce0ad091e574a19daa3b1835ada231ef53a3d3":"getAdminStats","40864431a7f6e1fb3e82e3bd2269d2f5d91be27733":"approvePost","40ab3be837fc1518a695548ba3ae465f1e6972d3e8":"rejectPost","40d6494e11b00fc73d0800d2972fc4a43d11dfd6db":"approveUser","609ea6f3d382e6122ab437fca281f8f3f579379084":"rejectUser"} */ __turbopack_context__.s({
+/* __next_internal_action_entry_do_not_use__ {"00535245e955f19123a65d315da1f15f6e7fd16e6b":"getPendingPosts","00af6249933cee01b54cb778920254a725313890cd":"getPendingUsers","00e5ab87c344d37dc3ca5117aeb6569ae1a2f545e1":"getParticipantRemovalRequests","00fbce0ad091e574a19daa3b1835ada231ef53a3d3":"getAdminStats","40864431a7f6e1fb3e82e3bd2269d2f5d91be27733":"approvePost","40ab3be837fc1518a695548ba3ae465f1e6972d3e8":"rejectPost","40d6494e11b00fc73d0800d2972fc4a43d11dfd6db":"approveUser","609ea6f3d382e6122ab437fca281f8f3f579379084":"rejectUser","60ef8c08027eb7b68f20c1f11fff9f3fa3f8138286":"approveRemoval"} */ __turbopack_context__.s({
     "approvePost": (()=>approvePost),
+    "approveRemoval": (()=>approveRemoval),
     "approveUser": (()=>approveUser),
     "getAdminStats": (()=>getAdminStats),
+    "getParticipantRemovalRequests": (()=>getParticipantRemovalRequests),
     "getPendingPosts": (()=>getPendingPosts),
     "getPendingUsers": (()=>getPendingUsers),
     "rejectPost": (()=>rejectPost),
@@ -234,6 +236,53 @@ async function /*#__TURBOPACK_DISABLE_EXPORT_MERGING__*/ rejectPost(postId) {
         throw error;
     }
 }
+async function /*#__TURBOPACK_DISABLE_EXPORT_MERGING__*/ getParticipantRemovalRequests() {
+    const session = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$session$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getSession"])();
+    if (!session || session.user.role !== 'ADMIN') {
+        (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$components$2f$navigation$2e$react$2d$server$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["redirect"])('/auth/signIn');
+    }
+    try {
+        const response = await fetch(`${__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$constants$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["BACKEND_URL"]}/admin/participant-removal-requests`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${session.accessToken}`,
+                'Content-Type': 'application/json'
+            },
+            cache: 'no-store'
+        });
+        if (!response.ok) throw new Error('Failed to fetch removal requests');
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching removal requests:', error);
+        return [];
+    }
+}
+async function /*#__TURBOPACK_DISABLE_EXPORT_MERGING__*/ approveRemoval(participationId, adminId) {
+    const session = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$session$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getSession"])();
+    if (!session || session.user.role !== 'ADMIN') {
+        (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$components$2f$navigation$2e$react$2d$server$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["redirect"])('/auth/signIn');
+    }
+    try {
+        const response = await fetch(`${__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$constants$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["BACKEND_URL"]}/admin/participants/${participationId}/approve-removal`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${session.accessToken}`
+            },
+            body: JSON.stringify({
+                adminId: session.user.id
+            })
+        });
+        if (!response.ok) {
+            throw new Error('Failed to approve participant removal');
+        }
+        (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$cache$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["revalidatePath"])('/admin/dashboard');
+        return await response.json();
+    } catch (error) {
+        console.error('Error approving participant removal:', error);
+        throw error;
+    }
+}
 ;
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$action$2d$validate$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["ensureServerEntryExports"])([
     getPendingUsers,
@@ -242,7 +291,9 @@ async function /*#__TURBOPACK_DISABLE_EXPORT_MERGING__*/ rejectPost(postId) {
     getAdminStats,
     getPendingPosts,
     approvePost,
-    rejectPost
+    rejectPost,
+    getParticipantRemovalRequests,
+    approveRemoval
 ]);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(getPendingUsers, "00af6249933cee01b54cb778920254a725313890cd", null);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(approveUser, "40d6494e11b00fc73d0800d2972fc4a43d11dfd6db", null);
@@ -251,6 +302,8 @@ async function /*#__TURBOPACK_DISABLE_EXPORT_MERGING__*/ rejectPost(postId) {
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(getPendingPosts, "00535245e955f19123a65d315da1f15f6e7fd16e6b", null);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(approvePost, "40864431a7f6e1fb3e82e3bd2269d2f5d91be27733", null);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(rejectPost, "40ab3be837fc1518a695548ba3ae465f1e6972d3e8", null);
+(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(getParticipantRemovalRequests, "00e5ab87c344d37dc3ca5117aeb6569ae1a2f545e1", null);
+(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(approveRemoval, "60ef8c08027eb7b68f20c1f11fff9f3fa3f8138286", null);
 }}),
 "[project]/.next-internal/server/app/admin/dashboard/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/session.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/lib/admin-actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript) <locals>": ((__turbopack_context__) => {
 "use strict";
@@ -258,6 +311,8 @@ async function /*#__TURBOPACK_DISABLE_EXPORT_MERGING__*/ rejectPost(postId) {
 var { g: global, __dirname } = __turbopack_context__;
 {
 __turbopack_context__.s({});
+;
+;
 ;
 ;
 ;
@@ -290,13 +345,15 @@ __turbopack_context__.s({
     "00535245e955f19123a65d315da1f15f6e7fd16e6b": (()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$admin$2d$actions$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getPendingPosts"]),
     "00af6249933cee01b54cb778920254a725313890cd": (()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$admin$2d$actions$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getPendingUsers"]),
     "00d75c814791e0528916f64078a2e1baacf7af8683": (()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$session$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getSession"]),
+    "00e5ab87c344d37dc3ca5117aeb6569ae1a2f545e1": (()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$admin$2d$actions$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getParticipantRemovalRequests"]),
     "00fbce0ad091e574a19daa3b1835ada231ef53a3d3": (()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$admin$2d$actions$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getAdminStats"]),
     "400daa95f65e69493bea74ad0186404f8e43d7fabd": (()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$session$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["createSession"]),
     "40864431a7f6e1fb3e82e3bd2269d2f5d91be27733": (()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$admin$2d$actions$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["approvePost"]),
     "40ab3be837fc1518a695548ba3ae465f1e6972d3e8": (()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$admin$2d$actions$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["rejectPost"]),
     "40d6494e11b00fc73d0800d2972fc4a43d11dfd6db": (()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$admin$2d$actions$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["approveUser"]),
     "40fcff674d29c57bde0e7e36d166b7cfbc5716b8dc": (()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$session$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["updateTokens"]),
-    "609ea6f3d382e6122ab437fca281f8f3f579379084": (()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$admin$2d$actions$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["rejectUser"])
+    "609ea6f3d382e6122ab437fca281f8f3f579379084": (()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$admin$2d$actions$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["rejectUser"]),
+    "60ef8c08027eb7b68f20c1f11fff9f3fa3f8138286": (()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$admin$2d$actions$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["approveRemoval"])
 });
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$session$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/lib/session.ts [app-rsc] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$admin$2d$actions$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/lib/admin-actions.ts [app-rsc] (ecmascript)");
@@ -312,13 +369,15 @@ __turbopack_context__.s({
     "00535245e955f19123a65d315da1f15f6e7fd16e6b": (()=>__TURBOPACK__imported__module__$5b$project$5d2f2e$next$2d$internal$2f$server$2f$app$2f$admin$2f$dashboard$2f$page$2f$actions$2e$js__$7b$__ACTIONS_MODULE0__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$session$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE1__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$admin$2d$actions$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$2922$__$7d$__$5b$app$2d$rsc$5d$__$28$server__actions__loader$2c$__ecmascript$29$__$3c$exports$3e$__["00535245e955f19123a65d315da1f15f6e7fd16e6b"]),
     "00af6249933cee01b54cb778920254a725313890cd": (()=>__TURBOPACK__imported__module__$5b$project$5d2f2e$next$2d$internal$2f$server$2f$app$2f$admin$2f$dashboard$2f$page$2f$actions$2e$js__$7b$__ACTIONS_MODULE0__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$session$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE1__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$admin$2d$actions$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$2922$__$7d$__$5b$app$2d$rsc$5d$__$28$server__actions__loader$2c$__ecmascript$29$__$3c$exports$3e$__["00af6249933cee01b54cb778920254a725313890cd"]),
     "00d75c814791e0528916f64078a2e1baacf7af8683": (()=>__TURBOPACK__imported__module__$5b$project$5d2f2e$next$2d$internal$2f$server$2f$app$2f$admin$2f$dashboard$2f$page$2f$actions$2e$js__$7b$__ACTIONS_MODULE0__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$session$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE1__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$admin$2d$actions$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$2922$__$7d$__$5b$app$2d$rsc$5d$__$28$server__actions__loader$2c$__ecmascript$29$__$3c$exports$3e$__["00d75c814791e0528916f64078a2e1baacf7af8683"]),
+    "00e5ab87c344d37dc3ca5117aeb6569ae1a2f545e1": (()=>__TURBOPACK__imported__module__$5b$project$5d2f2e$next$2d$internal$2f$server$2f$app$2f$admin$2f$dashboard$2f$page$2f$actions$2e$js__$7b$__ACTIONS_MODULE0__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$session$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE1__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$admin$2d$actions$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$2922$__$7d$__$5b$app$2d$rsc$5d$__$28$server__actions__loader$2c$__ecmascript$29$__$3c$exports$3e$__["00e5ab87c344d37dc3ca5117aeb6569ae1a2f545e1"]),
     "00fbce0ad091e574a19daa3b1835ada231ef53a3d3": (()=>__TURBOPACK__imported__module__$5b$project$5d2f2e$next$2d$internal$2f$server$2f$app$2f$admin$2f$dashboard$2f$page$2f$actions$2e$js__$7b$__ACTIONS_MODULE0__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$session$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE1__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$admin$2d$actions$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$2922$__$7d$__$5b$app$2d$rsc$5d$__$28$server__actions__loader$2c$__ecmascript$29$__$3c$exports$3e$__["00fbce0ad091e574a19daa3b1835ada231ef53a3d3"]),
     "400daa95f65e69493bea74ad0186404f8e43d7fabd": (()=>__TURBOPACK__imported__module__$5b$project$5d2f2e$next$2d$internal$2f$server$2f$app$2f$admin$2f$dashboard$2f$page$2f$actions$2e$js__$7b$__ACTIONS_MODULE0__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$session$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE1__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$admin$2d$actions$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$2922$__$7d$__$5b$app$2d$rsc$5d$__$28$server__actions__loader$2c$__ecmascript$29$__$3c$exports$3e$__["400daa95f65e69493bea74ad0186404f8e43d7fabd"]),
     "40864431a7f6e1fb3e82e3bd2269d2f5d91be27733": (()=>__TURBOPACK__imported__module__$5b$project$5d2f2e$next$2d$internal$2f$server$2f$app$2f$admin$2f$dashboard$2f$page$2f$actions$2e$js__$7b$__ACTIONS_MODULE0__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$session$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE1__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$admin$2d$actions$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$2922$__$7d$__$5b$app$2d$rsc$5d$__$28$server__actions__loader$2c$__ecmascript$29$__$3c$exports$3e$__["40864431a7f6e1fb3e82e3bd2269d2f5d91be27733"]),
     "40ab3be837fc1518a695548ba3ae465f1e6972d3e8": (()=>__TURBOPACK__imported__module__$5b$project$5d2f2e$next$2d$internal$2f$server$2f$app$2f$admin$2f$dashboard$2f$page$2f$actions$2e$js__$7b$__ACTIONS_MODULE0__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$session$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE1__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$admin$2d$actions$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$2922$__$7d$__$5b$app$2d$rsc$5d$__$28$server__actions__loader$2c$__ecmascript$29$__$3c$exports$3e$__["40ab3be837fc1518a695548ba3ae465f1e6972d3e8"]),
     "40d6494e11b00fc73d0800d2972fc4a43d11dfd6db": (()=>__TURBOPACK__imported__module__$5b$project$5d2f2e$next$2d$internal$2f$server$2f$app$2f$admin$2f$dashboard$2f$page$2f$actions$2e$js__$7b$__ACTIONS_MODULE0__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$session$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE1__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$admin$2d$actions$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$2922$__$7d$__$5b$app$2d$rsc$5d$__$28$server__actions__loader$2c$__ecmascript$29$__$3c$exports$3e$__["40d6494e11b00fc73d0800d2972fc4a43d11dfd6db"]),
     "40fcff674d29c57bde0e7e36d166b7cfbc5716b8dc": (()=>__TURBOPACK__imported__module__$5b$project$5d2f2e$next$2d$internal$2f$server$2f$app$2f$admin$2f$dashboard$2f$page$2f$actions$2e$js__$7b$__ACTIONS_MODULE0__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$session$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE1__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$admin$2d$actions$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$2922$__$7d$__$5b$app$2d$rsc$5d$__$28$server__actions__loader$2c$__ecmascript$29$__$3c$exports$3e$__["40fcff674d29c57bde0e7e36d166b7cfbc5716b8dc"]),
-    "609ea6f3d382e6122ab437fca281f8f3f579379084": (()=>__TURBOPACK__imported__module__$5b$project$5d2f2e$next$2d$internal$2f$server$2f$app$2f$admin$2f$dashboard$2f$page$2f$actions$2e$js__$7b$__ACTIONS_MODULE0__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$session$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE1__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$admin$2d$actions$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$2922$__$7d$__$5b$app$2d$rsc$5d$__$28$server__actions__loader$2c$__ecmascript$29$__$3c$exports$3e$__["609ea6f3d382e6122ab437fca281f8f3f579379084"])
+    "609ea6f3d382e6122ab437fca281f8f3f579379084": (()=>__TURBOPACK__imported__module__$5b$project$5d2f2e$next$2d$internal$2f$server$2f$app$2f$admin$2f$dashboard$2f$page$2f$actions$2e$js__$7b$__ACTIONS_MODULE0__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$session$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE1__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$admin$2d$actions$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$2922$__$7d$__$5b$app$2d$rsc$5d$__$28$server__actions__loader$2c$__ecmascript$29$__$3c$exports$3e$__["609ea6f3d382e6122ab437fca281f8f3f579379084"]),
+    "60ef8c08027eb7b68f20c1f11fff9f3fa3f8138286": (()=>__TURBOPACK__imported__module__$5b$project$5d2f2e$next$2d$internal$2f$server$2f$app$2f$admin$2f$dashboard$2f$page$2f$actions$2e$js__$7b$__ACTIONS_MODULE0__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$session$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE1__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$admin$2d$actions$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$2922$__$7d$__$5b$app$2d$rsc$5d$__$28$server__actions__loader$2c$__ecmascript$29$__$3c$exports$3e$__["60ef8c08027eb7b68f20c1f11fff9f3fa3f8138286"])
 });
 var __TURBOPACK__imported__module__$5b$project$5d2f2e$next$2d$internal$2f$server$2f$app$2f$admin$2f$dashboard$2f$page$2f$actions$2e$js__$7b$__ACTIONS_MODULE0__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$session$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE1__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$admin$2d$actions$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$2922$__$7d$__$5b$app$2d$rsc$5d$__$28$server__actions__loader$2c$__ecmascript$29$__$3c$module__evaluation$3e$__ = __turbopack_context__.i('[project]/.next-internal/server/app/admin/dashboard/page/actions.js { ACTIONS_MODULE0 => "[project]/src/lib/session.ts [app-rsc] (ecmascript)", ACTIONS_MODULE1 => "[project]/src/lib/admin-actions.ts [app-rsc] (ecmascript)" } [app-rsc] (server actions loader, ecmascript) <module evaluation>');
 var __TURBOPACK__imported__module__$5b$project$5d2f2e$next$2d$internal$2f$server$2f$app$2f$admin$2f$dashboard$2f$page$2f$actions$2e$js__$7b$__ACTIONS_MODULE0__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$session$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29222c$__ACTIONS_MODULE1__$3d3e$__$225b$project$5d2f$src$2f$lib$2f$admin$2d$actions$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$2922$__$7d$__$5b$app$2d$rsc$5d$__$28$server__actions__loader$2c$__ecmascript$29$__$3c$exports$3e$__ = __turbopack_context__.i('[project]/.next-internal/server/app/admin/dashboard/page/actions.js { ACTIONS_MODULE0 => "[project]/src/lib/session.ts [app-rsc] (ecmascript)", ACTIONS_MODULE1 => "[project]/src/lib/admin-actions.ts [app-rsc] (ecmascript)" } [app-rsc] (server actions loader, ecmascript) <exports>');
@@ -778,14 +837,16 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$re
 ;
 ;
 ;
+;
 async function AdminDashboard() {
     const session = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$session$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getSession"])();
     if (session?.user.role !== 'ADMIN') {
         (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$components$2f$navigation$2e$react$2d$server$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["redirect"])('/auth/signIn');
     }
-    const [pendingUsers, pendingPosts] = await Promise.all([
+    const [pendingUsers, pendingPosts, removalRequests] = await Promise.all([
         (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$admin$2d$actions$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getPendingUsers"])(),
-        (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$admin$2d$actions$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getPendingPosts"])()
+        (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$admin$2d$actions$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getPendingPosts"])(),
+        (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$admin$2d$actions$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getParticipantRemovalRequests"])()
     ]);
     const stats = {
         totalPending: pendingUsers.length + pendingPosts.length,
@@ -811,14 +872,14 @@ async function AdminDashboard() {
                                             className: "h-9 w-9 text-blue-600"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/admin/dashboard/page.tsx",
-                                            lineNumber: 35,
+                                            lineNumber: 39,
                                             columnNumber: 15
                                         }, this),
                                         "Admin Dashboard"
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/admin/dashboard/page.tsx",
-                                    lineNumber: 34,
+                                    lineNumber: 38,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -826,26 +887,26 @@ async function AdminDashboard() {
                                     children: "Efficiently manage user admission requests and system content."
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/admin/dashboard/page.tsx",
-                                    lineNumber: 38,
+                                    lineNumber: 42,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/admin/dashboard/page.tsx",
-                            lineNumber: 33,
+                            lineNumber: 37,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/app/admin/dashboard/page.tsx",
-                    lineNumber: 32,
+                    lineNumber: 36,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$stats_card$2e$tsx__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"], {
                     stats: stats
                 }, void 0, false, {
                     fileName: "[project]/src/app/admin/dashboard/page.tsx",
-                    lineNumber: 44,
+                    lineNumber: 48,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -868,14 +929,14 @@ async function AdminDashboard() {
                                                     className: "h-5 w-5 mr-2"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/admin/dashboard/page.tsx",
-                                                    lineNumber: 50,
+                                                    lineNumber: 54,
                                                     columnNumber: 17
                                                 }, this),
                                                 " Users"
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/admin/dashboard/page.tsx",
-                                            lineNumber: 49,
+                                            lineNumber: 53,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["TabsTrigger"], {
@@ -886,20 +947,29 @@ async function AdminDashboard() {
                                                     className: "h-5 w-5 mr-2"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/admin/dashboard/page.tsx",
-                                                    lineNumber: 53,
+                                                    lineNumber: 57,
                                                     columnNumber: 17
                                                 }, this),
                                                 " Posts"
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/admin/dashboard/page.tsx",
-                                            lineNumber: 52,
+                                            lineNumber: 56,
+                                            columnNumber: 15
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["TabsTrigger"], {
+                                            value: "removals",
+                                            className: "...",
+                                            children: "🛑 Removals"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/app/admin/dashboard/page.tsx",
+                                            lineNumber: 59,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/admin/dashboard/page.tsx",
-                                    lineNumber: 48,
+                                    lineNumber: 52,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["TabsContent"], {
@@ -908,12 +978,12 @@ async function AdminDashboard() {
                                         users: pendingUsers
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 58,
+                                        lineNumber: 65,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/admin/dashboard/page.tsx",
-                                    lineNumber: 57,
+                                    lineNumber: 64,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["TabsContent"], {
@@ -922,35 +992,35 @@ async function AdminDashboard() {
                                         posts: pendingPosts
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 62,
+                                        lineNumber: 69,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/admin/dashboard/page.tsx",
-                                    lineNumber: 61,
+                                    lineNumber: 68,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/admin/dashboard/page.tsx",
-                            lineNumber: 47,
+                            lineNumber: 51,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/app/admin/dashboard/page.tsx",
-                    lineNumber: 46,
+                    lineNumber: 50,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/src/app/admin/dashboard/page.tsx",
-            lineNumber: 31,
+            lineNumber: 35,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/src/app/admin/dashboard/page.tsx",
-        lineNumber: 30,
+        lineNumber: 34,
         columnNumber: 5
     }, this);
 }

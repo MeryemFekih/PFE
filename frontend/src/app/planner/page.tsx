@@ -204,8 +204,8 @@ const filteredEvents = eventViewMode === 'week'
 
   return (
 
-    <div className="flex h-full bg-gray-100">
-      <main className="  bg-gray-100   ">
+    <div className="flex  h-full bg-gray-100">
+      <main className=" w-full bg-gray-100   ">
       
       <div className="flex flex-col p-5 min-h-screen gap-3">
         <div className=" flex justify-evenly  bg-white text-gray-900 rounded-xl shadow pt-6 pb-5 ">
@@ -240,7 +240,7 @@ const filteredEvents = eventViewMode === 'week'
         >
           {TASK_STATUSES.map(s => <option key={s}>{s}</option>)}
         </select>
-        <button onClick={() => handleCreateTask()} className="bg-blue-900 hover:bg-gray-100 hover:border-2 hover:border-b-blue-900 hover:text-blue-900 text-white px-4 h-10 rounded-lg font-semibold transition flex items-center justify-center">
+        <button onClick={() => handleCreateTask()} className="bg-blue-900 hover:bg-gray-100 hover:border-2 hover:border-blue-900 hover:text-blue-900 text-white px-4  h-10 rounded-lg font-semibold transition flex items-center justify-center">
           Add New Task
         </button>
         </div>
@@ -317,14 +317,14 @@ const filteredEvents = eventViewMode === 'week'
       </div>
   <button
     onClick={() => handleCreateEvent()}
-    className="bg-blue-900 hover:bg-gray-100 hover:border-2 hover:border-b-blue-900 hover:text-blue-900 text-white px-4 h-10 rounded-lg font-semibold transition flex items-center justify-center"
+    className="bg-blue-900 hover:bg-gray-100 hover:border-2 hover:border-blue-900 hover:text-blue-900 text-white px-4 h-10 rounded-lg font-semibold transition flex items-center justify-center"
   >
     Add New Event
   </button>
 </div>
 
-          <div className="flex gap-6 mt-6">
-            <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="flex gap-4 mt-2">
+            <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-4">
               {STATUS.map((status) => (
                 <motion.div layout key={status} className={`rounded-xl p-6 shadow border-2 ${getColorClasses(status)} max-h-[900px] overflow-y-auto`}>
                   <h2 className="text-2xl font-bold mb-4 capitalize flex items-center gap-2">
@@ -519,7 +519,7 @@ const filteredEvents = eventViewMode === 'week'
 
 
 {editingTask && (
-  <div className="fixed inset-0 backdrop-blur-sm  bg-opacity-40 z-50 flex items-center justify-center">
+  <div className="fixed inset-0 bg-black/70 bg-opacity-40 backdrop-blur-sm   z-50 flex items-center justify-center">
     <div className="bg-white text-black p-6 rounded-lg w-full max-w-md shadow-xl flex flex-col gap-4">
       <h2 className="text-xl font-semibold">Edit Task</h2>
       <input
@@ -581,7 +581,7 @@ const filteredEvents = eventViewMode === 'week'
 )}
 
     {editingEvent && (
-  <div className="fixed inset-0 backdrop-blur-sm  flex items-center justify-center">
+  <div className="fixed inset-0 bg-black/70 bg-opacity-40 backdrop-blur-sm flex items-center justify-center">
     <div className="bg-white text-black p-6 rounded-lg w-full max-w-md drop-shadow-cyan-950 shadow-2xl flex flex-col gap-4">
       <h2 className="text-xl font-semibold ">Edit Event</h2>
       <input

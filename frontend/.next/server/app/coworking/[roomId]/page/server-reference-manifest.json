@@ -8,7 +8,7 @@
         }
       },
       "layer": {
-        "app/coworking/[roomId]/page": "rsc"
+        "app/coworking/[roomId]/page": "action-browser"
       }
     },
     "00d75c814791e0528916f64078a2e1baacf7af8683": {
@@ -19,7 +19,7 @@
         }
       },
       "layer": {
-        "app/coworking/[roomId]/page": "rsc"
+        "app/coworking/[roomId]/page": "action-browser"
       }
     },
     "400daa95f65e69493bea74ad0186404f8e43d7fabd": {
@@ -30,7 +30,7 @@
         }
       },
       "layer": {
-        "app/coworking/[roomId]/page": "rsc"
+        "app/coworking/[roomId]/page": "action-browser"
       }
     },
     "40fcff674d29c57bde0e7e36d166b7cfbc5716b8dc": {
@@ -41,7 +41,7 @@
         }
       },
       "layer": {
-        "app/coworking/[roomId]/page": "rsc"
+        "app/coworking/[roomId]/page": "action-browser"
       }
     }
   },

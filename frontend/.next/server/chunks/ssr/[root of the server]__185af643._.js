@@ -502,9 +502,9 @@ function PlannerPage() {
         return eventDate.getMonth() === now.getMonth() && eventDate.getFullYear() === now.getFullYear();
     });
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "flex h-full bg-gray-100",
+        className: "flex  h-full bg-gray-100",
         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("main", {
-            className: "  bg-gray-100   ",
+            className: " w-full bg-gray-100   ",
             children: [
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                     className: "flex flex-col p-5 min-h-screen gap-3",
@@ -599,7 +599,7 @@ function PlannerPage() {
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                     onClick: ()=>handleCreateTask(),
-                                    className: "bg-blue-900 hover:bg-gray-100 hover:border-2 hover:border-b-blue-900 hover:text-blue-900 text-white px-4 h-10 rounded-lg font-semibold transition flex items-center justify-center",
+                                    className: "bg-blue-900 hover:bg-gray-100 hover:border-2 hover:border-blue-900 hover:text-blue-900 text-white px-4  h-10 rounded-lg font-semibold transition flex items-center justify-center",
                                     children: "Add New Task"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/planner/page.tsx",
@@ -787,7 +787,7 @@ function PlannerPage() {
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                     onClick: ()=>handleCreateEvent(),
-                                    className: "bg-blue-900 hover:bg-gray-100 hover:border-2 hover:border-b-blue-900 hover:text-blue-900 text-white px-4 h-10 rounded-lg font-semibold transition flex items-center justify-center",
+                                    className: "bg-blue-900 hover:bg-gray-100 hover:border-2 hover:border-blue-900 hover:text-blue-900 text-white px-4 h-10 rounded-lg font-semibold transition flex items-center justify-center",
                                     children: "Add New Event"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/planner/page.tsx",
@@ -801,10 +801,10 @@ function PlannerPage() {
                             columnNumber: 9
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "flex gap-6 mt-6",
+                            className: "flex gap-4 mt-2",
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    className: "flex-1 grid grid-cols-1 md:grid-cols-3 gap-6",
+                                    className: "flex-1 grid grid-cols-1 md:grid-cols-3 gap-4",
                                     children: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$planner$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["STATUS"].map((status)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
                                             layout: true,
                                             className: `rounded-xl p-6 shadow border-2 ${(0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$planner$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["getColorClasses"])(status)} max-h-[900px] overflow-y-auto`,
@@ -1364,7 +1364,7 @@ function PlannerPage() {
                     columnNumber: 7
                 }, this),
                 editingTask && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                    className: "fixed inset-0 backdrop-blur-sm  bg-opacity-40 z-50 flex items-center justify-center",
+                    className: "fixed inset-0 bg-black/70 bg-opacity-40 backdrop-blur-sm   z-50 flex items-center justify-center",
                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "bg-white text-black p-6 rounded-lg w-full max-w-md shadow-xl flex flex-col gap-4",
                         children: [
@@ -1498,7 +1498,7 @@ function PlannerPage() {
                     columnNumber: 3
                 }, this),
                 editingEvent && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                    className: "fixed inset-0 backdrop-blur-sm  flex items-center justify-center",
+                    className: "fixed inset-0 bg-black/70 bg-opacity-40 backdrop-blur-sm flex items-center justify-center",
                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "bg-white text-black p-6 rounded-lg w-full max-w-md drop-shadow-cyan-950 shadow-2xl flex flex-col gap-4",
                         children: [

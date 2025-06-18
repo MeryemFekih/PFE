@@ -94,24 +94,24 @@ function SidebarWrapper() {
                     className: "text-blue-950"
                 }, void 0, false, {
                     fileName: "[project]/src/components/ui/sideBar.tsx",
-                    lineNumber: 33,
+                    lineNumber: 34,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/ui/sideBar.tsx",
-                lineNumber: 28,
+                lineNumber: 29,
                 columnNumber: 9
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "hidden md:block fixed left-0 top-0 h-full z-30 w-64",
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(Sidebar, {}, void 0, false, {
                     fileName: "[project]/src/components/ui/sideBar.tsx",
-                    lineNumber: 39,
+                    lineNumber: 40,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/ui/sideBar.tsx",
-                lineNumber: 38,
+                lineNumber: 39,
                 columnNumber: 7
             }, this),
             isMobile && mobileSidebarOpen && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -131,30 +131,30 @@ function SidebarWrapper() {
                                         className: "text-blue-950"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/ui/sideBar.tsx",
-                                        lineNumber: 52,
+                                        lineNumber: 53,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/ui/sideBar.tsx",
-                                    lineNumber: 47,
+                                    lineNumber: 48,
                                     columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/components/ui/sideBar.tsx",
-                                lineNumber: 46,
+                                lineNumber: 47,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(Sidebar, {
                                 onNavigate: ()=>setMobileSidebarOpen(false)
                             }, void 0, false, {
                                 fileName: "[project]/src/components/ui/sideBar.tsx",
-                                lineNumber: 55,
+                                lineNumber: 56,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/ui/sideBar.tsx",
-                        lineNumber: 45,
+                        lineNumber: 46,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -162,13 +162,13 @@ function SidebarWrapper() {
                         onClick: ()=>setMobileSidebarOpen(false)
                     }, void 0, false, {
                         fileName: "[project]/src/components/ui/sideBar.tsx",
-                        lineNumber: 57,
+                        lineNumber: 58,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/ui/sideBar.tsx",
-                lineNumber: 44,
+                lineNumber: 45,
                 columnNumber: 9
             }, this)
         ]
@@ -194,7 +194,7 @@ function Sidebar({ onNavigate }) {
                 className: "text-lg"
             }, void 0, false, {
                 fileName: "[project]/src/components/ui/sideBar.tsx",
-                lineNumber: 85,
+                lineNumber: 86,
                 columnNumber: 30
             }, this),
             path: '/profile'
@@ -206,7 +206,7 @@ function Sidebar({ onNavigate }) {
                     className: "text-lg"
                 }, void 0, false, {
                     fileName: "[project]/src/components/ui/sideBar.tsx",
-                    lineNumber: 89,
+                    lineNumber: 90,
                     columnNumber: 17
                 }, this),
                 path: '/admin/dashboard'
@@ -218,7 +218,7 @@ function Sidebar({ onNavigate }) {
                 className: "text-lg"
             }, void 0, false, {
                 fileName: "[project]/src/components/ui/sideBar.tsx",
-                lineNumber: 93,
+                lineNumber: 94,
                 columnNumber: 30
             }, this),
             path: '/planner'
@@ -229,7 +229,7 @@ function Sidebar({ onNavigate }) {
                 className: "text-lg"
             }, void 0, false, {
                 fileName: "[project]/src/components/ui/sideBar.tsx",
-                lineNumber: 94,
+                lineNumber: 95,
                 columnNumber: 33
             }, this),
             path: '/university'
@@ -240,7 +240,7 @@ function Sidebar({ onNavigate }) {
                 className: "text-lg"
             }, void 0, false, {
                 fileName: "[project]/src/components/ui/sideBar.tsx",
-                lineNumber: 95,
+                lineNumber: 96,
                 columnNumber: 25
             }, this),
             path: '/chatbot'
@@ -251,7 +251,7 @@ function Sidebar({ onNavigate }) {
                 className: "text-lg"
             }, void 0, false, {
                 fileName: "[project]/src/components/ui/sideBar.tsx",
-                lineNumber: 96,
+                lineNumber: 97,
                 columnNumber: 42
             }, this),
             path: '/coworking'
@@ -262,17 +262,27 @@ function Sidebar({ onNavigate }) {
                 className: "text-lg"
             }, void 0, false, {
                 fileName: "[project]/src/components/ui/sideBar.tsx",
-                lineNumber: 97,
+                lineNumber: 98,
                 columnNumber: 33
             }, this),
             path: '/soloStuding'
         }
     ];
+    const handleLogout = async ()=>{
+        try {
+            await fetch('/api/auth/logout', {
+                method: 'POST'
+            });
+            router.push('/auth/signIn');
+        } catch (error) {
+            console.error('Error logging out:', error);
+        }
+    };
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("aside", {
         className: "w-max h-full bg-blue-950 text-white flex flex-col",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "flex items-center pt-6 px-4",
+                className: "flex items-center pt-6 ",
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
                         href: "/",
@@ -282,32 +292,32 @@ function Sidebar({ onNavigate }) {
                             className: "h-16 w-16 object-contain"
                         }, void 0, false, {
                             fileName: "[project]/src/components/ui/sideBar.tsx",
-                            lineNumber: 105,
+                            lineNumber: 114,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/ui/sideBar.tsx",
-                        lineNumber: 104,
+                        lineNumber: 113,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
-                        className: "text-xl font-bold ml-2",
+                        className: "text-xl font-bold ",
                         children: "BrainWave"
                     }, void 0, false, {
                         fileName: "[project]/src/components/ui/sideBar.tsx",
-                        lineNumber: 107,
+                        lineNumber: 116,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/ui/sideBar.tsx",
-                lineNumber: 103,
+                lineNumber: 112,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("nav", {
                 className: "mt-5 flex-1 overflow-y-auto",
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
-                    className: "flex flex-col space-y-4 px-2",
+                    className: "flex flex-col space-y-3 px-2",
                     children: menuItems.map((item)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: `flex items-center justify-between py-4 pl-4 rounded-lg cursor-pointer transition-all ${isActive(item.path) ? 'bg-blue-900 shadow-md shadow-gray-500 text-white' : 'hover:bg-blue-900 hover:text-white'}`,
@@ -320,68 +330,78 @@ function Sidebar({ onNavigate }) {
                                             children: item.name
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/ui/sideBar.tsx",
-                                            lineNumber: 125,
+                                            lineNumber: 134,
                                             columnNumber: 19
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/ui/sideBar.tsx",
-                                    lineNumber: 123,
+                                    lineNumber: 132,
                                     columnNumber: 17
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/components/ui/sideBar.tsx",
-                                lineNumber: 115,
+                                lineNumber: 124,
                                 columnNumber: 15
                             }, this)
                         }, item.name, false, {
                             fileName: "[project]/src/components/ui/sideBar.tsx",
-                            lineNumber: 114,
+                            lineNumber: 123,
                             columnNumber: 13
                         }, this))
                 }, void 0, false, {
                     fileName: "[project]/src/components/ui/sideBar.tsx",
-                    lineNumber: 112,
+                    lineNumber: 121,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/ui/sideBar.tsx",
-                lineNumber: 111,
+                lineNumber: 120,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "p-4 flex justify-center",
+                className: "flex items-center justify-center mx-8 py-8 ",
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                    onClick: ()=>setDarkMode(!darkMode),
-                    className: "p-2 rounded-full bg-blue-800 hover:bg-blue-700 transition-colors",
-                    "aria-label": darkMode ? 'Switch to light mode' : 'Switch to dark mode',
-                    children: darkMode ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fa$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FaSun"], {
-                        className: "text-yellow-300 text-lg"
-                    }, void 0, false, {
-                        fileName: "[project]/src/components/ui/sideBar.tsx",
-                        lineNumber: 141,
-                        columnNumber: 13
-                    }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fa$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FaMoon"], {
-                        className: "text-white text-lg"
-                    }, void 0, false, {
-                        fileName: "[project]/src/components/ui/sideBar.tsx",
-                        lineNumber: 143,
-                        columnNumber: 13
-                    }, this)
-                }, void 0, false, {
+                    onClick: handleLogout,
+                    className: "group flex items-center text-center w-11 h-11 bg-red-900/90 border-2 border-red-800 rounded-full cursor-pointer relative overflow-hidden transition-all duration-200 shadow-md hover:shadow-gray-600 hover:w-full hover:rounded-full active:translate-x-1 active:translate-y-1",
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "flex items-center justify-center w-full transition-all duration-300 group-hover:justify-start group-hover:px-3",
+                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fa$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FaSignOutAlt"], {
+                                className: "w-4 h-4 text-white"
+                            }, void 0, false, {
+                                fileName: "[project]/src/components/ui/sideBar.tsx",
+                                lineNumber: 150,
+                                columnNumber: 17
+                            }, this)
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/ui/sideBar.tsx",
+                            lineNumber: 149,
+                            columnNumber: 15
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "absolute left-10 transform  translate-x-full opacity-0 text-white text-md font-medium transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100",
+                            children: "Sign Out"
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/ui/sideBar.tsx",
+                            lineNumber: 152,
+                            columnNumber: 15
+                        }, this)
+                    ]
+                }, void 0, true, {
                     fileName: "[project]/src/components/ui/sideBar.tsx",
-                    lineNumber: 135,
-                    columnNumber: 9
+                    lineNumber: 145,
+                    columnNumber: 12
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/ui/sideBar.tsx",
-                lineNumber: 134,
-                columnNumber: 7
+                lineNumber: 144,
+                columnNumber: 9
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/ui/sideBar.tsx",
-        lineNumber: 101,
+        lineNumber: 110,
         columnNumber: 5
     }, this);
 }

@@ -1940,12 +1940,12 @@ function ChatBox({ convoId, currentUserId, user, fullScreen = false, onBack, onM
                                 className: "h-5 w-5"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/ChatBox.tsx",
-                                lineNumber: 146,
+                                lineNumber: 147,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/components/ChatBox.tsx",
-                            lineNumber: 145,
+                            lineNumber: 146,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1953,18 +1953,18 @@ function ChatBox({ convoId, currentUserId, user, fullScreen = false, onBack, onM
                             children: user ? `Chat with ${user.firstName}` : 'Chat'
                         }, void 0, false, {
                             fileName: "[project]/src/components/ChatBox.tsx",
-                            lineNumber: 149,
+                            lineNumber: 150,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/ChatBox.tsx",
-                    lineNumber: 143,
+                    lineNumber: 144,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/ChatBox.tsx",
-                lineNumber: 142,
+                lineNumber: 143,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1977,7 +1977,7 @@ function ChatBox({ convoId, currentUserId, user, fullScreen = false, onBack, onM
                             className: "text-4xl mb-3 opacity-30"
                         }, void 0, false, {
                             fileName: "[project]/src/components/ChatBox.tsx",
-                            lineNumber: 159,
+                            lineNumber: 160,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1985,13 +1985,13 @@ function ChatBox({ convoId, currentUserId, user, fullScreen = false, onBack, onM
                             children: filter === 'all' ? user ? `Start a conversation with ${user.firstName}` : 'No messages yet' : filter === 'unread' ? 'No unread messages' : 'No read messages'
                         }, void 0, false, {
                             fileName: "[project]/src/components/ChatBox.tsx",
-                            lineNumber: 160,
+                            lineNumber: 161,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/ChatBox.tsx",
-                    lineNumber: 158,
+                    lineNumber: 159,
                     columnNumber: 11
                 }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                     className: "space-y-3",
@@ -2005,7 +2005,7 @@ function ChatBox({ convoId, currentUserId, user, fullScreen = false, onBack, onM
                                             children: msg.content
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/ChatBox.tsx",
-                                            lineNumber: 180,
+                                            lineNumber: 181,
                                             columnNumber: 21
                                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
                                             href: msg.content,
@@ -2017,14 +2017,14 @@ function ChatBox({ convoId, currentUserId, user, fullScreen = false, onBack, onM
                                                     className: "mr-2"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/ChatBox.tsx",
-                                                    lineNumber: 188,
+                                                    lineNumber: 189,
                                                     columnNumber: 23
                                                 }, this),
                                                 msg.fileName
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/ChatBox.tsx",
-                                            lineNumber: 182,
+                                            lineNumber: 183,
                                             columnNumber: 21
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2036,7 +2036,7 @@ function ChatBox({ convoId, currentUserId, user, fullScreen = false, onBack, onM
                                                     children: "✓✓"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/ChatBox.tsx",
-                                                    lineNumber: 195,
+                                                    lineNumber: 196,
                                                     columnNumber: 23
                                                 }, this),
                                                 !msg.read && msg.recipientId === currentUserId && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -2044,42 +2044,42 @@ function ChatBox({ convoId, currentUserId, user, fullScreen = false, onBack, onM
                                                     children: "NEW"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/ChatBox.tsx",
-                                                    lineNumber: 198,
+                                                    lineNumber: 199,
                                                     columnNumber: 23
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/ChatBox.tsx",
-                                            lineNumber: 192,
+                                            lineNumber: 193,
                                             columnNumber: 19
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/ChatBox.tsx",
-                                    lineNumber: 174,
+                                    lineNumber: 175,
                                     columnNumber: 17
                                 }, this)
                             }, msg.id, false, {
                                 fileName: "[project]/src/components/ChatBox.tsx",
-                                lineNumber: 173,
+                                lineNumber: 174,
                                 columnNumber: 15
                             }, this)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             ref: messagesEndRef
                         }, void 0, false, {
                             fileName: "[project]/src/components/ChatBox.tsx",
-                            lineNumber: 204,
+                            lineNumber: 205,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/ChatBox.tsx",
-                    lineNumber: 171,
+                    lineNumber: 172,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/ChatBox.tsx",
-                lineNumber: 156,
+                lineNumber: 157,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2098,7 +2098,7 @@ function ChatBox({ convoId, currentUserId, user, fullScreen = false, onBack, onM
                                     disabled: isSending
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/ChatBox.tsx",
-                                    lineNumber: 212,
+                                    lineNumber: 213,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -2107,12 +2107,12 @@ function ChatBox({ convoId, currentUserId, user, fullScreen = false, onBack, onM
                                     disabled: isSending,
                                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fa$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FaPaperclip"], {}, void 0, false, {
                                         fileName: "[project]/src/components/ChatBox.tsx",
-                                        lineNumber: 218,
+                                        lineNumber: 219,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/ChatBox.tsx",
-                                    lineNumber: 213,
+                                    lineNumber: 214,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -2125,13 +2125,13 @@ function ChatBox({ convoId, currentUserId, user, fullScreen = false, onBack, onM
                                     disabled: isSending
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/ChatBox.tsx",
-                                    lineNumber: 220,
+                                    lineNumber: 221,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/ChatBox.tsx",
-                            lineNumber: 211,
+                            lineNumber: 212,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -2154,7 +2154,7 @@ function ChatBox({ convoId, currentUserId, user, fullScreen = false, onBack, onM
                                         strokeWidth: "4"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/ChatBox.tsx",
-                                        lineNumber: 237,
+                                        lineNumber: 238,
                                         columnNumber: 9
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -2163,41 +2163,41 @@ function ChatBox({ convoId, currentUserId, user, fullScreen = false, onBack, onM
                                         d: "M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/ChatBox.tsx",
-                                        lineNumber: 238,
+                                        lineNumber: 239,
                                         columnNumber: 9
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/ChatBox.tsx",
-                                lineNumber: 236,
+                                lineNumber: 237,
                                 columnNumber: 15
                             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                 children: "➤"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/ChatBox.tsx",
-                                lineNumber: 241,
+                                lineNumber: 242,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/components/ChatBox.tsx",
-                            lineNumber: 230,
+                            lineNumber: 231,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/ChatBox.tsx",
-                    lineNumber: 210,
+                    lineNumber: 211,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/ChatBox.tsx",
-                lineNumber: 209,
+                lineNumber: 210,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/ChatBox.tsx",
-        lineNumber: 141,
+        lineNumber: 142,
         columnNumber: 5
     }, this);
 }

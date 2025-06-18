@@ -77,10 +77,20 @@ export class EventController {
     return this.eventService.getSuggestedEvents(user.interests);
   }
 @Post('add-to-planner/:postId')
+@UseGuards(JwtAuthGuard)
 async addToPlanner(@Param('postId') postId: string, @Request() req: any) {
-  const userId = req.user['sub'];
-  console.log('🔥 Reached EventController.addToPlanner', { userId, postId });
-  return this.eventService.addEventToPlanner(userId, parseInt(postId));
+  const userId = req.user.id;
+  console.log('🔥 Reached addToPlanner with:', { userId, postId });
+
+  try {
+    const result = await this.eventService.addEventToPlanner(userId, parseInt(postId));
+    console.log('✅ Event created:', result);
+    return result;
+  } catch (error) {
+    console.error('❌ Error in controller:', error);
+    throw error;
+  }
 }
+
 
 }

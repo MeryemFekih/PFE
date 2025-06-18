@@ -81,6 +81,7 @@ function RoomPage({ onRoomCreated }) {
     const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"])();
     const videoRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(null);
     const streamRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(null);
+    const privateFieldsRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(null);
     const [visibility, setVisibility] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])('public');
     const [participantEmails, setParticipantEmails] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([
         ''
@@ -97,7 +98,6 @@ function RoomPage({ onRoomCreated }) {
     const [pastedLink, setPastedLink] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])('');
     const [userId, setUserId] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
     const [loading, setLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(true);
-    // 🟡 Get session
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "RoomPage.useEffect": ()=>{
             const getSessionInfo = {
@@ -106,7 +106,6 @@ function RoomPage({ onRoomCreated }) {
                         const res = await fetch('/api/session');
                         const data = await res.json();
                         console.log("✅ Session user:", data);
-                        // ✅ FIXED: Get ID from data.user
                         if (data.user?.id) {
                             setUserId(data.user.id.toString());
                         } else {
@@ -124,7 +123,6 @@ function RoomPage({ onRoomCreated }) {
             getSessionInfo();
         }
     }["RoomPage.useEffect"], []);
-    // 🔁 Generate room link when roomName changes
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "RoomPage.useEffect": ()=>{
             if (!roomName) {
@@ -150,43 +148,55 @@ function RoomPage({ onRoomCreated }) {
     }["RoomPage.useEffect"], [
         roomName
     ]);
-    // 🎥 Stream camera/mic
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "RoomPage.useEffect": ()=>{
             const manageStream = {
                 "RoomPage.useEffect.manageStream": async ()=>{
                     if (!micOn && !cameraOn) {
-                        streamRef.current?.getTracks().forEach({
-                            "RoomPage.useEffect.manageStream": (track)=>track.stop()
-                        }["RoomPage.useEffect.manageStream"]);
-                        streamRef.current = null;
-                        if (videoRef.current) videoRef.current.srcObject = null;
+                        if (streamRef.current) {
+                            streamRef.current.getTracks().forEach({
+                                "RoomPage.useEffect.manageStream": (track)=>track.stop()
+                            }["RoomPage.useEffect.manageStream"]);
+                            streamRef.current = null;
+                            if (videoRef.current) videoRef.current.srcObject = null;
+                        }
                         return;
                     }
                     try {
-                        const stream = await navigator.mediaDevices.getUserMedia({
+                        const constraints = {
                             video: cameraOn,
                             audio: micOn
-                        });
-                        streamRef.current?.getTracks().forEach({
-                            "RoomPage.useEffect.manageStream": (track)=>track.stop()
-                        }["RoomPage.useEffect.manageStream"]);
+                        };
+                        const stream = await navigator.mediaDevices.getUserMedia(constraints);
+                        if (streamRef.current) {
+                            streamRef.current.getTracks().forEach({
+                                "RoomPage.useEffect.manageStream": (track)=>track.stop()
+                            }["RoomPage.useEffect.manageStream"]);
+                        }
                         streamRef.current = stream;
                         if (videoRef.current) {
                             videoRef.current.srcObject = stream;
                         }
                     } catch (e) {
                         console.error('Could not get media', e);
+                        setError('Failed to access camera/microphone. Please check permissions.');
+                        setMicOn({
+                            "RoomPage.useEffect.manageStream": (prev)=>!prev
+                        }["RoomPage.useEffect.manageStream"]);
+                        setCameraOn({
+                            "RoomPage.useEffect.manageStream": (prev)=>!prev
+                        }["RoomPage.useEffect.manageStream"]);
                     }
                 }
             }["RoomPage.useEffect.manageStream"];
             manageStream();
             return ({
                 "RoomPage.useEffect": ()=>{
-                    streamRef.current?.getTracks().forEach({
-                        "RoomPage.useEffect": (track)=>track.stop()
-                    }["RoomPage.useEffect"]);
-                    streamRef.current = null;
+                    if (streamRef.current) {
+                        streamRef.current.getTracks().forEach({
+                            "RoomPage.useEffect": (track)=>track.stop()
+                        }["RoomPage.useEffect"]);
+                    }
                 }
             })["RoomPage.useEffect"];
         }
@@ -194,7 +204,6 @@ function RoomPage({ onRoomCreated }) {
         micOn,
         cameraOn
     ]);
-    // 🔄 Fetch existing rooms
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "RoomPage.useEffect": ()=>{
             const fetchRooms = {
@@ -222,7 +231,36 @@ function RoomPage({ onRoomCreated }) {
     }["RoomPage.useEffect"], [
         userId
     ]);
-    // 🟢 Create room
+    const toggleMic = async (event)=>{
+        event.preventDefault();
+        try {
+            const newMicState = !micOn;
+            if (streamRef.current) {
+                streamRef.current.getAudioTracks().forEach((track)=>{
+                    track.enabled = newMicState;
+                });
+            }
+            setMicOn(newMicState);
+        } catch (err) {
+            console.error("Error toggling microphone:", err);
+            setError("Could not toggle microphone");
+        }
+    };
+    const toggleCamera = async (event)=>{
+        event.preventDefault();
+        try {
+            const newCameraState = !cameraOn;
+            if (streamRef.current) {
+                streamRef.current.getVideoTracks().forEach((track)=>{
+                    track.enabled = newCameraState;
+                });
+            }
+            setCameraOn(newCameraState);
+        } catch (err) {
+            console.error("Error toggling camera:", err);
+            setError("Could not toggle camera");
+        }
+    };
     const handleSubmit = async (e)=>{
         e.preventDefault();
         if (!userId) {
@@ -262,393 +300,605 @@ function RoomPage({ onRoomCreated }) {
             router.push(`/coworking/${finalRoomId}?mic=${micOn ? 'on' : 'off'}&camera=${cameraOn ? 'on' : 'off'}`);
         }
     };
-    // 🕓 Show loading until session is ready
     if (loading) {
         return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: "text-center mt-10 text-gray-600",
-            children: "Loading session..."
-        }, void 0, false, {
-            fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
-            lineNumber: 182,
-            columnNumber: 12
-        }, this);
-    }
-    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "flex h-screen pt-5 p-20 bg-gray-200 text-black",
-        children: [
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "flex-1 flex-col ml-20 bg-gray-100 m-10 rounded-2xl shadow-lg",
+            className: "flex items-center justify-center min-h-screen bg-gray-100",
+            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "text-center p-6 bg-white rounded-lg shadow-md",
                 children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("video", {
-                        ref: videoRef,
-                        autoPlay: true,
-                        muted: true,
-                        playsInline: true,
-                        className: "object-cover w-full h-9/10 rounded-t-2xl bg-gray-200"
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mx-auto mb-4"
                     }, void 0, false, {
                         fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
-                        lineNumber: 188,
-                        columnNumber: 9
-                    }, this),
-                    !micOn && !cameraOn && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "text-center text-sm text-gray-600 p-3",
-                        children: "Both microphone and camera are turned off."
-                    }, void 0, false, {
-                        fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
-                        lineNumber: 196,
+                        lineNumber: 222,
                         columnNumber: 11
                     }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "flex justify-center rounded-b-2xl space-x-6 bg-gray-100 p-5",
-                        children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                onClick: ()=>setMicOn(!micOn),
-                                className: "p-4 rounded-full bg-gray-500 text-white hover:bg-gray-600",
-                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$fortawesome$2f$react$2d$fontawesome$2f$index$2e$es$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FontAwesomeIcon"], {
-                                    icon: micOn ? __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$fortawesome$2f$free$2d$solid$2d$svg$2d$icons$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["faMicrophone"] : __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$fortawesome$2f$free$2d$solid$2d$svg$2d$icons$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["faMicrophoneSlash"]
-                                }, void 0, false, {
-                                    fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
-                                    lineNumber: 202,
-                                    columnNumber: 13
-                                }, this)
-                            }, void 0, false, {
-                                fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
-                                lineNumber: 201,
-                                columnNumber: 11
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                onClick: ()=>setCameraOn(!cameraOn),
-                                className: "p-4 rounded-full bg-gray-500 text-white hover:bg-gray-600",
-                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$fortawesome$2f$react$2d$fontawesome$2f$index$2e$es$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FontAwesomeIcon"], {
-                                    icon: cameraOn ? __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$fortawesome$2f$free$2d$solid$2d$svg$2d$icons$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["faVideo"] : __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$fortawesome$2f$free$2d$solid$2d$svg$2d$icons$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["faVideoSlash"]
-                                }, void 0, false, {
-                                    fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
-                                    lineNumber: 205,
-                                    columnNumber: 13
-                                }, this)
-                            }, void 0, false, {
-                                fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
-                                lineNumber: 204,
-                                columnNumber: 11
-                            }, this)
-                        ]
-                    }, void 0, true, {
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                        className: "text-gray-600",
+                        children: "Loading session..."
+                    }, void 0, false, {
                         fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
-                        lineNumber: 200,
-                        columnNumber: 9
+                        lineNumber: 223,
+                        columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
-                lineNumber: 187,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "flex-1 space-y-4 bg-gray-100 rounded-2xl p-5 mt-10 mr-50 h-full",
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
-                        className: "text-lg text-center font-bold",
-                        children: "Join an Existing Room"
-                    }, void 0, false, {
-                        fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
-                        lineNumber: 211,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
-                        value: selectedRoomId || '',
-                        onChange: (e)=>setSelectedRoomId(e.target.value),
-                        className: "w-full p-2 border rounded",
-                        children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
-                                value: "",
-                                children: "Select an existing Room"
-                            }, void 0, false, {
-                                fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
-                                lineNumber: 217,
-                                columnNumber: 11
-                            }, this),
-                            existingRooms.map((room)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
-                                    value: room.id,
-                                    children: room.name
-                                }, room.id, false, {
-                                    fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
-                                    lineNumber: 219,
-                                    columnNumber: 13
-                                }, this))
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
-                        lineNumber: 212,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                        type: "text",
-                        placeholder: "Or paste a room link:",
-                        value: pastedLink,
-                        onChange: (e)=>setPastedLink(e.target.value),
-                        className: "w-full p-2 border rounded"
-                    }, void 0, false, {
-                        fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
-                        lineNumber: 224,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                        onClick: handleJoinRoom,
-                        disabled: !selectedRoomId && !pastedLink,
-                        className: "w-full bg-blue-800 text-white py-2 rounded disabled:bg-gray-400",
-                        children: "Join Room"
-                    }, void 0, false, {
-                        fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
-                        lineNumber: 231,
-                        columnNumber: 9
-                    }, this),
-                    error && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                        className: "text-red-600",
-                        children: error
-                    }, void 0, false, {
-                        fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
-                        lineNumber: 238,
-                        columnNumber: 19
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
-                        onSubmit: handleSubmit,
-                        className: "space-y-4",
-                        children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
-                                className: "text-lg text-center font-bold",
-                                children: "Create a New Room"
-                            }, void 0, false, {
-                                fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
-                                lineNumber: 241,
-                                columnNumber: 11
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                                type: "text",
-                                placeholder: "Room Name",
-                                value: roomName,
-                                onChange: (e)=>{
-                                    setRoomName(e.target.value);
-                                    const generatedLink = `${window.location.origin}/room/${e.target.value.replace(/\s+/g, '-')}`;
-                                    setRoomLink(generatedLink);
-                                },
-                                required: true,
-                                className: "w-full p-2 border rounded"
-                            }, void 0, false, {
-                                fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
-                                lineNumber: 243,
-                                columnNumber: 11
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                                type: "text",
-                                placeholder: "Objective (e.g., Study, Meeting)",
-                                value: objective,
-                                onChange: (e)=>setObjective(e.target.value),
-                                required: true,
-                                className: "w-full p-2 border rounded"
-                            }, void 0, false, {
-                                fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
-                                lineNumber: 256,
-                                columnNumber: 11
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
-                                value: visibility,
-                                onChange: (e)=>setVisibility(e.target.value),
-                                className: "w-full p-2 border rounded",
-                                children: [
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
-                                        value: "public",
-                                        children: "Public"
-                                    }, void 0, false, {
-                                        fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
-                                        lineNumber: 270,
-                                        columnNumber: 13
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
-                                        value: "private",
-                                        children: "Private"
-                                    }, void 0, false, {
-                                        fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
-                                        lineNumber: 271,
-                                        columnNumber: 13
-                                    }, this)
-                                ]
-                            }, void 0, true, {
-                                fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
-                                lineNumber: 265,
-                                columnNumber: 11
-                            }, this),
-                            visibility === 'private' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
-                                children: [
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                                        type: "number",
-                                        placeholder: "Limit of Participants",
-                                        value: limit || '',
-                                        onChange: (e)=>setLimit(Number(e.target.value)),
-                                        className: "w-full p-2 border rounded"
-                                    }, void 0, false, {
-                                        fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
-                                        lineNumber: 276,
-                                        columnNumber: 15
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: "space-y-2",
-                                        children: [
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
-                                                className: "block font-medium",
-                                                children: "Participant Emails"
-                                            }, void 0, false, {
-                                                fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
-                                                lineNumber: 284,
-                                                columnNumber: 17
-                                            }, this),
-                                            participantEmails.map((email, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                    className: "flex items-center space-x-2",
-                                                    children: [
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                                                            type: "email",
-                                                            placeholder: `Email ${index + 1}`,
-                                                            value: email,
-                                                            onChange: (e)=>{
-                                                                const newEmails = [
-                                                                    ...participantEmails
-                                                                ];
-                                                                newEmails[index] = e.target.value;
-                                                                setParticipantEmails(newEmails);
-                                                            },
-                                                            className: "w-full p-2 border rounded",
-                                                            required: true
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
-                                                            lineNumber: 287,
-                                                            columnNumber: 21
-                                                        }, this),
-                                                        participantEmails.length > 1 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                                            type: "button",
-                                                            onClick: ()=>setParticipantEmails(participantEmails.filter((_, i)=>i !== index)),
-                                                            className: "text-red-500 hover:text-red-700 text-xl",
-                                                            children: "−"
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
-                                                            lineNumber: 300,
-                                                            columnNumber: 23
-                                                        }, this)
-                                                    ]
-                                                }, index, true, {
-                                                    fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
-                                                    lineNumber: 286,
-                                                    columnNumber: 19
-                                                }, this)),
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                                type: "button",
-                                                onClick: ()=>setParticipantEmails([
-                                                        ...participantEmails,
-                                                        ''
-                                                    ]),
-                                                className: "text-blue-600 hover:text-blue-800 text-sm flex items-center mt-1",
-                                                children: [
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                        className: "text-xl mr-1",
-                                                        children: "+"
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
-                                                        lineNumber: 317,
-                                                        columnNumber: 19
-                                                    }, this),
-                                                    " Add another email"
-                                                ]
-                                            }, void 0, true, {
-                                                fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
-                                                lineNumber: 312,
-                                                columnNumber: 17
-                                            }, this)
-                                        ]
-                                    }, void 0, true, {
-                                        fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
-                                        lineNumber: 283,
-                                        columnNumber: 15
-                                    }, this)
-                                ]
-                            }, void 0, true),
-                            roomLink && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "bg-white rounded border text-sm text-center relative",
-                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    className: "flex font-medium",
+                lineNumber: 221,
+                columnNumber: 9
+            }, this)
+        }, void 0, false, {
+            fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
+            lineNumber: 220,
+            columnNumber: 7
+        }, this);
+    }
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+        className: "min-h-screen bg-gray-100 p-4 md:p-8",
+        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+            className: "max-w-7xl mx-auto",
+            children: [
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                    onClick: ()=>router.push('/profile'),
+                    className: "flex items-center text-blue-600 hover:text-blue-800 mb-4 md:mb-6",
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$fortawesome$2f$react$2d$fontawesome$2f$index$2e$es$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FontAwesomeIcon"], {
+                            icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$fortawesome$2f$free$2d$solid$2d$svg$2d$icons$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["faArrowLeft"],
+                            className: "mr-2"
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
+                            lineNumber: 236,
+                            columnNumber: 11
+                        }, this),
+                        "Back to Profile"
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
+                    lineNumber: 232,
+                    columnNumber: 9
+                }, this),
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: "flex flex-col lg:flex-row gap-6 h-[calc(100vh-150px)]",
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "flex-1 bg-white rounded-xl shadow-md overflow-hidden h-full flex flex-col",
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "relative flex-1 bg-gray-200",
                                     children: [
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                            className: "flex-1 pt-2",
-                                            children: [
-                                                "Copy link: ",
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                    className: " break-all",
-                                                    children: roomLink
-                                                }, void 0, false, {
-                                                    fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
-                                                    lineNumber: 326,
-                                                    columnNumber: 55
-                                                }, this)
-                                            ]
-                                        }, void 0, true, {
-                                            fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
-                                            lineNumber: 326,
-                                            columnNumber: 17
-                                        }, this),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                            type: "button",
-                                            onClick: ()=>navigator.clipboard.writeText(roomLink),
-                                            className: "px-4 py-2 bg-green-600 text-white hover:bg-green-700 rounded",
-                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$fortawesome$2f$react$2d$fontawesome$2f$index$2e$es$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FontAwesomeIcon"], {
-                                                icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$fortawesome$2f$free$2d$solid$2d$svg$2d$icons$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["faCopy"]
-                                            }, void 0, false, {
-                                                fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
-                                                lineNumber: 332,
-                                                columnNumber: 19
-                                            }, this)
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("video", {
+                                            ref: videoRef,
+                                            autoPlay: true,
+                                            muted: true,
+                                            playsInline: true,
+                                            className: "absolute inset-0 w-full h-full object-cover"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
-                                            lineNumber: 327,
+                                            lineNumber: 243,
+                                            columnNumber: 15
+                                        }, this),
+                                        !cameraOn && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "absolute inset-0 flex items-center justify-center bg-black bg-opacity-70 text-white",
+                                            children: "Camera is off"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
+                                            lineNumber: 251,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
-                                    lineNumber: 325,
-                                    columnNumber: 15
+                                    lineNumber: 242,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "flex justify-center space-x-4 p-4 bg-gray-50",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                            onClick: toggleMic,
+                                            className: `p-3 rounded-full ${micOn ? 'bg-green-500 hover:bg-green-600' : 'bg-red-500 hover:bg-red-600'} text-white transition-colors`,
+                                            "aria-label": micOn ? "Mute microphone" : "Unmute microphone",
+                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$fortawesome$2f$react$2d$fontawesome$2f$index$2e$es$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FontAwesomeIcon"], {
+                                                icon: micOn ? __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$fortawesome$2f$free$2d$solid$2d$svg$2d$icons$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["faMicrophone"] : __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$fortawesome$2f$free$2d$solid$2d$svg$2d$icons$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["faMicrophoneSlash"]
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
+                                                lineNumber: 262,
+                                                columnNumber: 17
+                                            }, this)
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
+                                            lineNumber: 257,
+                                            columnNumber: 15
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                            onClick: toggleCamera,
+                                            className: `p-3 rounded-full ${cameraOn ? 'bg-green-500 hover:bg-green-600' : 'bg-red-500 hover:bg-red-600'} text-white transition-colors`,
+                                            "aria-label": cameraOn ? "Turn off camera" : "Turn on camera",
+                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$fortawesome$2f$react$2d$fontawesome$2f$index$2e$es$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FontAwesomeIcon"], {
+                                                icon: cameraOn ? __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$fortawesome$2f$free$2d$solid$2d$svg$2d$icons$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["faVideo"] : __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$fortawesome$2f$free$2d$solid$2d$svg$2d$icons$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["faVideoSlash"]
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
+                                                lineNumber: 269,
+                                                columnNumber: 17
+                                            }, this)
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
+                                            lineNumber: 264,
+                                            columnNumber: 15
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
+                                    lineNumber: 256,
+                                    columnNumber: 13
                                 }, this)
-                            }, void 0, false, {
-                                fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
-                                lineNumber: 324,
-                                columnNumber: 13
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                type: "submit",
-                                disabled: !userId,
-                                className: `bg-gradient-to-r from-blue-600 to-blue-950 text-white rounded text-lg font-semibold h-12 w-full ${!userId ? 'opacity-50 cursor-not-allowed' : ''}`,
-                                children: "Create Room"
-                            }, void 0, false, {
-                                fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
-                                lineNumber: 338,
-                                columnNumber: 11
-                            }, this)
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
-                        lineNumber: 240,
-                        columnNumber: 9
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
-                lineNumber: 210,
-                columnNumber: 7
-            }, this)
-        ]
-    }, void 0, true, {
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
+                            lineNumber: 241,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "flex-1 flex flex-col h-full overflow-hidden",
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "bg-white rounded-xl shadow-md p-6 mb-6",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
+                                            className: "text-xl font-bold text-gray-800 mb-4",
+                                            children: "Join an Existing Room"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
+                                            lineNumber: 276,
+                                            columnNumber: 15
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "mb-4",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "flex mb-4 gap-2",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
+                                                            value: selectedRoomId || '',
+                                                            onChange: (e)=>setSelectedRoomId(e.target.value),
+                                                            className: "flex-1/2 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+                                                            children: [
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                                                    value: "",
+                                                                    children: "Select an existing Room"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
+                                                                    lineNumber: 284,
+                                                                    columnNumber: 21
+                                                                }, this),
+                                                                existingRooms.map((room)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                                                        value: room.id,
+                                                                        children: room.name
+                                                                    }, room.id, false, {
+                                                                        fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
+                                                                        lineNumber: 286,
+                                                                        columnNumber: 23
+                                                                    }, this))
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
+                                                            lineNumber: 279,
+                                                            columnNumber: 19
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "relative",
+                                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                                                type: "text",
+                                                                placeholder: "Or paste a room link",
+                                                                value: pastedLink,
+                                                                onChange: (e)=>setPastedLink(e.target.value),
+                                                                className: "flex-1/2 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
+                                                                lineNumber: 293,
+                                                                columnNumber: 21
+                                                            }, this)
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
+                                                            lineNumber: 292,
+                                                            columnNumber: 19
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
+                                                    lineNumber: 278,
+                                                    columnNumber: 17
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                    onClick: handleJoinRoom,
+                                                    disabled: !selectedRoomId && !pastedLink,
+                                                    className: `w-full py-3 px-4 rounded-lg font-medium transition-colors ${!selectedRoomId && !pastedLink ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700 text-white'}`,
+                                                    children: "Join Room"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
+                                                    lineNumber: 303,
+                                                    columnNumber: 17
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
+                                            lineNumber: 277,
+                                            columnNumber: 15
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
+                                    lineNumber: 275,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "bg-white rounded-xl shadow-md p-6 flex-1 overflow-y-auto",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
+                                            className: "text-xl font-bold text-gray-800 mb-4",
+                                            children: "Create a New Room"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
+                                            lineNumber: 318,
+                                            columnNumber: 15
+                                        }, this),
+                                        error && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "mb-4 p-3 bg-red-100 border-l-4 border-red-500 text-red-700 rounded",
+                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                children: error
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
+                                                lineNumber: 322,
+                                                columnNumber: 19
+                                            }, this)
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
+                                            lineNumber: 321,
+                                            columnNumber: 17
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
+                                            onSubmit: handleSubmit,
+                                            className: "space-y-4",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "flex gap-4",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "w-full",
+                                                            children: [
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                                                    htmlFor: "roomName",
+                                                                    className: "block text-sm font-medium text-gray-700 mb-1",
+                                                                    children: "Room Name"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
+                                                                    lineNumber: 329,
+                                                                    columnNumber: 21
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                                                    id: "roomName",
+                                                                    type: "text",
+                                                                    placeholder: "e.g. Study Session, Team Meeting",
+                                                                    value: roomName,
+                                                                    onChange: (e)=>setRoomName(e.target.value),
+                                                                    required: true,
+                                                                    className: "w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
+                                                                    lineNumber: 332,
+                                                                    columnNumber: 21
+                                                                }, this)
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
+                                                            lineNumber: 328,
+                                                            columnNumber: 19
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "w-full",
+                                                            children: [
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                                                    htmlFor: "objective",
+                                                                    className: "block text-sm font-medium text-gray-700 mb-1",
+                                                                    children: "Objective"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
+                                                                    lineNumber: 344,
+                                                                    columnNumber: 21
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                                                    id: "objective",
+                                                                    type: "text",
+                                                                    placeholder: "e.g. Study Calculus, Project Planning",
+                                                                    value: objective,
+                                                                    onChange: (e)=>setObjective(e.target.value),
+                                                                    required: true,
+                                                                    className: "w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
+                                                                    lineNumber: 347,
+                                                                    columnNumber: 21
+                                                                }, this)
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
+                                                            lineNumber: 343,
+                                                            columnNumber: 19
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
+                                                    lineNumber: 327,
+                                                    columnNumber: 17
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                                            htmlFor: "visibility",
+                                                            className: "block text-sm font-medium text-gray-700 mb-1",
+                                                            children: "Visibility"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
+                                                            lineNumber: 360,
+                                                            columnNumber: 19
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
+                                                            id: "visibility",
+                                                            value: visibility,
+                                                            onChange: (e)=>setVisibility(e.target.value),
+                                                            className: "w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+                                                            children: [
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                                                    value: "public",
+                                                                    children: "Public (Anyone can join)"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
+                                                                    lineNumber: 369,
+                                                                    columnNumber: 21
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                                                    value: "private",
+                                                                    children: "Private (Invite only)"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
+                                                                    lineNumber: 370,
+                                                                    columnNumber: 21
+                                                                }, this)
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
+                                                            lineNumber: 363,
+                                                            columnNumber: 19
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
+                                                    lineNumber: 359,
+                                                    columnNumber: 17
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    ref: privateFieldsRef,
+                                                    className: `transition-all duration-300 overflow-hidden ${visibility === 'private' ? 'max-h-[500px] overflow-y-auto' : 'max-h-0'}`,
+                                                    children: visibility === 'private' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                className: "pt-4",
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                                                        htmlFor: "limit",
+                                                                        className: "block text-sm font-medium text-gray-700 mb-1",
+                                                                        children: "Participant Limit (optional)"
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
+                                                                        lineNumber: 383,
+                                                                        columnNumber: 25
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                                                        id: "limit",
+                                                                        type: "number",
+                                                                        placeholder: "Leave empty for no limit",
+                                                                        value: limit || '',
+                                                                        onChange: (e)=>setLimit(Number(e.target.value)),
+                                                                        min: "1",
+                                                                        className: "w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
+                                                                        lineNumber: 386,
+                                                                        columnNumber: 25
+                                                                    }, this)
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
+                                                                lineNumber: 382,
+                                                                columnNumber: 23
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                className: "pt-4",
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                                                        className: "block text-sm font-medium text-gray-700 mb-1",
+                                                                        children: "Invite Participants"
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
+                                                                        lineNumber: 398,
+                                                                        columnNumber: 25
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                        className: "space-y-2",
+                                                                        children: [
+                                                                            participantEmails.map((email, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                    className: "flex items-center gap-2",
+                                                                                    children: [
+                                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                                                                            type: "email",
+                                                                                            placeholder: `participant${index + 1}@example.com`,
+                                                                                            value: email,
+                                                                                            onChange: (e)=>{
+                                                                                                const newEmails = [
+                                                                                                    ...participantEmails
+                                                                                                ];
+                                                                                                newEmails[index] = e.target.value;
+                                                                                                setParticipantEmails(newEmails);
+                                                                                            },
+                                                                                            className: "flex-1 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+                                                                                            required: visibility === 'private'
+                                                                                        }, void 0, false, {
+                                                                                            fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
+                                                                                            lineNumber: 404,
+                                                                                            columnNumber: 31
+                                                                                        }, this),
+                                                                                        participantEmails.length > 1 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                                                            type: "button",
+                                                                                            onClick: ()=>setParticipantEmails(participantEmails.filter((_, i)=>i !== index)),
+                                                                                            className: "p-3 text-red-500 hover:text-red-700 rounded-lg",
+                                                                                            "aria-label": "Remove participant",
+                                                                                            children: "×"
+                                                                                        }, void 0, false, {
+                                                                                            fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
+                                                                                            lineNumber: 417,
+                                                                                            columnNumber: 33
+                                                                                        }, this)
+                                                                                    ]
+                                                                                }, index, true, {
+                                                                                    fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
+                                                                                    lineNumber: 403,
+                                                                                    columnNumber: 29
+                                                                                }, this)),
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                                                type: "button",
+                                                                                onClick: ()=>setParticipantEmails([
+                                                                                        ...participantEmails,
+                                                                                        ''
+                                                                                    ]),
+                                                                                className: "text-blue-600 hover:text-blue-800 text-sm flex items-center mt-1",
+                                                                                children: [
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                                        className: "text-lg mr-1",
+                                                                                        children: "+"
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
+                                                                                        lineNumber: 435,
+                                                                                        columnNumber: 29
+                                                                                    }, this),
+                                                                                    " Add another participant"
+                                                                                ]
+                                                                            }, void 0, true, {
+                                                                                fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
+                                                                                lineNumber: 430,
+                                                                                columnNumber: 27
+                                                                            }, this)
+                                                                        ]
+                                                                    }, void 0, true, {
+                                                                        fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
+                                                                        lineNumber: 401,
+                                                                        columnNumber: 25
+                                                                    }, this)
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
+                                                                lineNumber: 397,
+                                                                columnNumber: 23
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true)
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
+                                                    lineNumber: 374,
+                                                    columnNumber: 17
+                                                }, this),
+                                                roomLink && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "bg-gray-50 p-3 rounded-lg border border-gray-200",
+                                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        className: "flex items-center gap-2",
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                                                type: "text",
+                                                                value: roomLink,
+                                                                readOnly: true,
+                                                                className: "flex-1 p-2 bg-white border border-gray-300 rounded text-sm truncate"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
+                                                                lineNumber: 446,
+                                                                columnNumber: 23
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                                type: "button",
+                                                                onClick: ()=>{
+                                                                    navigator.clipboard.writeText(roomLink);
+                                                                    alert('Link copied to clipboard!');
+                                                                },
+                                                                className: "p-2 bg-blue-600 hover:bg-blue-700 text-white rounded",
+                                                                "aria-label": "Copy room link",
+                                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$fortawesome$2f$react$2d$fontawesome$2f$index$2e$es$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FontAwesomeIcon"], {
+                                                                    icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$fortawesome$2f$free$2d$solid$2d$svg$2d$icons$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["faCopy"]
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
+                                                                    lineNumber: 461,
+                                                                    columnNumber: 25
+                                                                }, this)
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
+                                                                lineNumber: 452,
+                                                                columnNumber: 23
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
+                                                        lineNumber: 445,
+                                                        columnNumber: 21
+                                                    }, this)
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
+                                                    lineNumber: 444,
+                                                    columnNumber: 19
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                    type: "submit",
+                                                    disabled: !userId,
+                                                    className: `w-full py-3 px-4 rounded-lg font-medium text-white transition-colors ${!userId ? 'bg-gray-400 cursor-not-allowed' : 'bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900'}`,
+                                                    children: "Create Room"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
+                                                    lineNumber: 467,
+                                                    columnNumber: 17
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
+                                            lineNumber: 326,
+                                            columnNumber: 15
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
+                                    lineNumber: 317,
+                                    columnNumber: 13
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
+                            lineNumber: 274,
+                            columnNumber: 11
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
+                    lineNumber: 240,
+                    columnNumber: 9
+                }, this)
+            ]
+        }, void 0, true, {
+            fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
+            lineNumber: 231,
+            columnNumber: 7
+        }, this)
+    }, void 0, false, {
         fileName: "[project]/src/components/ui/coworking/CreatingRoom.tsx",
-        lineNumber: 186,
+        lineNumber: 230,
         columnNumber: 5
     }, this);
 }
-_s(RoomPage, "oQiXBXA3NAE2hbRDbrVyKMCHHBE=", false, function() {
+_s(RoomPage, "6FBLywnq9d+JAxAmS4xkBIZxcpQ=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"]
     ];

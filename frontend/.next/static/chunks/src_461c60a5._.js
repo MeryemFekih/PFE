@@ -51,10 +51,11 @@ var getSuggestedEvents = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$pr
 
 var { g: global, __dirname, k: __turbopack_refresh__, m: module } = __turbopack_context__;
 {
-/* __next_internal_action_entry_do_not_use__ {"007e22d8ca451bd1b2fc40b0c18470fa3ea5d50e15":"getSuggestedUsers","4053c9815823913aba1288cf8a8d670299a252d769":"getUserProfileWithPosts","4054fa3fddeb9314acd84490c8fd2b94e13af3ba4b":"checkIfFollowing","605cde22bc8c3c677762a0b9b73016ce18fa27544b":"toggleFollow"} */ __turbopack_context__.s({
+/* __next_internal_action_entry_do_not_use__ {"007e22d8ca451bd1b2fc40b0c18470fa3ea5d50e15":"getSuggestedUsers","4053c9815823913aba1288cf8a8d670299a252d769":"getUserProfileWithPosts","4054fa3fddeb9314acd84490c8fd2b94e13af3ba4b":"checkIfFollowing","605cde22bc8c3c677762a0b9b73016ce18fa27544b":"toggleFollow","60837c385fffb01fcb5877507e225861babdee0cd5":"searchUsers"} */ __turbopack_context__.s({
     "checkIfFollowing": (()=>checkIfFollowing),
     "getSuggestedUsers": (()=>getSuggestedUsers),
     "getUserProfileWithPosts": (()=>getUserProfileWithPosts),
+    "searchUsers": (()=>searchUsers),
     "toggleFollow": (()=>toggleFollow)
 });
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$action$2d$client$2d$wrapper$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/build/webpack/loaders/next-flight-loader/action-client-wrapper.js [app-client] (ecmascript)");
@@ -63,6 +64,7 @@ var getSuggestedUsers = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$pro
 var getUserProfileWithPosts = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$action$2d$client$2d$wrapper$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["createServerReference"])("4053c9815823913aba1288cf8a8d670299a252d769", __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$action$2d$client$2d$wrapper$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["callServer"], void 0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$action$2d$client$2d$wrapper$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["findSourceMapURL"], "getUserProfileWithPosts");
 var checkIfFollowing = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$action$2d$client$2d$wrapper$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["createServerReference"])("4054fa3fddeb9314acd84490c8fd2b94e13af3ba4b", __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$action$2d$client$2d$wrapper$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["callServer"], void 0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$action$2d$client$2d$wrapper$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["findSourceMapURL"], "checkIfFollowing");
 var toggleFollow = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$action$2d$client$2d$wrapper$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["createServerReference"])("605cde22bc8c3c677762a0b9b73016ce18fa27544b", __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$action$2d$client$2d$wrapper$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["callServer"], void 0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$action$2d$client$2d$wrapper$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["findSourceMapURL"], "toggleFollow");
+var searchUsers = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$action$2d$client$2d$wrapper$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["createServerReference"])("60837c385fffb01fcb5877507e225861babdee0cd5", __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$action$2d$client$2d$wrapper$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["callServer"], void 0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$action$2d$client$2d$wrapper$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["findSourceMapURL"], "searchUsers");
 }}),
 "[project]/src/components/post-card.tsx [app-client] (ecmascript)": ((__turbopack_context__) => {
 "use strict";
@@ -1469,6 +1471,7 @@ var { g: global, __dirname, k: __turbopack_refresh__, m: module } = __turbopack_
 __turbopack_context__.s({
     "default": (()=>FacultyFeedPage)
 });
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$polyfills$2f$process$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/build/polyfills/process.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$comment$2d$action$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/lib/comment-action.ts [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$post$2d$action$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/lib/post-action.ts [app-client] (ecmascript)");
@@ -1612,6 +1615,25 @@ function FacultyFeedPage({ posts, session }) {
             (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$post$2d$action$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["deletePost"])(postId);
         });
     };
+    const [searchQuery, setSearchQuery] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])('');
+    const [searchResults, setSearchResults] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([]);
+    const handleSearchChange = (e)=>{
+        setSearchQuery(e.target.value);
+    };
+    const handleSearchSubmit = async (e)=>{
+        e.preventDefault();
+        if (!searchQuery.trim()) return;
+        const [firstName, ...rest] = searchQuery.trim().split(' ');
+        const lastName = rest.join(' ');
+        try {
+            const res = await fetch(`${("TURBOPACK compile-time value", "http://localhost:4000")}/user/search?firstName=${firstName}&lastName=${lastName}`);
+            if (!res.ok) throw new Error('Search failed');
+            const users = await res.json();
+            setSearchResults(users);
+        } catch (err) {
+            console.error('Search error:', err);
+        }
+    };
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         className: "flex bg-gray-100 min-h-screen",
         children: [
@@ -1625,7 +1647,7 @@ function FacultyFeedPage({ posts, session }) {
                             children: "Faculty Feed"
                         }, void 0, false, {
                             fileName: "[project]/src/app/university/faculty-page.tsx",
-                            lineNumber: 176,
+                            lineNumber: 198,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
@@ -1633,14 +1655,14 @@ function FacultyFeedPage({ posts, session }) {
                             children: " Where you can find everything you need for your dream university"
                         }, void 0, false, {
                             fileName: "[project]/src/app/university/faculty-page.tsx",
-                            lineNumber: 177,
+                            lineNumber: 199,
                             columnNumber: 11
                         }, this),
                         canCreatePosts ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$clientPostForm$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
                             user: session.user
                         }, void 0, false, {
                             fileName: "[project]/src/app/university/faculty-page.tsx",
-                            lineNumber: 181,
+                            lineNumber: 203,
                             columnNumber: 13
                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             className: "bg-white rounded-xl shadow-lg p-6 mb-6 text-center",
@@ -1650,7 +1672,7 @@ function FacultyFeedPage({ posts, session }) {
                                     children: "Want to share something?"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/university/faculty-page.tsx",
-                                    lineNumber: 184,
+                                    lineNumber: 206,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1661,12 +1683,12 @@ function FacultyFeedPage({ posts, session }) {
                                         children: "Sign in"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/university/faculty-page.tsx",
-                                        lineNumber: 189,
+                                        lineNumber: 211,
                                         columnNumber: 19
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/university/faculty-page.tsx",
-                                    lineNumber: 185,
+                                    lineNumber: 207,
                                     columnNumber: 15
                                 }, this),
                                 !session?.user && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1674,13 +1696,13 @@ function FacultyFeedPage({ posts, session }) {
                                     children: "Students, alumni, professors and admins can create posts"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/university/faculty-page.tsx",
-                                    lineNumber: 195,
+                                    lineNumber: 217,
                                     columnNumber: 17
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/university/faculty-page.tsx",
-                            lineNumber: 183,
+                            lineNumber: 205,
                             columnNumber: 13
                         }, this),
                         posts.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1691,7 +1713,7 @@ function FacultyFeedPage({ posts, session }) {
                                     children: "No posts yet"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/university/faculty-page.tsx",
-                                    lineNumber: 205,
+                                    lineNumber: 227,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1699,13 +1721,13 @@ function FacultyFeedPage({ posts, session }) {
                                     children: canCreatePosts ? "Be the first to share something with the faculty!" : "Check back later for updates"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/university/faculty-page.tsx",
-                                    lineNumber: 206,
+                                    lineNumber: 228,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/university/faculty-page.tsx",
-                            lineNumber: 204,
+                            lineNumber: 226,
                             columnNumber: 13
                         }, this) : posts.map((post)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$post$2d$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
                                 post: post,
@@ -1716,7 +1738,7 @@ function FacultyFeedPage({ posts, session }) {
                                 onDelete: handleDeletePost
                             }, post.id, false, {
                                 fileName: "[project]/src/app/university/faculty-page.tsx",
-                                lineNumber: 212,
+                                lineNumber: 234,
                                 columnNumber: 15
                             }, this)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1733,7 +1755,7 @@ function FacultyFeedPage({ posts, session }) {
                                                     children: "Suggested Connections"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                    lineNumber: 228,
+                                                    lineNumber: 250,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1741,13 +1763,13 @@ function FacultyFeedPage({ posts, session }) {
                                                     children: "People you might want to connect with"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                    lineNumber: 229,
+                                                    lineNumber: 251,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/university/faculty-page.tsx",
-                                            lineNumber: 227,
+                                            lineNumber: 249,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1766,7 +1788,7 @@ function FacultyFeedPage({ posts, session }) {
                                                                         className: "w-full h-full object-cover"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                                        lineNumber: 238,
+                                                                        lineNumber: 260,
                                                                         columnNumber: 27
                                                                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                                         className: "w-full h-full flex items-center justify-center text-gray-500",
@@ -1774,30 +1796,30 @@ function FacultyFeedPage({ posts, session }) {
                                                                             size: 20
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                                            lineNumber: 245,
+                                                                            lineNumber: 267,
                                                                             columnNumber: 29
                                                                         }, this)
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                                        lineNumber: 244,
+                                                                        lineNumber: 266,
                                                                         columnNumber: 27
                                                                     }, this)
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                                    lineNumber: 236,
+                                                                    lineNumber: 258,
                                                                     columnNumber: 23
                                                                 }, this),
                                                                 user.online && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                                     className: "absolute bottom-0 right-0 bg-green-500 rounded-full p-1"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                                    lineNumber: 250,
+                                                                    lineNumber: 272,
                                                                     columnNumber: 25
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                            lineNumber: 235,
+                                                            lineNumber: 257,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1812,7 +1834,7 @@ function FacultyFeedPage({ posts, session }) {
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                                    lineNumber: 255,
+                                                                    lineNumber: 277,
                                                                     columnNumber: 23
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1824,13 +1846,13 @@ function FacultyFeedPage({ posts, session }) {
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                                    lineNumber: 258,
+                                                                    lineNumber: 280,
                                                                     columnNumber: 23
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                            lineNumber: 254,
+                                                            lineNumber: 276,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1838,24 +1860,24 @@ function FacultyFeedPage({ posts, session }) {
                                                             children: "check"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                            lineNumber: 265,
+                                                            lineNumber: 287,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, user.id, true, {
                                                     fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                    lineNumber: 234,
+                                                    lineNumber: 256,
                                                     columnNumber: 19
                                                 }, this))
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/university/faculty-page.tsx",
-                                            lineNumber: 232,
+                                            lineNumber: 254,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/university/faculty-page.tsx",
-                                    lineNumber: 226,
+                                    lineNumber: 248,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1866,7 +1888,7 @@ function FacultyFeedPage({ posts, session }) {
                                             children: "Recent actualities and events"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/university/faculty-page.tsx",
-                                            lineNumber: 274,
+                                            lineNumber: 296,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1888,17 +1910,17 @@ function FacultyFeedPage({ posts, session }) {
                                                                     clipRule: "evenodd"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                                    lineNumber: 279,
+                                                                    lineNumber: 301,
                                                                     columnNumber: 23
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                                lineNumber: 278,
+                                                                lineNumber: 300,
                                                                 columnNumber: 21
                                                             }, this)
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                            lineNumber: 277,
+                                                            lineNumber: 299,
                                                             columnNumber: 19
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1908,7 +1930,7 @@ function FacultyFeedPage({ posts, session }) {
                                                                     children: "AI Wave"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                                    lineNumber: 283,
+                                                                    lineNumber: 305,
                                                                     columnNumber: 21
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1916,19 +1938,19 @@ function FacultyFeedPage({ posts, session }) {
                                                                     children: "Tech conference"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                                    lineNumber: 284,
+                                                                    lineNumber: 306,
                                                                     columnNumber: 21
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                            lineNumber: 282,
+                                                            lineNumber: 304,
                                                             columnNumber: 19
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                    lineNumber: 276,
+                                                    lineNumber: 298,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1945,17 +1967,17 @@ function FacultyFeedPage({ posts, session }) {
                                                                     d: "M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                                    lineNumber: 290,
+                                                                    lineNumber: 312,
                                                                     columnNumber: 23
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                                lineNumber: 289,
+                                                                lineNumber: 311,
                                                                 columnNumber: 21
                                                             }, this)
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                            lineNumber: 288,
+                                                            lineNumber: 310,
                                                             columnNumber: 19
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1965,7 +1987,7 @@ function FacultyFeedPage({ posts, session }) {
                                                                     children: "DevFest"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                                    lineNumber: 294,
+                                                                    lineNumber: 316,
                                                                     columnNumber: 21
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1973,19 +1995,19 @@ function FacultyFeedPage({ posts, session }) {
                                                                     children: "GDSC event"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                                    lineNumber: 295,
+                                                                    lineNumber: 317,
                                                                     columnNumber: 21
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                            lineNumber: 293,
+                                                            lineNumber: 315,
                                                             columnNumber: 19
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                    lineNumber: 287,
+                                                    lineNumber: 309,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2004,17 +2026,17 @@ function FacultyFeedPage({ posts, session }) {
                                                                     clipRule: "evenodd"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                                    lineNumber: 301,
+                                                                    lineNumber: 323,
                                                                     columnNumber: 23
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                                lineNumber: 300,
+                                                                lineNumber: 322,
                                                                 columnNumber: 21
                                                             }, this)
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                            lineNumber: 299,
+                                                            lineNumber: 321,
                                                             columnNumber: 19
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2024,7 +2046,7 @@ function FacultyFeedPage({ posts, session }) {
                                                                     children: "Hackathon"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                                    lineNumber: 305,
+                                                                    lineNumber: 327,
                                                                     columnNumber: 21
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2032,55 +2054,55 @@ function FacultyFeedPage({ posts, session }) {
                                                                     children: "TSYP competition"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                                    lineNumber: 306,
+                                                                    lineNumber: 328,
                                                                     columnNumber: 21
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                            lineNumber: 304,
+                                                            lineNumber: 326,
                                                             columnNumber: 19
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                    lineNumber: 298,
+                                                    lineNumber: 320,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/university/faculty-page.tsx",
-                                            lineNumber: 275,
+                                            lineNumber: 297,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/university/faculty-page.tsx",
-                                    lineNumber: 273,
+                                    lineNumber: 295,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/university/faculty-page.tsx",
-                            lineNumber: 225,
+                            lineNumber: 247,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/app/university/faculty-page.tsx",
-                    lineNumber: 175,
+                    lineNumber: 197,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/app/university/faculty-page.tsx",
-                lineNumber: 174,
+                lineNumber: 196,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "hidden md:block w-85  fixed right-0 top-0 bg-gray-100  p-5 overflow-y-auto",
+                className: "hidden md:block w-85 fixed right-0 top-0 bg-gray-100 p-5 overflow-y-auto",
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "bg-white  rounded-xl shadow-lg px-4 py-4 ",
+                        className: "bg-white rounded-xl shadow-lg px-4 py-4",
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "mb-4",
@@ -2097,36 +2119,146 @@ function FacultyFeedPage({ posts, session }) {
                                                     d: "M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v1h8v-1zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-1a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v1h-3zM4.75 12.094A5.973 5.973 0 004 15v1H1v-1a3 3 0 013.75-2.906z"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                    lineNumber: 321,
-                                                    columnNumber: 15
+                                                    lineNumber: 343,
+                                                    columnNumber: 11
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                lineNumber: 320,
-                                                columnNumber: 13
+                                                lineNumber: 342,
+                                                columnNumber: 9
                                             }, this),
                                             "Suggested Connections"
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/university/faculty-page.tsx",
-                                        lineNumber: 319,
-                                        columnNumber: 11
+                                        lineNumber: 341,
+                                        columnNumber: 7
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                         className: "text-sm text-gray-500 mt-1",
                                         children: "People you might want to connect with"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/university/faculty-page.tsx",
-                                        lineNumber: 325,
-                                        columnNumber: 11
+                                        lineNumber: 347,
+                                        columnNumber: 7
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/university/faculty-page.tsx",
-                                lineNumber: 318,
-                                columnNumber: 11
+                                lineNumber: 340,
+                                columnNumber: 5
                             }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
+                                onSubmit: handleSearchSubmit,
+                                className: "mb-4",
+                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                    type: "text",
+                                    value: searchQuery,
+                                    onChange: handleSearchChange,
+                                    placeholder: "Search users...",
+                                    className: "w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                                }, void 0, false, {
+                                    fileName: "[project]/src/app/university/faculty-page.tsx",
+                                    lineNumber: 352,
+                                    columnNumber: 7
+                                }, this)
+                            }, void 0, false, {
+                                fileName: "[project]/src/app/university/faculty-page.tsx",
+                                lineNumber: 351,
+                                columnNumber: 5
+                            }, this),
+                            searchQuery && searchResults.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "text-sm text-gray-500 mt-2",
+                                children: [
+                                    'No users found for "',
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                        className: "font-medium",
+                                        children: searchQuery
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/university/faculty-page.tsx",
+                                        lineNumber: 364,
+                                        columnNumber: 29
+                                    }, this),
+                                    '".'
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/app/university/faculty-page.tsx",
+                                lineNumber: 363,
+                                columnNumber: 7
+                            }, this) : searchResults.length > 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "space-y-4 mt-2",
+                                children: searchResults.map((user)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                        href: `/user/${user.id}`,
+                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "flex items-center space-x-3 p-2 hover:bg-gray-50 rounded-lg",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "w-10 h-10 rounded-full bg-gray-200 overflow-hidden",
+                                                    children: user.profilePicture ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
+                                                        src: user.profilePicture,
+                                                        className: "w-full h-full object-cover"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/app/university/faculty-page.tsx",
+                                                        lineNumber: 373,
+                                                        columnNumber: 19
+                                                    }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fa$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FaUserCircle"], {
+                                                        size: 24,
+                                                        className: "text-gray-500 mx-auto"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/app/university/faculty-page.tsx",
+                                                        lineNumber: 375,
+                                                        columnNumber: 19
+                                                    }, this)
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/university/faculty-page.tsx",
+                                                    lineNumber: 371,
+                                                    columnNumber: 15
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "flex-1",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                                                            className: "text-sm font-semibold text-gray-900",
+                                                            children: [
+                                                                user.firstName,
+                                                                " ",
+                                                                user.lastName
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/src/app/university/faculty-page.tsx",
+                                                            lineNumber: 379,
+                                                            columnNumber: 17
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                            className: "text-xs text-gray-500",
+                                                            children: user.role
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/university/faculty-page.tsx",
+                                                            lineNumber: 382,
+                                                            columnNumber: 17
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/src/app/university/faculty-page.tsx",
+                                                    lineNumber: 378,
+                                                    columnNumber: 15
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/app/university/faculty-page.tsx",
+                                            lineNumber: 370,
+                                            columnNumber: 13
+                                        }, this)
+                                    }, user.id, false, {
+                                        fileName: "[project]/src/app/university/faculty-page.tsx",
+                                        lineNumber: 369,
+                                        columnNumber: 11
+                                    }, this))
+                            }, void 0, false, {
+                                fileName: "[project]/src/app/university/faculty-page.tsx",
+                                lineNumber: 367,
+                                columnNumber: 7
+                            }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "space-y-4 mt-2",
                                 children: suggestedUsers.map((user)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
                                         href: `/user/${user.id}`,
@@ -2140,34 +2272,26 @@ function FacultyFeedPage({ posts, session }) {
                                                             className: "flex items-center space-x-3",
                                                             children: [
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                    className: "flex justify-center items-center w-12 h-12 rounded-full bg-gradient-to-r from-indigo-100 to-purple-100 hover:from-indigo-200 hover:to-purple-200 transition-all duration-300 overflow-hidden ring-2 ring-white",
+                                                                    className: "flex justify-center items-center w-12 h-12 rounded-full bg-gradient-to-r from-indigo-100 to-purple-100 overflow-hidden ring-2 ring-white",
                                                                     children: user.profilePicture ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
                                                                         src: user.profilePicture,
                                                                         alt: `${user.firstName}'s avatar`,
                                                                         className: "w-full h-full object-cover"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                                        lineNumber: 336,
-                                                                        columnNumber: 25
-                                                                    }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
-                                                                        viewBox: "0 0 15 15",
-                                                                        className: "w-6 fill-indigo-500",
-                                                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                                                                            d: "M7.5 0.875C5.49797 0.875 3.875 2.49797 3.875 4.5C3.875 6.15288 4.98124 7.54738 6.49373 7.98351C5.2997 8.12901 4.27557 8.55134 3.50407 9.31167C2.52216 10.2794 2.02502 11.72 2.02502 13.5999C2.02502 13.8623 2.23769 14.0749 2.50002 14.0749C2.76236 14.0749 2.97502 13.8623 2.97502 13.5999C2.97502 11.8799 3.42786 10.7206 4.17091 9.9883C4.91536 9.25463 6.02674 8.87499 7.49995 8.87499C8.97317 8.87499 10.0846 9.25463 10.8291 9.98831C11.5721 10.7206 12.025 11.8799 12.025 13.5999C12.025 13.8623 12.2376 14.0749 12.5 14.0749C12.7623 14.075 12.975 13.8623 12.975 13.6C12.975 11.72 12.4778 10.2794 11.4959 9.31166C10.7244 8.55135 9.70025 8.12903 8.50625 7.98352C10.0187 7.5474 11.125 6.15289 11.125 4.5C11.125 2.49797 9.50203 0.875 7.5 0.875ZM4.825 4.5C4.825 3.02264 6.02264 1.825 7.5 1.825C8.97736 1.825 10.175 3.02264 10.175 4.5C10.175 5.97736 8.97736 7.175 7.5 7.175C6.02264 7.175 4.825 5.97736 4.825 4.5Z"
-                                                                        }, void 0, false, {
-                                                                            fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                                            lineNumber: 343,
-                                                                            columnNumber: 27
-                                                                        }, this)
+                                                                        lineNumber: 397,
+                                                                        columnNumber: 23
+                                                                    }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fa$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FaUserCircle"], {
+                                                                        className: "text-indigo-500 w-6 h-6"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                                        lineNumber: 342,
-                                                                        columnNumber: 25
+                                                                        lineNumber: 399,
+                                                                        columnNumber: 23
                                                                     }, this)
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                                    lineNumber: 334,
-                                                                    columnNumber: 21
+                                                                    lineNumber: 395,
+                                                                    columnNumber: 19
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                                     children: [
@@ -2180,132 +2304,46 @@ function FacultyFeedPage({ posts, session }) {
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                                            lineNumber: 348,
-                                                                            columnNumber: 23
+                                                                            lineNumber: 403,
+                                                                            columnNumber: 21
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                                             className: "text-xs font-medium mt-1",
                                                                             children: [
-                                                                                user.role === 'PROFESSOR' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                                    className: "inline-flex items-center px-2 py-0.5 rounded bg-indigo-100 text-indigo-800",
-                                                                                    children: [
-                                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
-                                                                                            className: "mr-1 h-3 w-3",
-                                                                                            fill: "currentColor",
-                                                                                            viewBox: "0 0 20 20",
-                                                                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                                                                                                d: "M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"
-                                                                                            }, void 0, false, {
-                                                                                                fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                                                                lineNumber: 355,
-                                                                                                columnNumber: 29
-                                                                                            }, this)
-                                                                                        }, void 0, false, {
-                                                                                            fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                                                            lineNumber: 354,
-                                                                                            columnNumber: 27
-                                                                                        }, this),
-                                                                                        "Professor"
-                                                                                    ]
-                                                                                }, void 0, true, {
-                                                                                    fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                                                    lineNumber: 353,
-                                                                                    columnNumber: 25
-                                                                                }, this),
-                                                                                user.role === 'ALUMNI' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                                    className: "inline-flex items-center px-2 py-0.5 rounded bg-purple-100 text-purple-800",
-                                                                                    children: [
-                                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
-                                                                                            className: "mr-1 h-3 w-3",
-                                                                                            fill: "currentColor",
-                                                                                            viewBox: "0 0 20 20",
-                                                                                            children: [
-                                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                                                                                                    fillRule: "evenodd",
-                                                                                                    d: "M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z",
-                                                                                                    clipRule: "evenodd"
-                                                                                                }, void 0, false, {
-                                                                                                    fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                                                                    lineNumber: 363,
-                                                                                                    columnNumber: 29
-                                                                                                }, this),
-                                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                                                                                                    d: "M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z"
-                                                                                                }, void 0, false, {
-                                                                                                    fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                                                                    lineNumber: 364,
-                                                                                                    columnNumber: 29
-                                                                                                }, this)
-                                                                                            ]
-                                                                                        }, void 0, true, {
-                                                                                            fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                                                            lineNumber: 362,
-                                                                                            columnNumber: 27
-                                                                                        }, this),
-                                                                                        "Alumni"
-                                                                                    ]
-                                                                                }, void 0, true, {
-                                                                                    fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                                                    lineNumber: 361,
-                                                                                    columnNumber: 25
-                                                                                }, this),
-                                                                                user.role === 'STUDENT' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                                    className: "inline-flex items-center px-2 py-0.5 rounded bg-blue-100 text-blue-800",
-                                                                                    children: [
-                                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
-                                                                                            className: "mr-1 h-3 w-3",
-                                                                                            fill: "currentColor",
-                                                                                            viewBox: "0 0 20 20",
-                                                                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                                                                                                d: "M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"
-                                                                                            }, void 0, false, {
-                                                                                                fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                                                                lineNumber: 372,
-                                                                                                columnNumber: 29
-                                                                                            }, this)
-                                                                                        }, void 0, false, {
-                                                                                            fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                                                            lineNumber: 371,
-                                                                                            columnNumber: 27
-                                                                                        }, this),
-                                                                                        "Student"
-                                                                                    ]
-                                                                                }, void 0, true, {
-                                                                                    fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                                                    lineNumber: 370,
-                                                                                    columnNumber: 25
-                                                                                }, this)
+                                                                                user.role === 'PROFESSOR' && 'Professor',
+                                                                                user.role === 'ALUMNI' && 'Alumni',
+                                                                                user.role === 'STUDENT' && 'Student'
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                                            lineNumber: 351,
+                                                                            lineNumber: 406,
                                                                             columnNumber: 21
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                                    lineNumber: 347,
-                                                                    columnNumber: 21
+                                                                    lineNumber: 402,
+                                                                    columnNumber: 19
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                            lineNumber: 333,
-                                                            columnNumber: 19
+                                                            lineNumber: 394,
+                                                            columnNumber: 17
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                                             className: "text-xs text-indigo-600 hover:text-indigo-800 font-medium",
                                                             children: "Follow"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                            lineNumber: 380,
-                                                            columnNumber: 19
+                                                            lineNumber: 413,
+                                                            columnNumber: 17
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                    lineNumber: 332,
-                                                    columnNumber: 17
+                                                    lineNumber: 393,
+                                                    columnNumber: 15
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                     className: "mt-2",
@@ -2313,13 +2351,13 @@ function FacultyFeedPage({ posts, session }) {
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                             className: "text-xs text-gray-600",
                                                             children: [
-                                                                user.role === 'PROFESSOR' && `Teaches ${user.subject} in ${user.university}`,
+                                                                user.role === 'PROFESSOR' && `Teaches ${user.subject} at ${user.university}`,
                                                                 user.role === 'ALUMNI' && `Graduated from ${user.university}`,
                                                                 user.role === 'STUDENT' && `Studies ${user.formation} at ${user.university}`
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                            lineNumber: 387,
+                                                            lineNumber: 417,
                                                             columnNumber: 17
                                                         }, this),
                                                         user.sharedInterests?.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2338,19 +2376,19 @@ function FacultyFeedPage({ posts, session }) {
                                                                                 clipRule: "evenodd"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                                                lineNumber: 397,
+                                                                                lineNumber: 426,
                                                                                 columnNumber: 25
                                                                             }, this)
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                                            lineNumber: 396,
+                                                                            lineNumber: 425,
                                                                             columnNumber: 23
                                                                         }, this),
-                                                                        "Both interested in :"
+                                                                        "Both interested in:"
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                                    lineNumber: 395,
+                                                                    lineNumber: 424,
                                                                     columnNumber: 21
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2358,94 +2396,88 @@ function FacultyFeedPage({ posts, session }) {
                                                                     children: user.sharedInterests.join(', ')
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                                    lineNumber: 401,
+                                                                    lineNumber: 430,
                                                                     columnNumber: 21
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                            lineNumber: 394,
+                                                            lineNumber: 423,
                                                             columnNumber: 19
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/university/faculty-page.tsx",
-                                                    lineNumber: 386,
-                                                    columnNumber: 17
+                                                    lineNumber: 416,
+                                                    columnNumber: 15
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/university/faculty-page.tsx",
-                                            lineNumber: 331,
-                                            columnNumber: 15
+                                            lineNumber: 392,
+                                            columnNumber: 13
                                         }, this)
                                     }, user.id, false, {
                                         fileName: "[project]/src/app/university/faculty-page.tsx",
-                                        lineNumber: 330,
-                                        columnNumber: 13
+                                        lineNumber: 391,
+                                        columnNumber: 11
                                     }, this))
                             }, void 0, false, {
                                 fileName: "[project]/src/app/university/faculty-page.tsx",
-                                lineNumber: 328,
-                                columnNumber: 9
+                                lineNumber: 389,
+                                columnNumber: 7
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/university/faculty-page.tsx",
-                        lineNumber: 317,
-                        columnNumber: 9
+                        lineNumber: 339,
+                        columnNumber: 3
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "p-4 space-y-6",
-                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
-                                className: "p-6",
-                                children: [
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
-                                        className: "text-xl font-bold mb-4",
-                                        children: "🎯 Suggested Events"
-                                    }, void 0, false, {
-                                        fileName: "[project]/src/app/university/faculty-page.tsx",
-                                        lineNumber: 420,
-                                        columnNumber: 21
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$SuggestedEventList$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                                        session: session
-                                    }, void 0, false, {
-                                        fileName: "[project]/src/app/university/faculty-page.tsx",
-                                        lineNumber: 421,
-                                        columnNumber: 21
-                                    }, this)
-                                ]
-                            }, void 0, true, {
-                                fileName: "[project]/src/app/university/faculty-page.tsx",
-                                lineNumber: 419,
-                                columnNumber: 19
-                            }, this)
-                        }, void 0, false, {
+                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
+                            className: "p-6",
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
+                                    className: "text-xl font-bold mb-4",
+                                    children: "🎯 Suggested Events"
+                                }, void 0, false, {
+                                    fileName: "[project]/src/app/university/faculty-page.tsx",
+                                    lineNumber: 444,
+                                    columnNumber: 7
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$SuggestedEventList$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                    session: session
+                                }, void 0, false, {
+                                    fileName: "[project]/src/app/university/faculty-page.tsx",
+                                    lineNumber: 445,
+                                    columnNumber: 7
+                                }, this)
+                            ]
+                        }, void 0, true, {
                             fileName: "[project]/src/app/university/faculty-page.tsx",
-                            lineNumber: 417,
-                            columnNumber: 8
+                            lineNumber: 443,
+                            columnNumber: 5
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/app/university/faculty-page.tsx",
-                        lineNumber: 415,
-                        columnNumber: 9
+                        lineNumber: 442,
+                        columnNumber: 3
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/university/faculty-page.tsx",
-                lineNumber: 316,
+                lineNumber: 338,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/app/university/faculty-page.tsx",
-        lineNumber: 170,
+        lineNumber: 192,
         columnNumber: 5
     }, this);
 }
-_s(FacultyFeedPage, "K9RptkK2pQn3jQbudV13TQhLPOc=", false, function() {
+_s(FacultyFeedPage, "k79ddRitt7C87BWHZp9mGa01E+I=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useTransition"]
     ];

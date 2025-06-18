@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 7, "column": 0}, "map": {"version":3,"sources":["file://C%3A/Users/21693/Desktop/Brain_wave/frontend/src/app/coworking/page.tsx"],"sourcesContent":["\"use client\"\r\n\r\nimport { useState } from \"react\"\r\nimport RoomPage from \"@/components/ui/coworking/room-page\"\r\nimport MeetingInterface from \"@/components/ui/coworking/meeting-interface\"\r\n\r\nexport default function CoworkingHome() {\r\n  const [roomId, setRoomId] = useState<string | null>(null)\r\n\r\n  return (\r\n    <div>\r\n      {!roomId ? <RoomPage onRoomCreated={(id: string) => setRoomId(id)} /> : <MeetingInterface roomId={roomId} />}\r\n    </div>\r\n  )\r\n}\r\n"],"names":[],"mappings":";;;;AAEA;;;;;;;;;;;AAFA;;;;;AAMe,SAAS;IACtB,MAAM,CAAC,QAAQ,UAAU,GAAG,CAAA,GAAA,qMAAA,CAAA,WAAQ,AAAD,EAAiB;IAEpD,qBACE,8OAAC;kBACE,CAAC,uBAAS,8OAAC;YAAS,eAAe,CAAC,KAAe,UAAU;;;;;iCAAU,8OAAC;YAAiB,QAAQ;;;;;;;;;;;AAGxG","debugId":null}}]
+}

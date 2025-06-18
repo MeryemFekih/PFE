@@ -7,6 +7,8 @@ import { getPendingUsers, getPendingPosts } from '@/lib/admin-actions';
 import AdminPostTable from '@/components/adminPostTable';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { LayoutDashboard, Users, FileText } from 'lucide-react'; // More thematic icons
+import AdminRemovalTable from '@/components/adminParticipantTable';
+import { getParticipantRemovalRequests } from '@/lib/admin-actions';
 
 export default async function AdminDashboard() {
   const session = await getSession();
@@ -15,10 +17,12 @@ export default async function AdminDashboard() {
     redirect('/auth/signIn');
   }
 
-  const [pendingUsers, pendingPosts] = await Promise.all([
-    getPendingUsers(),
-    getPendingPosts(),
-  ]);
+  const [pendingUsers, pendingPosts, removalRequests] = await Promise.all([
+  getPendingUsers(),
+  getPendingPosts(),
+  getParticipantRemovalRequests(),
+]);
+
 
   const stats = {
     totalPending: pendingUsers.length + pendingPosts.length,
@@ -52,7 +56,10 @@ export default async function AdminDashboard() {
               <TabsTrigger value="posts" className="data-[state=active]:bg-blue-700 data-[state=active]:text-white data-[state=active]:shadow-sm transition-all text-gray-700 py-2">
                 <FileText className="h-5 w-5 mr-2" /> Posts
               </TabsTrigger>
-            </TabsList>
+              <TabsTrigger value="removals" className="...">
+                🛑 Removals
+              </TabsTrigger>
+              </TabsList>
 
             <TabsContent value="users">
               <AdminTable users={pendingUsers} />
@@ -61,6 +68,9 @@ export default async function AdminDashboard() {
             <TabsContent value="posts">
               <AdminPostTable posts={pendingPosts} />
             </TabsContent>
+            <TabsContent value="removals">
+            <AdminRemovalTable requests={removalRequests} />
+          </TabsContent>
           </Tabs>
         </div>
       </div>

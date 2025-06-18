@@ -130,3 +130,54 @@ export async function toggleFollow(targetUserId: number, isCurrentlyFollowing: b
 
   return !isCurrentlyFollowing;
 }
+// In your user-action.ts file, add:
+export async function searchUsers(query: string) {
+  const session = await getSession();
+  if (!session?.accessToken) throw new Error('Not authenticated');
+
+  try {
+    console.log("🔑 Session in search:", session);
+console.log("🔁 FETCHING FROM:", process.env.NEXT_PUBLIC_BACKEND_URL);
+console.log("🛡️ Access Token:", session?.accessToken);
+
+    const res = await fetch(
+      `${process.env.BACKEND_URL}/user/search?query=${encodeURIComponent(query)}`,
+      {
+        headers: {
+          Authorization: `Bearer ${session.accessToken}`,
+        },
+      }
+    );
+
+    if (!res.ok) {
+      throw new Error('Failed to search users');
+    }
+
+    return await res.json();
+  } catch (err) {
+    console.error('❌ User search error:', err);
+    return [];
+  }
+}
+ export async function getFollowDetails(accessToken: string) {
+  try {
+    const res = await fetch(`${process.env.BACKEND_URL}/user/follow-details`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      cache: 'no-store',
+    });
+
+    if (!res.ok) {
+      throw new Error('Failed to fetch follow details');
+    }
+
+    return await res.json(); // returns { followersCount, followingCount, followers, following }
+  } catch (error) {
+    console.error('❌ Follow details error:', error);
+    return null;
+  }
+}
+
+

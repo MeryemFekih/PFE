@@ -65,9 +65,45 @@ export async function getUserProfileAndPosts(): Promise<{
       profile.profilePicture = `${BACKEND_URL}${profile.profilePicture}`;
     }
 
-    return { profile, posts, savedPosts };
-  } catch (err) {
-    console.error('Error fetching profile/posts/savedPosts:', err);
-    return { profile: null, posts: [], savedPosts: [] };
+      return { profile, posts, savedPosts };
+    } catch (err) {
+      console.error('Error fetching profile/posts/savedPosts:', err);
+      return { profile: null, posts: [], savedPosts: [] };
+    }
+  }
+  
+  export async function updateProfile(formData: FormData) {
+  const session = await getSession();
+  if (!session) throw new Error('Not authenticated');
+
+  try {
+    const response = await fetch(`${BACKEND_URL}/user/profile`, {
+      method: 'PATCH',
+      headers: {
+        Authorization: `Bearer ${session.accessToken}`,
+      },
+      body: formData,
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to update profile');
+    }
+
+    const updatedProfile = await response.json();
+    
+    if (
+      updatedProfile.profilePicture &&
+      !updatedProfile.profilePicture.startsWith('http') &&
+      !updatedProfile.profilePicture.startsWith('/uploads')
+    ) {
+      updatedProfile.profilePicture = `${BACKEND_URL}${updatedProfile.profilePicture}`;
+    }
+    
+
+    revalidatePath('/profile');
+    return updatedProfile;
+  } catch (error) {
+    console.error('Error updating profile:', error);
+    throw error;
   }
 }

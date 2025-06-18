@@ -195,3 +195,56 @@ export async function rejectPost(postId: number) {
     throw error;
   }
 }
+export async function getParticipantRemovalRequests() {
+  const session = await getSession();
+  if (!session || session.user.role !== 'ADMIN') {
+    redirect('/auth/signIn');
+  }
+
+  try {
+    const response = await fetch(`${BACKEND_URL}/admin/participant-removal-requests`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${session.accessToken}`,
+        'Content-Type': 'application/json',
+      },
+      cache: 'no-store'
+    });
+
+    if (!response.ok) throw new Error('Failed to fetch removal requests');
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching removal requests:', error);
+    return [];
+  }
+}
+
+export async function approveRemoval(participationId: number) {
+  const session = await getSession();
+  if (!session || session.user.role !== 'ADMIN') {
+    redirect('/auth/signIn');
+  }
+
+  const adminId = session.user.id;
+
+  try {
+    const res = await fetch(`${BACKEND_URL}/admin/participants/${participationId}/approve-removal`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${session.accessToken}`,
+      },
+      body: JSON.stringify({ adminId }),
+    });
+
+    if (!res.ok) {
+      throw new Error('Failed to approve participant removal');
+    }
+
+    revalidatePath('/admin/dashboard');
+    return await res.json();
+  } catch (err) {
+    console.error('Error approving participant removal:', err);
+    throw err;
+  }
+}

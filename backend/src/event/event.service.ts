@@ -25,32 +25,36 @@ export class EventService {
     console.log('📥 addEventToPlanner called with:', { userId, postId });
 
     const post = await this.prisma.post.findUnique({
-      where: { id: postId },
-      select: {
-        title: true,
-        content: true,
-        startDate: true,
-        endDate: true,
-        location: true,
-        type: true,
-        subject: true,
-      },
-    });
+  where: { id: postId },
+  select: {
+    title: true,
+    content: true,
+    startDate: true,
+    endDate: true,
+    location: true,
+    type: true,
+    subject: true,
+  },
+});
 
-    if (!post) {
-      console.error('❌ Post not found');
-      throw new BadRequestException('Post not found');
-    }
+console.log('📄 Post fetched:', post);
+
+if (!post) {
+  console.error('❌ Post not found in DB');
+  throw new BadRequestException('Post not found');
+}
 
     if (post.type !== 'EVENT') {
       console.error('❌ Post is not an event');
       throw new BadRequestException('Post is not an event');
     }
 
-    if (!post.startDate || !post.endDate) {
-      console.error('❌ Missing start or end date');
-      throw new BadRequestException('Start and end dates are required for event');
-    }
+    if (!post.startDate) {
+  throw new BadRequestException('Start date is required for event');
+}
+
+const endDate = post.endDate ?? new Date(new Date(post.startDate).getTime() + 2 * 60 * 60 * 1000); // default +2h
+
 
     const category = Object.values(EventCategory).includes(post.subject as EventCategory)
       ? (post.subject as EventCategory)
@@ -63,7 +67,7 @@ export class EventService {
         title: post.title,
         description: post.content || '',
         startTime: post.startDate,
-        endTime: post.endDate,
+        endTime: endDate,
         category,
       },
     });
@@ -148,15 +152,18 @@ export class EventService {
 
   async getSuggestedEvents(userInterests: string[]) {
     try {
+      const now = new Date();
       const posts = await this.prisma.post.findMany({
         where: {
           type: 'EVENT',
+           startDate: {
+                gte: now, },
           OR: [
             { subject: { in: userInterests } },
             { status: 'APPROVED', type: 'EVENT' },
           ],
         },
-        orderBy: { createdAt: 'desc' },
+        orderBy: { createdAt: 'asc' },
         take: 10,
         include: {
           author: {
