@@ -2,7 +2,7 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback, SetStateAction } from 'react';
 import Head from 'next/head';
 import { Maximize, Minimize, Volume2, VolumeX, Play, Pause, Image as ImageIcon, Settings, LogOut, X } from 'lucide-react';
 
@@ -137,27 +137,27 @@ export default function SoloStudyPage() {
     }
   }, [newGoal]);
 
-  // Unified blue color palette
+  // Unified blue color palette - ONLY COLOR CLASSES HAVE BEEN MODIFIED
   const modeColors = {
     focus: {
-      bg: 'from-blue-950/90 to-blue-800/90', // Darker blue gradient for background overlay
-      text: 'text-blue-100', // Light blue for text
-      buttonPrimary: 'bg-blue-600 hover:bg-blue-700', // Primary button color
-      buttonOutline: 'text-blue-200 border-blue-400 hover:bg-white/10 hover:text-white', // Outline button
-      timerPulse: 'animate-pulse-blue' // New animation class
+      bg: 'from-blue-950/80 to-blue-900/80', // Darker gradient for parameter area
+      text: 'text-blue-50', // Text color
+      buttonPrimary: 'bg-blue-900 hover:bg-blue-950', // Deepest primary button color
+      buttonOutline: 'text-blue-300 border-blue-900 hover:bg-white/10 hover:text-white', // Darker outline button
+      timerPulse: 'animate-pulse-blue'
     },
     shortBreak: {
-      bg: 'from-blue-950/90 to-blue-800/90', // Same background for consistency
-      text: 'text-blue-100',
-      buttonPrimary: 'bg-blue-600 hover:bg-blue-700',
-      buttonOutline: 'text-blue-200 border-blue-400 hover:bg-white/10 hover:text-white',
+      bg: 'from-blue-950/80 to-blue-900/80', // Darker gradient for parameter area
+      text: 'text-blue-50',
+      buttonPrimary: 'bg-blue-900 hover:bg-blue-950',
+      buttonOutline: 'text-blue-300 border-blue-900 hover:bg-white/10 hover:text-white',
       timerPulse: 'animate-pulse-blue'
     },
     longBreak: {
-      bg: 'from-blue-950/90 to-blue-800/90', // Same background for consistency
-      text: 'text-blue-100',
-      buttonPrimary: 'bg-blue-600 hover:bg-blue-700',
-      buttonOutline: 'text-blue-200 border-blue-400 hover:bg-white/10 hover:text-white',
+      bg: 'from-blue-950/80 to-blue-900/80', // Darker gradient for parameter area
+      text: 'text-blue-50',
+      buttonPrimary: 'bg-blue-900 hover:bg-blue-950',
+      buttonOutline: 'text-blue-300 border-blue-900 hover:bg-white/10 hover:text-white',
       timerPulse: 'animate-pulse-blue'
     },
   };
@@ -177,7 +177,7 @@ export default function SoloStudyPage() {
       {/* Overlay with subtle blur and transparency for glassmorphism effect */}
       <div className="absolute inset-0 backdrop-filter backdrop-blur-sm bg-black/30 z-0" />
       {/* Subtle background pattern */}
-      <div className="absolute inset-0 z-0 opacity-10" style={{ backgroundImage: 'url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZCI+PGcofilGZpbGw9IiMwMDAwMDAiIGZpbGwtb3BhY2l0eT0iMC4wNCI+PHBhdGggZD0iTTM2IDMwaDJ2MmgtMnYtMnpnMCA0djRoMnYtNGgtMnptMCA0aDF2MWgtMXYtMXptNCAwSDM4djJoLTJ2LTJ6bTAgNGgydjJoLTJ2LTJ6TTAgMjhoMTJ2MTJIMDB2LTQ0ek00IDBoMTJ2MTJIMDR2LTQ0ekM0IDQwSDEydjEwSDB2LTQ0ek0yMCAwSDMyvDEySDE2vC00NHpNMjAgNDBoMTJ2MTJIMTYvC00NHpNMzYgNEgyOHY2aDh2LTZ6bTAgOGgydjJoLTJ2LTJ6bTAgNGgydjJoLTJ2LTJ6TTAgMjhoMTJ2MTJIMDB2LTQ0ekM0IDBoMTJ2MTJIMDR2LTQ0ekMwIDQwSDEydjEwSDB2LTQ0ek0yMCAwSDMyvDEySDE2vC00NHpNMjAgNDBoMTJ2MTJIMTYvC00NHpNMzYgNEgyOHY2aDh2LTZ6bTAgOGgydjJoLTJ2LTJ6bTAgNGgydjJoLTJ2LTJ6TTAgMjhoMTJ2MTJIMDB2LTQ0ekM0IDBoMTJ2MTJIMDR2LTQ0ekMwIDQwSDEydjEwSDB2LTQ0ek0yMCAwSDMyvDEySDE2vC00NHpNMjAgNDBoMTJ2MTJIMTYvC00NHpNMzYgNEgyOHY2aDh2LTZ6bTAgOGgydjJoLTJ2LTJ6bTAgNGgydjJoLTJ2LTJ6TTAgMjhoMTJ2MTJIMDB2LTQ0ekM0IDBoMTJ2MTJIMDR2LTQ0ekMwIDQwSDEydjEwSDB2LTQ0ek0yMCAwSDMyvDEySDE2vC00NHpNMjAgNDBoMTJ2MTJIMTYvC00NHpDMzYgNEgyOHY2aDh2LTZ6TTM2IDhoMnYyaC0ydjIzem0wIDRoMnYyaC0ydjJ6bTggMGgydjJoLTJ2LTJ6bTAgNGgydjJoLTJ2LTJ6TTU2IDhoMnYyaC0ydjJ6bTAgNGgydjJoLTJ2LTJ6TTQ0IDBoMTJ2MTJIMDQwdi00NHpNNTYgMGgydjJoLTJ2LTJ6bTggNGgydjJoLTJ2LTJ6TTQ0IDQ0aDEydjEwSDQwdi00NHpNNTYgNDRoMnYySjQ4VjQ2e0M0IDhoMnYyaC0ydjJ6TTM2IDhoMnYyaC0ydjJ6bTggMGgydjJoLTJ2LTJ6bTAgNGgydjJoLTJ2LTJ6TTU2IDhoMnYyaC0ydjJ6bTAgNGgydjJoLTJ2LTJ6TTQ0IDBoMTJ2MTJIMDQwdi00NHpNNTYgMGgydjJoLTJ2LTJ6bTggNGgydjJoLTJ2LTJ6TTQ0IDQ0aDEydjEwSDQwdi00NHpNNTYgNDRoMnYySjQ4VjQ2e0M0IDhoMnYyaC0ydjJ6TTM2IDhoMnYyaC0ydjJ6bTggMGgydjJoLTJ2LTJ6bTAgNGgydjJoLTJ2LTJ6TTU2IDhoMnYyaC0ydjJ6bTAgNGgydjJoLTJ2LTJ6TTQ0IDBoMTJ2MTJIMDQwdi00NHpNNTYgMGgydjJoLTJ2LTJ6bTggNGgydjJoLTJ2LTJ6TTQ0IDQ0aDEydjEwSDQwdi00NHpNNTYgNDRoMnYySjQ4VjQ2e0M0IDhoMnYyaC0ydjJ6TTM2IDhoMnYyaC0ydjJ6bTggMGgydjJoLTJ2LTJ6bTAgNGgydjJoLTJ2LTJ6TTU2IDhoMnYyaC0ydjJ6bTAgNGgydjJoLTJ2LTJ6TTQ0IDBoMTJ2MTJIMDQwdi00NHpNNTYgMGgydjJoLTJ2LTJ6bTggNGgydjJoLTJ2LTJ6TTQ0IDQ0aDEydjEwSDQwdi00NHpNNTYgNDRoMnYySjQ4VjQ2e0M0IDhoMnYyaC0ydjJ6TTM2IDhoMnYyaC0ydjJ6bTggMGgydjJoLTJ2LTJ6bTAgNGgydjJoLTJ2LTJ6TTU2IDhoMnYyaC0ydjJ6bTAgNGgydjJoLTJ2LTJ6TTQ0IDBoMTJ2MTJIMDQwdi00NHpNNTYgMGgydjJoLTJ2LTJ6bTggNGgydjJoLTJ2LTJ6TTQ0IDQ0aDEydjEwSDQwdi00NHpNNTYgNDRoMnYySjQ4VjQ2e0M0IDhoMnYyaC0ydjJ6TTM2IDhoMnYyaC0ydjJ6bTggMGgydjJoLTJ2LTJ6bTAgNGgydjJoLTJ2LTJ6TTU2IDhoMnYyaC0ydjJ6bTAgNGgydjJoLTJ2LTJ6TTQ0IDBoMTJ2MTJIMDQwdi00NHpNNTYgMGgydjJoLTJ2LTJ6bTggNGgydjJoLTJ2LTJ6TTQ0IDQ0aDEydjEwSDQwdi00NHpNNTYgNDRoMnYySjQ4VjQ2eiIvPjwvZz48L2c+PC9zdmc+)' }} />
+      <div className="absolute inset-0 z-0 opacity-10" style={{ backgroundImage: 'url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIHN0cm9rZT0iIzAwMDAwMCIgc3Ryb2tlLW9wYWNpdHk9IjAuMDQiPjxwYXRoIGQ9Ik0zNiAzMGgydjJoLTJ2LTJ6bTAgNHY0aDJ2LTRoLTJ6bTAgNGgxdjFoLTF2LTF6bTQgMEgzOHYyaC0ydi0yem0wIDRoMnYyaC0ydi0yek0wIDI4aDEydjEySDB2LTQ0ek00IDBoMTJ2MTJIMDR2LTQ0ekM0IDQwSDEydjEwSDB2LTQ0ek0yMCAwSDMyVjEySDE2VjJoLTQ0ek0yMCA0MGgxMnYxMkgxNlYyem0zNiA0SDI4djZoOHYtNnptMCA4aDJ2MmgtMnYtMnp6bTAgNGgydjJoLTJ2LTJ6TTAgMjhoMTJ2MTJIMDB2LTQ0ekM0IDBoMTJ2MTJIMDR2LTQ0ekMwIDQwSDEydjEwSDB2LTQ0ek0yMCAwSDMyVjEySDE2VjJoLTQ0ek0yMCA0MGgxMnYxMkgxNlYyem0zNiA0SDI4djZoOHYtNnptMCA4aDJ2MmgtMnYtMnp6bTAgNGgydjJoLTJ2LTJ6TTAgMjhoMTJ2MTJIMDB2LTQ0ekM0IDBoMTJ2MTJIMDR2LTQ0ekMwIDQwSDEydjEwSDB2LTQ0ek0yMCAwSDMyVjEySDE2VjJoLTQ0ek0yMCA0MGgxMnYxMkgxNlYyem0zNiA0SDI4djZoOHYtNnptMCA4aDJ2MmgtMnYtMnp6bTAgNGgydjJoLTJ2LTJ6TTAgMjhoMTJ2MTJIMDB2LTQ0ekM0IDBoMTJ2MTJIMDR2LTQ0ekMwIDQwSDEydjEwSDB2LTQ0ek0yMCAwSDMyVjEySDE2VjJoLTQ0ek0yMCA0MGgxMnYxMkgxNlYyem0zNiA0SDI4djZoOHYtNnptMCA4aDJ2MmgtMnYtMnp6bTAgNGgydjJoLTJ2LTJ6TTAgMjhoMTJ2MTJIMDB2LTQ0ekM0IDBoMTJ2MTJIMDR2LTQ0ekMwIDQwSDEydjEwSDB2LTQ0ek0yMCAwSDMyVjEySDE2VjJoLTQ0ek0yMCA0MGgxMnYxMkgxNlYyem0zNiA0SDI4djZoOHYtNnptMCA4aDJ2MmgtMnYtMnp6bTAgNGgydjJoLTJ2LTJ6TTQ0IDBoMTJ2MTJIMDQwdi00NHpNNTYgMGgydjJoLTJ2LTJ6bTggNGgydjJoLTJ2LTJ6TTQ0IDQ0aDEydjEwSDQwdi00NHpNNTYgNDRoMnYySjQ4VjQ2eiIvPjwvZz48L2c+PC9zdmc+)' }} />
 
       <audio ref={audioRef} src={currentTrack} loop />
       {/* Removed: <audio ref={timerEndAudioRef} src={timerEndSound} /> */}
@@ -258,17 +258,17 @@ export default function SoloStudyPage() {
                 </h2>
                 <Select
                   value={currentTrack}
-                  onValueChange={(value) => {
+                  onValueChange={(value: SetStateAction<string>) => {
                     setCurrentTrack(value);
                     setIsPlaying(true);
                   }}
                 >
-                  <SelectTrigger className="w-full bg-white/20 border-white/30 text-white hover:bg-white/30 focus:ring-blue-400">
+                  <SelectTrigger className="w-full bg-white/20 border-white/30 text-white hover:bg-white/30 focus:ring-blue-900">
                     <SelectValue placeholder="Select track" />
                   </SelectTrigger>
-                  <SelectContent className="bg-gradient-to-br from-blue-950/90 to-blue-800/90 text-white border-blue-700/50 shadow-lg">
+                  <SelectContent className="bg-gradient-to-br from-blue-900/80 to-blue-700/80 text-white border-blue-900/50 shadow-lg">
                     {tracks.map((track) => (
-                      <SelectItem key={track.id} value={track.path} className="hover:bg-blue-700/50 focus:bg-blue-700/50">
+                      <SelectItem key={track.id} value={track.path} className="hover:bg-blue-800/50 focus:bg-blue-800/50">
                         {track.name}
                       </SelectItem>
                     ))}
@@ -333,7 +333,7 @@ export default function SoloStudyPage() {
                 className={`w-full mt-6 py-3 text-xl font-bold rounded-full transition-all duration-300 ease-in-out
                   ${isRunning
                     ? 'bg-red-600 hover:bg-red-700 text-white shadow-lg'
-                    : 'bg-blue-600 hover:bg-blue-700 text-white shadow-lg'
+                    : 'bg-blue-900 hover:bg-blue-950 text-white shadow-lg' // Darkest blue for Start button
                   }`}
               >
                 {isRunning ? 'Pause' : 'Start'}
@@ -349,7 +349,7 @@ export default function SoloStudyPage() {
                   value={newGoal}
                   onChange={(e) => setNewGoal(e.target.value)}
                   placeholder="Add a new goal..."
-                  className="flex-grow bg-white/20 border-white/30 text-white placeholder-blue-200 focus:border-blue-400 focus:ring-blue-400"
+                  className="flex-grow bg-white/20 border-white/30 text-white placeholder-blue-400 focus:border-blue-900 focus:ring-blue-900"
                   onKeyPress={(e) => {
                     if (e.key === 'Enter') {
                       addGoal();
@@ -358,7 +358,7 @@ export default function SoloStudyPage() {
                 />
                 <Button
                   onClick={addGoal}
-                  className="bg-blue-500 hover:bg-blue-600 text-white"
+                  className="bg-blue-900 hover:bg-blue-950 text-white" // Darkest blue for Add button
                 >
                   Add
                 </Button>
@@ -368,7 +368,7 @@ export default function SoloStudyPage() {
                   <li
                     key={index}
                     className={`flex items-center justify-between p-2 rounded-md transition-colors duration-200 cursor-pointer
-                      ${goal.done ? 'bg-blue-500/20 text-blue-50 line-through' : 'bg-white/10 text-blue-100 hover:bg-white/20'}`}
+                      ${goal.done ? 'bg-blue-900/30 text-blue-200 line-through' : 'bg-white/10 text-blue-200 hover:bg-white/20'}`}
                   >
                     <span className="flex-grow" onClick={() => toggleGoalDone(index)}>
                       {goal.text}
@@ -418,8 +418,8 @@ export default function SoloStudyPage() {
         .animate-pulse-blue { animation: pulse-blue 2s infinite ease-in-out; }
 
         @keyframes pulse-blue {
-          0%, 100% { transform: scale(1); opacity: 1; text-shadow: 0 0 5px rgba(59, 130, 246, 0.4); } /* Blue 500 */
-          50% { transform: scale(1.02); opacity: 0.95; text-shadow: 0 0 15px rgba(59, 130, 246, 0.8); }
+          0%, 100% { transform: scale(1); opacity: 1; text-shadow: 0 0 5px rgba(29, 78, 216, 0.4); } /* Blue 700 */
+          50% { transform: scale(1.02); opacity: 0.95; text-shadow: 0 0 15px rgba(29, 78, 216, 0.8); }
         }
 
         /* Custom scrollbar for settings panel and goals list */
@@ -445,11 +445,11 @@ export default function SoloStudyPage() {
         /* Styling for Shadcn Slider component's track */
         /* These specific selectors target the Shadcn UI slider elements within the component. */
         .w-full.\\[\\&>span\\:first-child\\]\\:bg-white\\/30.\\[\\&>span\\:last-child\\]\\:bg-blue-400 .rc-slider-track {
-            background-color: #60A5FA !important; /* Tailwind blue-400 */
+            background-color: #1e3a8a !important; /* Changed to Tailwind blue-900 equivalent */
         }
         .w-full.\\[\\&>span\\:first-child\\]\\:bg-white\\/30.\\[\\&>span\\:last-child\\]\\:bg-blue-400 .rc-slider-handle {
-            border-color: #60A5FA !important; /* Tailwind blue-400 */
-            background-color: #60A5FA !important; /* Tailwind blue-400 */
+            border-color: #1e3a8a !important; /* Changed to Tailwind blue-900 equivalent */
+            background-color: #1e3a8a !important; /* Changed to Tailwind blue-900 equivalent */
         }
         .w-full.\\[\\&>span\\:first-child\\]\\:bg-white\\/30.\\[\\&>span\\:last-child\\]\\:bg-blue-400 .rc-slider-rail {
             background-color: rgba(255, 255, 255, 0.3) !important;

@@ -13,7 +13,7 @@ export default function AppBarConditionalRender({ session }: AppBarConditionalRe
 
   // Define paths where the AppBar should NOT be shown
   // Ensure this matches your actual route, e.g., '/soloStuding'
-  const noAppBarPaths = ['/soloStuding']; // Note: 'soloStuding' had a typo, fixed to 'soloStudying' if that's what you meant in your sidebar, otherwise keep it.
+  const noAppBarPaths = ['/soloStuding','/chatbot']; // Note: 'soloStuding' had a typo, fixed to 'soloStudying' if that's what you meant in your sidebar, otherwise keep it.
 
   // Your conditional logic
   const showAppBar = session && !noAppBarPaths.includes(pathname);

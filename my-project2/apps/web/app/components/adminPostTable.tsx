@@ -90,10 +90,6 @@ export default function AdminPostTable({ posts }: AdminPostTableProps) {
   return (
     <>
       <div className="bg-white shadow-lg rounded-xl overflow-hidden border border-gray-100 animate-in slide-in-from-top-4 duration-500">
-        <h2 className="text-2xl font-bold px-6 py-5 border-b border-gray-100 text-gray-800 flex items-center gap-3 bg-gray-50">
-          <FileWarning className="h-6 w-6 text-yellow-500" />
-          Pending Posts for Review
-        </h2>
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200 text-sm">
             <thead className="bg-gray-100">
@@ -169,36 +165,78 @@ export default function AdminPostTable({ posts }: AdminPostTableProps) {
 
       {/* Modal Preview */}
       {selectedPost && (
-        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
+        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-in fade-in-0">
           <div
-            className={`bg-white p-8 rounded-xl max-w-4xl w-full shadow-2xl relative transition-all duration-300 ${
-              isModalVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'
+            className={`bg-white rounded-2xl shadow-xl max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col transition-all duration-300 ${
+              isModalVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
             }`}
           >
-            <Button
-              variant="ghost"
-              size="icon"
-              className="absolute top-4 right-4 text-gray-500 hover:bg-gray-100"
-              onClick={closeModal}
-            >
-              ✕
-            </Button>
-            <h3 className="text-3xl font-bold mb-4 text-gray-900">{selectedPost.title}</h3>
-            <div className="text-gray-700 mb-6 whitespace-pre-wrap leading-relaxed text-lg max-h-[30vh] overflow-y-auto custom-scrollbar">
-              {selectedPost.content}
+            {/* Header */}
+            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 border-b border-gray-200 flex justify-between items-start">
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900">{selectedPost.title}</h2>
+                <div className="flex items-center gap-4 mt-2">
+                  <div className="flex items-center text-sm text-gray-600">
+                    <UserCircle2 className="h-4 w-4 mr-1.5 text-blue-500" />
+                    <span className="font-medium">
+                      {selectedPost.author.firstName} {selectedPost.author.lastName}
+                    </span>
+                    <span className="mx-1.5">·</span>
+                    <span className="text-gray-500">{selectedPost.author.email}</span>
+                  </div>
+                  <div className="flex items-center text-sm text-gray-600">
+                    <CalendarDays className="h-4 w-4 mr-1.5 text-blue-500" />
+                    {new Date(selectedPost.createdAt).toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'short',
+                      day: 'numeric',
+                      hour: '2-digit',
+                      minute: '2-digit'
+                    })}
+                  </div>
+                </div>
+              </div>
+              <button
+                onClick={closeModal}
+                className="p-1.5 rounded-full hover:bg-gray-100 transition-colors text-gray-500 hover:text-gray-700"
+              >
+                <XCircle className="h-6 w-6" />
+              </button>
             </div>
-            <p className="text-sm text-gray-600 mb-4">
-              <span className="font-semibold">Visibility:</span>{' '}
-              <span className="capitalize text-blue-700 font-medium">{selectedPost.visibility}</span>
-            </p>
-            {selectedPost.mediaUrl && (
-              <div className="mt-6 border border-gray-200 rounded-lg overflow-hidden bg-gray-50 flex items-center justify-center min-h-[300px]">
+
+            {/* Content */}
+            <div className="flex-1 overflow-y-auto p-6 scrollbar-none">
+              {/* Post Content */}
+              <div className="prose prose-lg max-w-none mb-8 text-gray-700 whitespace-pre-wrap ">
+                {selectedPost.content}
+              </div>
+
+              {/* Media */}
+              {selectedPost.mediaUrl && (
+          <div className="mb-8 rounded-xl overflow-hidden border border-gray-200 bg-gray-50">
+            <div className="p-4 bg-gray-100 border-b border-gray-200 flex items-center gap-2">
+              {selectedPost.mediaUrl.endsWith('.mp4') ? (
+                <>
+                  <Video className="h-5 w-5 text-indigo-500" />
+                  <span className="text-sm font-medium text-gray-700">Video Attachment</span>
+                </>
+              ) : (
+                <>
+                  <ImageIcon className="h-5 w-5 text-indigo-500" />
+                  <span className="text-sm font-medium text-gray-700">Image Attachment</span>
+                </>
+              )}
+            </div>
+            <div className="p-4 max-h-[50vh] overflow-auto">
+              <div className="min-w-full min-h-full flex items-center justify-center">
                 {selectedPost.mediaUrl.endsWith('.mp4') ? (
-                  <video controls className="w-full max-h-[600px] object-contain">
+                  <video 
+                    controls 
+                    className="max-w-full max-h-[45vh] rounded-lg"
+                  >
                     <source
                       src={`${selectedPost.mediaUrl.startsWith('http') ? '' : 'http://localhost:4000'}${selectedPost.mediaUrl}`}
                     />
-                    Your browser does not support the video tag.
                   </video>
                 ) : (
                   <Image
@@ -206,12 +244,60 @@ export default function AdminPostTable({ posts }: AdminPostTableProps) {
                     alt="Post Media"
                     width={1200}
                     height={800}
-                    className="w-full h-auto object-contain max-h-[600px]"
+                    className="max-w-full max-h-[45vh] object-contain rounded-lg"
                   />
                 )}
               </div>
-            )}
-            <div className="mt-8 flex justify-end gap-3">
+            </div>
+          </div>
+        )}
+
+              {/* Metadata */}
+              <div className="grid grid-cols-2 gap-4 bg-gray-50 p-4 rounded-lg">
+                <div>
+                  <h4 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Status</h4>
+                  <div className="flex items-center">
+                    {selectedPost.status === 'PENDING' ? (
+                      <span className="px-2.5 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
+                        Pending Review
+                      </span>
+                    ) : selectedPost.status === 'APPROVED' ? (
+                      <span className="px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                        Approved
+                      </span>
+                    ) : (
+                      <span className="px-2.5 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                        Rejected
+                      </span>
+                    )}
+                  </div>
+                </div>
+                <div>
+                  <h4 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Visibility</h4>
+                  <div className="flex items-center">
+                    {selectedPost.visibility === 'PUBLIC' ? (
+                      <span className="px-2.5 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                        Public
+                      </span>
+                    ) : (
+                      <span className="px-2.5 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                        Private
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Footer */}
+            <div className="border-t border-gray-200 p-4 bg-gray-50 flex justify-end gap-3">
+              <Button
+                variant="outline"
+                onClick={closeModal}
+                className="border-gray-300 hover:bg-gray-100 text-gray-700"
+              >
+                Cancel
+              </Button>
               <Button
                 variant="destructive"
                 onClick={() => handleReject(selectedPost.id, true)}
@@ -219,7 +305,7 @@ export default function AdminPostTable({ posts }: AdminPostTableProps) {
                 className="gap-2"
               >
                 <XCircle className="h-4 w-4" />
-                Reject
+                Reject Post
               </Button>
               <Button
                 onClick={() => handleApprove(selectedPost.id, true)}
@@ -227,7 +313,7 @@ export default function AdminPostTable({ posts }: AdminPostTableProps) {
                 className="gap-2 bg-green-600 hover:bg-green-700 text-white"
               >
                 <CheckCircle2 className="h-4 w-4" />
-                Approve
+                Approve Post
               </Button>
             </div>
           </div>

@@ -673,7 +673,7 @@ export default function ProfilePage({ session }: ProfilePageProps) {
                       name="linkedin"
                       id="linkedin"
                       defaultValue={bioData.linkedin}
-                      placeholder="linkedin.com/in/yourname"
+                      placeholder="linkedin.com/in"
                       className="w-full px-4 py-2.5 border border-gray-300 rounded-lg bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
                     />
                   </div>
@@ -684,7 +684,7 @@ export default function ProfilePage({ session }: ProfilePageProps) {
                       name="facebook"
                       id="facebook"
                       defaultValue={bioData.facebook}
-                      placeholder="facebook.com/yourname"
+                      placeholder="facebook.com"
                       className="w-full px-4 py-2.5 border border-gray-300 rounded-lg bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
                     />
                   </div>
@@ -695,7 +695,7 @@ export default function ProfilePage({ session }: ProfilePageProps) {
                       name="twitter"
                       id="twitter"
                       defaultValue={bioData.twitter}
-                      placeholder="twitter.com/yourname"
+                      placeholder="twitter.com"
                       className="w-full px-4 py-2.5 border border-gray-300 rounded-lg bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
                     />
                   </div>

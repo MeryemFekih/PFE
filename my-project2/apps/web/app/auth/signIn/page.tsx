@@ -97,17 +97,6 @@ const SignInPage = () => {
                   </div>
                   
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center">
-                      <input
-                        id="remember-me"
-                        name="remember-me"
-                        type="checkbox"
-                        className="h-5 w-5 text-customBlue focus:ring-customBlue border-gray-300 rounded"
-                      />
-                      <label htmlFor="remember-me" className="ml-3 block text-md text-gray-700">
-                        Remember this device
-                      </label>
-                    </div>
                     
                     <a href="#" className="text-md font-medium text-customBlue hover:underline hover:text-customBlue/80 transition-colors">
                       Forgot password?
