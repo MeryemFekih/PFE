@@ -5,6 +5,7 @@ import { NEXT_PUBLIC_BACKEND_URL } from './constants';
 import { getSession } from './session';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+import { authFetch } from './authFetch';
 
 export interface UserProfile {
   id: number;
@@ -30,27 +31,21 @@ export async function getUserProfileAndPosts(): Promise<{
   const session = await getSession();
   if (!session) redirect('/auth/signIn');
 
-  const { accessToken, user } = session;
-
   try {
-    const profileRes = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/user/protected`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
+    const profileRes = await authFetch(`${NEXT_PUBLIC_BACKEND_URL}/user/protected`, {
+      method: 'GET',
       cache: 'no-store',
     });
 
-    const postsRes = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/post/user/${user.id}`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
+    const postsRes = await authFetch(`${NEXT_PUBLIC_BACKEND_URL}/post/user/${session.user.id}`, {
+      method: 'GET',
       cache: 'no-store',
     });
 
     const profile = profileRes.ok ? await profileRes.json() : null;
     const posts = postsRes.ok ? await postsRes.json() : [];
 
-    // Ensure profile picture URL is complete
+    // Fix incomplete profile picture URLs
     if (
       profile?.profilePicture &&
       !profile.profilePicture.startsWith('http') &&
@@ -71,11 +66,8 @@ export async function updateProfile(formData: FormData) {
   if (!session) throw new Error('Not authenticated');
 
   try {
-    const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/user/update-profile`, {
+    const response = await authFetch(`${NEXT_PUBLIC_BACKEND_URL}/user/update-profile`, {
       method: 'PATCH',
-      headers: {
-        Authorization: `Bearer ${session.accessToken}`,
-      },
       body: formData,
     });
 
@@ -84,7 +76,7 @@ export async function updateProfile(formData: FormData) {
     }
 
     const updatedProfile = await response.json();
-    
+
     if (
       updatedProfile.profilePicture &&
       !updatedProfile.profilePicture.startsWith('http') &&
@@ -92,7 +84,6 @@ export async function updateProfile(formData: FormData) {
     ) {
       updatedProfile.profilePicture = `${NEXT_PUBLIC_BACKEND_URL}${updatedProfile.profilePicture}`;
     }
-    
 
     revalidatePath('/profile');
     return updatedProfile;

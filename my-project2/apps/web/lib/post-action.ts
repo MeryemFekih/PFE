@@ -4,19 +4,14 @@
   import { redirect } from 'next/navigation';
   import { NEXT_PUBLIC_BACKEND_URL } from './constants';
   import { revalidatePath } from 'next/cache';
+  import { authFetch } from './authFetch';
 
   export async function getApprovedPosts() {
       const session = await getSession();
       if (!session) redirect('/auth/signIn');
     
       try {
-        const res = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/post`, {
-          headers: {
-            Authorization: `Bearer ${session.accessToken}`,
-          },
-          cache: 'no-store',
-        });
-    
+        const res = await authFetch(`${NEXT_PUBLIC_BACKEND_URL}/post`, { cache: 'no-store' });
         if (!res.ok) throw new Error('Failed to load posts');
         return await res.json();
       } catch (err) {
@@ -30,9 +25,9 @@
     if (!session) redirect('/auth/signIn');
 
     try {
-      const res = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/post/${postId}`, { cache: 'no-store' });
-      if (!res.ok) throw new Error('Failed to fetch post');
-      return await res.json();
+      const res = await authFetch(`${NEXT_PUBLIC_BACKEND_URL}/post/${postId}`, { cache: 'no-store' });
+  if (!res.ok) throw new Error('Failed to fetch post');
+  return await res.json();
     } catch (err) {
       console.error('Error fetching post:', err);
       return null;
@@ -44,14 +39,10 @@
     if (!session) redirect('/auth/signIn');
 
     try {
-      const res = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/post`, {
+      const res = await authFetch(`${NEXT_PUBLIC_BACKEND_URL}/post`, {
         method: 'POST',
-        headers: {
-          Authorization: `Bearer ${session.accessToken}`,
-        },
         body: formData,
       });
-
       if (!res.ok) throw new Error('Post creation failed');
       revalidatePath('/university');
       return await res.json();
@@ -67,13 +58,9 @@
 
 
     try { 
-      const res = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/post/${postId}`, {
+      const res = await authFetch(`${NEXT_PUBLIC_BACKEND_URL}/post/${postId}`, {
         method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${session.accessToken}`,
-        },
       });
-
       if (!res.ok) throw new Error('Delete failed');
       revalidatePath('/university');
     } catch (err) {
@@ -87,13 +74,9 @@
     const userId = session.user.id;
   
     try {
-      const res = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/post/user/${userId}`, {
-        headers: {
-          Authorization: `Bearer ${session.accessToken}`,
-        },
+      const res = await authFetch(`${NEXT_PUBLIC_BACKEND_URL}/post/user/${userId}`, {
         cache: 'no-store',
       });
-  
       if (!res.ok) throw new Error('Failed to fetch user posts');
       return await res.json();
     } catch (err) {
@@ -107,15 +90,11 @@
     if (!session) redirect('/auth/signIn');
   
     try {
-      const res = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/post/${postId}/save`, {
+      const res = await authFetch(`${NEXT_PUBLIC_BACKEND_URL}/post/${postId}/save`, {
         method: 'POST',
-        headers: {
-          Authorization: `Bearer ${session.accessToken}`,
-        },
       });
-  
       if (!res.ok) throw new Error('Failed to save post');
-      revalidatePath('/profile'); // Or wherever you want to update
+      revalidatePath('/profile');
     } catch (err) {
       console.error('Error saving post:', err);
     }
@@ -126,13 +105,9 @@
     if (!session) redirect('/auth/signIn');
   
     try {
-      const res = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/post/${postId}/unsave`, {
+      const res = await authFetch(`${NEXT_PUBLIC_BACKEND_URL}/post/${postId}/unsave`, {
         method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${session.accessToken}`,
-        },
       });
-  
       if (!res.ok) throw new Error('Failed to unsave post');
       revalidatePath('/profile');
     } catch (err) {
@@ -149,13 +124,7 @@
   
       console.log(`Attempting to ${isCurrentlySaved ? 'unsave' : 'save'} post ${postId}`);
   
-      const res = await fetch(endpoint, {
-        method,
-        headers: {
-          'Authorization': `Bearer ${session.accessToken}`,
-          'Content-Type': 'application/json',
-        },
-      });
+      const res = await authFetch(endpoint, { method });
   
       let responseData;
       try {
@@ -183,10 +152,7 @@
     const session = await getSession();
     if (!session) return {};
   
-    const res = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/post/saved`, {
-      headers: {
-        Authorization: `Bearer ${session.accessToken}`,
-      },
+    const res = await authFetch(`${NEXT_PUBLIC_BACKEND_URL}/post/saved`, {
       cache: 'no-store',
     });
   
@@ -223,12 +189,9 @@
     const session = await getSession();
     if (!session?.user?.id || !session.accessToken) return;
   
-    const response = await fetch(`${process.env.BACKEND_URL}/events/${session.user.id}`, {
+    const response = await authFetch(`${process.env.BACKEND_URL}/events/${session.user.id}`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${session.accessToken}`,
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         title: post.title,
         description: post.content || '',
@@ -261,10 +224,7 @@
     console.log('📡 Fetching suggested events from:', url);
   
     try {
-      const res = await fetch(url, {
-        headers: {
-          Authorization: `Bearer ${session.accessToken}`,
-        },
+      const res = await authFetch(`${NEXT_PUBLIC_BACKEND_URL}/post/events/suggested`, {
         cache: 'no-store',
       });
   
